@@ -8,13 +8,20 @@
     <script src="simplex.js"></script>
     <script type="module" src="app.js"></script>
     <title>Game</title>
+    <style>
+        body {
+            margin:0;
+            display:grid;
+        }
+        #game {
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -webkit-crisp-edges;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+    </style>
 </head>
 <body>
-    <img src="./assets/img/resource.png" id="resource" alt="">
-    <img src="./assets/img/forest.png" id="forest" alt="">
-    <img src="./assets/img/water.png" id="water" alt="">
-    <img src="./assets/img/grass.png" id="grass" alt="">
-    <img src="./assets/img/player.png" id="player" alt="">
     <canvas width="500px" height="500px" id="game"></canvas>
 </body>
 </html>
