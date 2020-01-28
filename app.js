@@ -27,6 +27,23 @@ terrain.FOREST.tile.src = './assets/img/forest.png';
 terrain.SAND.tile.src = './assets/img/forest.png';
 Object.freeze(terrain); //Turns into an enum
 
+const tools = {
+    "AXE": {
+
+    },
+    "SHOVEL": {
+
+    },
+    "BOAT": {
+
+    },
+}
+Object.freeze(tools);
+
+class Item {
+
+}
+
 class GameMap {
     constructor(tiles) {
         this.tiles = tiles;
@@ -70,12 +87,20 @@ class Player {
             food: 10,
             stone: 0,
         };
-        this.tools = {
-            axe: false,
-            shovel: false,
-            boat: false,
-        };
+        this.tools = [tools.AXE];
         this.health = 100;
+        this.direction = [0,1];
+    }
+
+    pickup(item) {
+        if (this.tools.includes(item)) {
+            return;
+        }
+        else if (this.tools.length > 1) {
+            this.tools.shift();
+        }
+        this.tools.push(item);
+        return item;
     }
 
     move(x,y, map) {        
@@ -136,7 +161,7 @@ window.onload = function() {
 
     function handleKeyPress(event)
     {
-        event.preventDefault();
+        //event.preventDefault();
         
         switch (event.keyCode) {
             case 37: //left
@@ -165,6 +190,7 @@ window.onload = function() {
     
         //Add colour to canvas
         canvas.fillColor = 'black';
+        canvas.font = "32px Arial";
         canvas.fillRect(0, 0, CANVAS_HEIGHT, CANVAS_WIDTH);
         
         map = new GameMap(new MapGenerator().generate(1024, new SimplexNoise()));
@@ -190,30 +216,46 @@ window.onload = function() {
         let uiY = Math.ceil(CANVAS_HEIGHT/80 / 64.0) * 64;
 
         canvas.drawImage(resourceIcon, uiX, uiY);
+
+        let iter = 0;
+        for (var key in player.resources) {
+            iter++;
+            canvas.fillText(key + ' ' + player.resources[key], uiX, uiY + (32 * iter) );
+        }
     }
     
     function draw() { 
-        let tiles = Math.round(Math.max(CANVAS_HEIGHT, CANVAS_WIDTH) / 64);
-        if (tiles % 2 != 0) {
-            tiles++;
-        }        
+        let tilesX = Math.ceil((CANVAS_WIDTH) / 64);
+        let tilesY = Math.ceil((CANVAS_HEIGHT) / 64);
+        
+        if (tilesX % 2 != 0) {
+            tilesX++;
+        }
+        
+        if (tilesY % 2 != 0) {
+            tilesY++;
+        }
 
-        let renderableTiles = new MapGenerator().create2DArray(tiles);
-        for (let x = 0; x < tiles; x++) {
-            for (let y = 0; y < tiles; y++) {
-                let xcoord = centerTile.x - (x - tiles/2);
-                let ycoord = centerTile.y - (y - tiles/2);
+        let renderableTiles = [];           //
+        for (let i = 0; i < tilesX; i++) {  // Create 2 dimensional array
+            renderableTiles[i] = [];        //
+        }
+
+        //Add tiles to renderableTiles
+        for (let x = 0; x < tilesX; x++) {
+            for (let y = 0; y < tilesY; y++) {
+                let xcoord = centerTile.x - (x - tilesX/2);
+                let ycoord = centerTile.y - (y - tilesY/2);
                 renderableTiles[x][y] = map.tiles[xcoord][ycoord];
             }
         }
-        
-        for (let x = 0; x < renderableTiles.length; x++) {
-            for (let y = 0; y < renderableTiles.length; y++) {
-                let tile = renderableTiles[x][y];
-                    canvas.drawImage(tile.type.tile, x*64, y*64)
-            }  
+
+        for (let x = 0; x < tilesX; x++) {
+            for (let y = 0; y < tilesY; y++) {
+                canvas.drawImage(renderableTiles[x][y].type.tile, x*64, y*64);                
+            }
         }
-        canvas.drawImage(player.image, (tiles/2)*64, (tiles/2)*64);
+        canvas.drawImage(player.image, (tilesX/2)*64, (tilesY/2)*64);
         drawUi();
     }
 
@@ -223,7 +265,7 @@ window.onload = function() {
     }
 
     setup();
-
+     
     window.setInterval(function(){
         loop();
     }, 16);
