@@ -19,12 +19,17 @@ const terrain = {
     "SAND": {
         walkable: true,
         tile: new Image(),
+    },
+    "ROCK": {
+        walkable: false,
+        tile: new Image(),
     }
 }
 terrain.LAND.tile.src = './assets/img/grass.png';
 terrain.WATER.tile.src = './assets/img/water.png';
 terrain.FOREST.tile.src = './assets/img/forest.png';
-terrain.SAND.tile.src = './assets/img/forest.png';
+terrain.SAND.tile.src = './assets/img/sand.png';
+terrain.ROCK.tile.src = './assets/img/rock.png';
 Object.freeze(terrain); //Turns into an enum
 
 const tools = {
@@ -41,7 +46,11 @@ const tools = {
 Object.freeze(tools);
 
 class Item {
-
+    constructor(image, name) {
+        this.image = new Image();
+        this.image.src = image;
+        this.name = name;
+    }
 }
 
 class GameMap {
@@ -73,6 +82,19 @@ class Tile {
         this.type = type;
         this.x = x;
         this.y = y;
+    }
+    bordering(map, radius) {
+        let borderingTiles = [];
+        for (let x = -radius; x <= radius; x++) {
+            for (let y = -radius; y <= radius; y++) {
+                if ((map[this.x + x]||[])[this.y + y] !== undefined) {                     
+                    borderingTiles.push(map[this.x + x][this.y + y]);
+                }
+            }
+        }
+        borderingTiles.remove(this);
+        
+        return borderingTiles;
     }
 }
 
@@ -127,28 +149,46 @@ class MapGenerator {
         return arr;
       }
     
-    normalise(val, max, min) { return (val - min) / (max - min); }    
-    
-    generate(size, simplex) {
+      
+      generate(size, simplex) {
         let data = this.create2DArray(size);
-        
-        for (let x = 0; x < size; x++) {
-            for (let y = 0; y < size; y++) {
-                let val = (((simplex.noise2D(x / 500, y / 500)) - .7) + (((simplex.noise2D(x / 80, y / 80)) / 1.5) + ((Math.abs(simplex.noise2D(x / 20, y / 20) / 5))))) * 100;
-                data[x][y] = val < 0 ? new Tile(terrain.WATER, x, y) : new Tile(terrain.LAND, x ,y);
+
+        function setTile(tile, x, y) {
+            let val = (((simplex.noise2D(x / 500, y / 500)) - .7) + (((simplex.noise2D(x / 80, y / 80)) / 1.5) + ((Math.abs(simplex.noise2D(x / 20, y / 20) / 5))))) * 100;
+            tile = val < 0 ? new Tile(terrain.WATER, x, y) : new Tile(terrain.LAND, x ,y);
+
+            let forestVal = normalise(simplex.noise2D(x / 12, y / 12), 0, 1);
+            if (forestVal < 0.9) {
+                if (tile.type === terrain.LAND) {
+                    tile.type = terrain.FOREST;
+                }
             }
+            
+            let rockVal = normalise(simplex.noise2D(x / 50, y / 50), 0, 1);
+            if (rockVal < 0.95) {
+                if (tile.type !== terrain.WATER) {
+                    tile.type = terrain.ROCK;
+                }
+                
+            }
+
+            if (tile.type === terrain.LAND &&  //Checks if there are any water tiles in a 1 tile radius, if so set to sand
+                tile.bordering(data, 1)
+                    .filter(e => e.type === terrain.WATER).length > 0) 
+            {
+                tile.type = terrain.SAND;
+            }
+            return tile;
         }
 
         for (let x = 0; x < size; x++) {
             for (let y = 0; y < size; y++) {
-                let val = this.normalise(simplex.noise2D(x / 12, y / 12), 0, 1);
-                if (val < 0.9) {
-                    if (data[x][y].type === terrain.LAND) {
-                        data[x][y].type = terrain.FOREST;
-                    }
-                }
+                let tile = data[x][y];
+                data[x][y] = setTile(tile, x, y);
             }
-        }        
+        }   
+        
+        
         return data;
     }
 }
@@ -158,6 +198,7 @@ window.onload = function() {
     let map;
     let centerTile;
     let player;
+    let gameCanvas;
 
     function handleKeyPress(event)
     {
@@ -183,7 +224,7 @@ window.onload = function() {
 
     //Setup
     function setup() {
-        let gameCanvas = document.querySelector('#game');
+        gameCanvas = document.querySelector('#game');
         
         gameCanvas.width = CANVAS_WIDTH;
         gameCanvas.height = CANVAS_HEIGHT;
@@ -191,7 +232,7 @@ window.onload = function() {
         //Add colour to canvas
         canvas.fillColor = 'black';
         canvas.font = "32px Arial";
-        canvas.fillRect(0, 0, CANVAS_HEIGHT, CANVAS_WIDTH);
+        canvas.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         
         map = new GameMap(new MapGenerator().generate(1024, new SimplexNoise()));
         
