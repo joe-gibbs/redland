@@ -5,22 +5,27 @@ const WATER_RATIO = 0.3;
 
 const terrain = {
     "LAND": {
+        name: 'Land',
         walkable: true,
         tile: new Image(),
     },
     "WATER": {
+        name: 'Water',
         walkable: false,
         tile: new Image(),
     },
     "FOREST": {
+        name: 'Forest',
         walkable: false,
         tile: new Image(),
     },
     "SAND": {
+        name: 'Sand',
         walkable: true,
         tile: new Image(),
     },
     "ROCK": {
+        name: 'Rock',
         walkable: false,
         tile: new Image(),
     }
@@ -85,10 +90,11 @@ class Tile {
     }
     bordering(map, radius) {
         let borderingTiles = [];
+
         for (let x = -radius; x <= radius; x++) {
             for (let y = -radius; y <= radius; y++) {
-                if ((map[this.x + x]||[])[this.y + y] !== undefined) {                     
-                    borderingTiles.push(map[this.x + x][this.y + y]);
+                if ((map[this.x+x]||[])[this.y+y] !== undefined) {
+                    borderingTiles.push(map[this.x+x][this.y+y]);
                 }
             }
         }
@@ -125,12 +131,15 @@ class Player {
         return item;
     }
 
-    move(x,y, map) {        
+    move(x,y, map) {   
+             
         if (map.tiles[this.x + x][this.y + y].type.walkable) {
             this.x += x;
             this.y += y;
         }
-
+        
+        console.log((map.tiles[this.x][this.y]).bordering(map.tiles, 1).filter(e => e.type === terrain.WATER).length > 0);
+        
         return map.tiles[this.x][this.y];
     }
 }
@@ -163,21 +172,7 @@ class MapGenerator {
                     tile.type = terrain.FOREST;
                 }
             }
-            
-            let rockVal = normalise(simplex.noise2D(x / 50, y / 50), 0, 1);
-            if (rockVal < 0.95) {
-                if (tile.type !== terrain.WATER) {
-                    tile.type = terrain.ROCK;
-                }
-                
-            }
-
-            if (tile.type === terrain.LAND &&  //Checks if there are any water tiles in a 1 tile radius, if so set to sand
-                tile.bordering(data, 1)
-                    .filter(e => e.type === terrain.WATER).length > 0) 
-            {
-                tile.type = terrain.SAND;
-            }
+        
             return tile;
         }
 
@@ -185,6 +180,26 @@ class MapGenerator {
             for (let y = 0; y < size; y++) {
                 let tile = data[x][y];
                 data[x][y] = setTile(tile, x, y);
+            }
+        }   
+
+        for (let i = 0; i < size; i++) {
+            for (let j = 0; j < size; j++) {
+
+                let tile = data[i][j];
+                if (tile.type === terrain.LAND &&  //Checks if there are any water tiles in a 1 tile radius, if so set to sand
+                    (tile.bordering(data, 1)
+                        .filter(e => e.type === terrain.WATER).length > 0))
+                {
+                    tile.type = terrain.SAND;
+                }
+
+                let rockVal = normalise(simplex.noise2D(i / 50, j / 50), 0, 1);
+                if (rockVal < 0.95 && tile.bordering(data, 5).filter(e => e.type === terrain.WATER).length === 0) {
+                    if (tile.type !== terrain.WATER) {
+                        tile.type = terrain.ROCK;
+                    }
+                }
             }
         }   
         
@@ -298,6 +313,7 @@ window.onload = function() {
         }
         canvas.drawImage(player.image, (tilesX/2)*64, (tilesY/2)*64);
         drawUi();
+        window.requestAnimationFrame(loop);
     }
 
     function loop() {
@@ -307,9 +323,7 @@ window.onload = function() {
 
     setup();
      
-    window.setInterval(function(){
-        loop();
-    }, 16);
+    window.requestAnimationFrame(loop);
 };
 
 
