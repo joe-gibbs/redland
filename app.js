@@ -1,60 +1,46 @@
 const canvas = document.querySelector('#game').getContext("2d");
 let CANVAS_WIDTH = window.innerWidth;
 let CANVAS_HEIGHT = window.innerHeight;
+let TILE_SIZE = window.innerWidth / 23;
 const WATER_RATIO = 0.3;
 
-const terrain = {
-    "LAND": {
-        name: 'Land',
-        walkable: true,
-        tile: new Image(),
-    },
-    "WATER": {
-        name: 'Water',
-        walkable: false,
-        tile: new Image(),
-    },
-    "FOREST": {
-        name: 'Forest',
-        walkable: false,
-        tile: new Image(),
-    },
-    "SAND": {
-        name: 'Sand',
-        walkable: true,
-        tile: new Image(),
-    },
-    "ROCK": {
-        name: 'Rock',
-        walkable: false,
-        tile: new Image(),
+class Terrain {
+    constructor(name, walkable, image) {
+        this.tile = new Image();
+        this.tile.src = image;
+        this.name = name;
+        this.walkable = walkable;
     }
 }
-terrain.LAND.tile.src = './assets/img/grass.png';
-terrain.WATER.tile.src = './assets/img/water.png';
-terrain.FOREST.tile.src = './assets/img/forest.png';
-terrain.SAND.tile.src = './assets/img/sand.png';
-terrain.ROCK.tile.src = './assets/img/rock.png';
-Object.freeze(terrain); //Turns into an enum
-
-const tools = {
-    "AXE": {
-
-    },
-    "SHOVEL": {
-
-    },
-    "BOAT": {
-
-    },
-}
-Object.freeze(tools);
 
 class Item {
-    constructor(image, name) {
+    constructor(name, image) {
         this.image = new Image();
         this.image.src = image;
         this.name = name;
+    }
+}
+
+const items = {
+    "AXE": new Item('Axe', './assets/img/axe.png'),
+}
+
+const terrain = {
+    "LAND": new Terrain('Land', true, './assets/img/grass.png'),
+    "WATER": new Terrain('Water', false, './assets/img/water.png'),
+    "FOREST": new Terrain('Forest', false, './assets/img/forest.png'),
+    "SAND": new Terrain('Sand', true, './assets/img/sand.png'),
+    "ROCK": new Terrain('Rock', false, './assets/img/rock.png'),
+}
+
+Object.freeze(items);
+Object.freeze(terrain); //Turns into an enum
+
+class DroppedItem {
+    constructor(x, y, item) {
+        this.x = x;
+        this.y = y;
+        this.item = item;
     }
 }
 
@@ -115,20 +101,24 @@ class Player {
             food: 10,
             stone: 0,
         };
-        this.tools = [tools.AXE];
+        this.items = [];
         this.health = 100;
         this.direction = [0,1];
     }
 
-    pickup(item) {
-        if (this.tools.includes(item)) {
-            return;
-        }
-        else if (this.tools.length > 1) {
-            this.tools.shift();
-        }
-        this.tools.push(item);
-        return item;
+    pickup(droppedItems) {
+        
+        droppedItems.forEach(item => {
+            console.log(item, this);
+            
+            if (item.x === this.x && item.y === this.y) {
+                let actualItem = item.item;
+                if (!this.items.includes(actualItem)) {
+                    this.items.push(actualItem);
+                    droppedItems.remove(item);
+                }
+            }
+        });
     }
 
     move(x,y, map) {   
@@ -203,7 +193,6 @@ class MapGenerator {
             }
         }   
         
-        
         return data;
     }
 }
@@ -214,24 +203,27 @@ window.onload = function() {
     let centerTile;
     let player;
     let gameCanvas;
+    let droppedItems = [];
 
     function handleKeyPress(event)
     {
         //event.preventDefault();
         
-        switch (event.keyCode) {
-            case 37: //left
+        switch (event.code) {
+            case 'ArrowLeft': //left
                 centerTile = player.move(1, 0, map)
                 break;
-            case 38: //up
+            case 'ArrowUp': //up
                 centerTile = player.move(0, 1, map)
                 break;
-            case 39: //right
+            case 'ArrowRight': //right
                 centerTile = player.move(-1, 0, map)
                 break;
-            case 40: //down
+            case 'ArrowDown': //down
                 centerTile = player.move(0, -1, map)
                 break;
+            case 'KeyE':
+                player.pickup(droppedItems);
             default:
                 break;
         }        
@@ -246,12 +238,14 @@ window.onload = function() {
     
         //Add colour to canvas
         canvas.fillColor = 'black';
-        canvas.font = "32px Arial";
+        canvas.font = CANVAS_WIDTH/12 + "px Arial";
         canvas.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         
         map = new GameMap(new MapGenerator().generate(1024, new SimplexNoise()));
         
         centerTile = map.chooseRandomTile(terrain.LAND);
+
+        droppedItems.push(new DroppedItem(centerTile.x + 1, centerTile.y + 1, items.AXE));
 
         player = new Player(centerTile.x, centerTile.y);
 
@@ -262,14 +256,17 @@ window.onload = function() {
     function update() {
         CANVAS_WIDTH = window.innerWidth;
         CANVAS_HEIGHT = window.innerHeight;
+        gameCanvas.width = CANVAS_WIDTH;
+        gameCanvas.height = CANVAS_HEIGHT;
+        TILE_SIZE = window.innerWidth / 23;
     }
 
     function drawUi() {
         let resourceIcon = new Image();
         resourceIcon.src = './assets/img/resource.png';
 
-        let uiX = Math.ceil(CANVAS_WIDTH/1.5 / 64.0) * 64;
-        let uiY = Math.ceil(CANVAS_HEIGHT/80 / 64.0) * 64;
+        let uiX = Math.ceil(CANVAS_WIDTH/1.5 / TILE_SIZE) * TILE_SIZE;
+        let uiY = Math.ceil(CANVAS_HEIGHT/80 / TILE_SIZE) * TILE_SIZE;
 
         canvas.drawImage(resourceIcon, uiX, uiY);
 
@@ -281,8 +278,8 @@ window.onload = function() {
     }
     
     function draw() { 
-        let tilesX = Math.ceil((CANVAS_WIDTH) / 64);
-        let tilesY = Math.ceil((CANVAS_HEIGHT) / 64);
+        let tilesX = Math.ceil((CANVAS_WIDTH) / TILE_SIZE);
+        let tilesY = Math.ceil((CANVAS_HEIGHT) / TILE_SIZE);
         
         if (tilesX % 2 != 0) {
             tilesX++;
@@ -308,10 +305,15 @@ window.onload = function() {
 
         for (let x = 0; x < tilesX; x++) {
             for (let y = 0; y < tilesY; y++) {
-                canvas.drawImage(renderableTiles[x][y].type.tile, x*64, y*64);                
+                canvas.drawImage(renderableTiles[x][y].type.tile, x*TILE_SIZE, y*TILE_SIZE);
+                droppedItems.forEach(element => {
+                    if (renderableTiles[x][y] === map.tiles[element.x][element.y]) {                        
+                        canvas.drawImage(element.item.image, x*TILE_SIZE, y*TILE_SIZE);
+                    }
+                }); 
             }
         }
-        canvas.drawImage(player.image, (tilesX/2)*64, (tilesY/2)*64);
+        canvas.drawImage(player.image, (tilesX/2)*TILE_SIZE, (tilesY/2)*TILE_SIZE);
         drawUi();
         window.requestAnimationFrame(loop);
     }
@@ -325,10 +327,3 @@ window.onload = function() {
      
     window.requestAnimationFrame(loop);
 };
-
-
-/* TEXTING
- https://github.com/josephg/noisejs
-
- 
-*/
