@@ -13,16 +13,22 @@
         body {
             margin:0;
             display:grid;
+            transform: scale(1);
+            -moz-transform:scale(1);
+            -webkit-transform: scale(1);
+            -o-transform:scale(1);
+            -ms-transform:scale(1);
         }
         #game {
             image-rendering: -moz-crisp-edges;
             image-rendering: -webkit-crisp-edges;
-            image-rendering: pixelated;
+            image-rendering: pixelated !important;
             image-rendering: crisp-edges;
         }
     </style>
 </head>
 <body>
+    <div style="position: absolute;" id="fps">--</div>
     <canvas width="500px" height="500px" id="game"></canvas>
 </body>
 </html>

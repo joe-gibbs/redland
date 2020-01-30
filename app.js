@@ -1,55 +1,49 @@
 const canvas = document.querySelector('#game').getContext("2d");
 let CANVAS_WIDTH = window.innerWidth;
 let CANVAS_HEIGHT = window.innerHeight;
+let TILE_SIZE = window.innerWidth / 23;
 const WATER_RATIO = 0.3;
 
-const terrain = {
-    "LAND": {
-        walkable: true,
-        tile: new Image(),
-    },
-    "WATER": {
-        walkable: false,
-        tile: new Image(),
-    },
-    "FOREST": {
-        walkable: false,
-        tile: new Image(),
-    },
-    "SAND": {
-        walkable: true,
-        tile: new Image(),
-    },
-    "ROCK": {
-        walkable: false,
-        tile: new Image(),
+class Terrain {
+    constructor(name, walkable, image, transitionIndex, transitionImage) {
+        this.tile = new Image();
+        this.tile.src = image;
+        this.name = name;
+        this.walkable = walkable;
+        this.transitionIndex = transitionIndex,
+        this.transitionTile = new Image();
+        this.transitionTile.src = transitionImage;
     }
 }
-terrain.LAND.tile.src = './assets/img/grass.png';
-terrain.WATER.tile.src = './assets/img/water.png';
-terrain.FOREST.tile.src = './assets/img/forest.png';
-terrain.SAND.tile.src = './assets/img/sand.png';
-terrain.ROCK.tile.src = './assets/img/rock.png';
-Object.freeze(terrain); //Turns into an enum
-
-const tools = {
-    "AXE": {
-
-    },
-    "SHOVEL": {
-
-    },
-    "BOAT": {
-
-    },
-}
-Object.freeze(tools);
 
 class Item {
-    constructor(image, name) {
+    constructor(name, image) {
         this.image = new Image();
         this.image.src = image;
         this.name = name;
+    }
+}
+
+const items = {
+    "AXE": new Item('Axe', './assets/img/axe.png'),
+}
+
+const terrain = {
+    "LAND": new Terrain('Land', true, './assets/img/grass.png', 1, './assets/img/c_grass.png'),
+    "SAND": new Terrain('Sand', true, './assets/img/sand.png', 0, './assets/img/c_grass.png'),
+    "WATER": new Terrain('Water', false, './assets/img/water.png', 2, './assets/img/c_water.png'),
+    "ROCK": new Terrain('Rock', false, './assets/img/rock.png', 3, './assets/img/c_rock.png'),
+    "FOREST": new Terrain('Forest', false, './assets/img/forest.png', 4, './assets/img/c_forest.png'),
+}
+
+Object.freeze(items);
+Object.freeze(terrain); //Turns into an enum
+
+class DroppedItem {
+    constructor(x, y, item) {
+        this.x = x;
+        this.y = y;
+        this.item = item;
     }
 }
 
@@ -83,12 +77,13 @@ class Tile {
         this.x = x;
         this.y = y;
     }
-    bordering(map, radius) {
+    bordering(xcoord, ycoord, map, radius) {
         let borderingTiles = [];
+
         for (let x = -radius; x <= radius; x++) {
             for (let y = -radius; y <= radius; y++) {
-                if ((map[this.x + x]||[])[this.y + y] !== undefined) {                     
-                    borderingTiles.push(map[this.x + x][this.y + y]);
+                if ((map[xcoord+x]||[])[ycoord+y] !== undefined) {
+                    borderingTiles.push(map[xcoord+x][ycoord+y]);
                 }
             }
         }
@@ -109,28 +104,39 @@ class Player {
             food: 10,
             stone: 0,
         };
-        this.tools = [tools.AXE];
+        this.items = [];
         this.health = 100;
         this.direction = [0,1];
     }
 
-    pickup(item) {
-        if (this.tools.includes(item)) {
-            return;
-        }
-        else if (this.tools.length > 1) {
-            this.tools.shift();
-        }
-        this.tools.push(item);
-        return item;
+    pickup(droppedItems) {
+        droppedItems.forEach(item => {            
+            if (item.x === this.x && item.y === this.y) {
+                let actualItem = item.item;
+                if (!this.items.includes(actualItem)) {
+                    this.items.push(actualItem);
+                    droppedItems.remove(item);
+                }
+            }
+        });
     }
 
-    move(x,y, map) {        
+    drop(droppedItems, item) {
+        droppedItems.push(new DroppedItem(this.x, this.y, item));
+        this.items.remove(item);
+    }
+
+    chop(map) {
+         map[this.x + this.direction[0]][this.y + this.direction[1]].type = terrain.LAND;
+    }
+
+    move(x,y, map) {   
+        this.direction = [x, y];
         if (map.tiles[this.x + x][this.y + y].type.walkable) {
             this.x += x;
             this.y += y;
         }
-
+                
         return map.tiles[this.x][this.y];
     }
 }
@@ -163,21 +169,7 @@ class MapGenerator {
                     tile.type = terrain.FOREST;
                 }
             }
-            
-            let rockVal = normalise(simplex.noise2D(x / 50, y / 50), 0, 1);
-            if (rockVal < 0.95) {
-                if (tile.type !== terrain.WATER) {
-                    tile.type = terrain.ROCK;
-                }
-                
-            }
-
-            if (tile.type === terrain.LAND &&  //Checks if there are any water tiles in a 1 tile radius, if so set to sand
-                tile.bordering(data, 1)
-                    .filter(e => e.type === terrain.WATER).length > 0) 
-            {
-                tile.type = terrain.SAND;
-            }
+        
             return tile;
         }
 
@@ -187,7 +179,26 @@ class MapGenerator {
                 data[x][y] = setTile(tile, x, y);
             }
         }   
-        
+
+        for (let i = 0; i < size; i++) {
+            for (let j = 0; j < size; j++) {
+
+                let tile = data[i][j];
+                if (tile.type === terrain.LAND &&  //Checks if there are any water tiles in a 1 tile radius, if so set to sand
+                    (tile.bordering(tile.x, tile.y, data, 1)
+                        .filter(e => e.type === terrain.WATER).length > 0))
+                {
+                    tile.type = terrain.SAND;
+                }
+
+                let rockVal = normalise(simplex.noise2D(i / 50, j / 50), 0, 1);
+                if (rockVal < 0.95 && tile.bordering(tile.x, tile.y, data, 5).filter(e => e.type === terrain.WATER).length === 0) {
+                    if (tile.type !== terrain.WATER) {
+                        tile.type = terrain.ROCK;
+                    }
+                }
+            }
+        }   
         
         return data;
     }
@@ -199,24 +210,30 @@ window.onload = function() {
     let centerTile;
     let player;
     let gameCanvas;
+    let droppedItems = [];
+    let clouds;
 
     function handleKeyPress(event)
     {
         //event.preventDefault();
         
-        switch (event.keyCode) {
-            case 37: //left
+        switch (event.code) {
+            case 'ArrowLeft': //left
                 centerTile = player.move(1, 0, map)
                 break;
-            case 38: //up
+            case 'ArrowUp': //up
                 centerTile = player.move(0, 1, map)
                 break;
-            case 39: //right
+            case 'ArrowRight': //right
                 centerTile = player.move(-1, 0, map)
                 break;
-            case 40: //down
+            case 'ArrowDown': //down
                 centerTile = player.move(0, -1, map)
                 break;
+            case 'KeyE':
+                player.pickup(droppedItems);
+            case 'Enter':
+                player.chop(map.tiles);
             default:
                 break;
         }        
@@ -231,30 +248,39 @@ window.onload = function() {
     
         //Add colour to canvas
         canvas.fillColor = 'black';
-        canvas.font = "32px Arial";
+        canvas.font = CANVAS_WIDTH/12 + "px Arial";
         canvas.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         
         map = new GameMap(new MapGenerator().generate(1024, new SimplexNoise()));
         
         centerTile = map.chooseRandomTile(terrain.LAND);
 
+        droppedItems.push(new DroppedItem(centerTile.x + 1, centerTile.y + 1, items.AXE));
+
         player = new Player(centerTile.x, centerTile.y);
 
+        clouds = new Image();
+        clouds.src = './assets/img/clouds.png';
+
         window.addEventListener("keydown", handleKeyPress);
+        
     }
 
 
     function update() {
         CANVAS_WIDTH = window.innerWidth;
         CANVAS_HEIGHT = window.innerHeight;
+        gameCanvas.width = CANVAS_WIDTH;
+        gameCanvas.height = CANVAS_HEIGHT;
+        TILE_SIZE = window.innerWidth / 23;
     }
 
     function drawUi() {
         let resourceIcon = new Image();
         resourceIcon.src = './assets/img/resource.png';
 
-        let uiX = Math.ceil(CANVAS_WIDTH/1.5 / 64.0) * 64;
-        let uiY = Math.ceil(CANVAS_HEIGHT/80 / 64.0) * 64;
+        let uiX = Math.ceil(CANVAS_WIDTH/1.5 / TILE_SIZE) * TILE_SIZE;
+        let uiY = Math.ceil(CANVAS_HEIGHT/80 / TILE_SIZE) * TILE_SIZE;
 
         canvas.drawImage(resourceIcon, uiX, uiY);
 
@@ -266,8 +292,8 @@ window.onload = function() {
     }
     
     function draw() { 
-        let tilesX = Math.ceil((CANVAS_WIDTH) / 64);
-        let tilesY = Math.ceil((CANVAS_HEIGHT) / 64);
+        let tilesX = Math.ceil((CANVAS_WIDTH) / TILE_SIZE);
+        let tilesY = Math.ceil((CANVAS_HEIGHT) / TILE_SIZE);
         
         if (tilesX % 2 != 0) {
             tilesX++;
@@ -293,28 +319,121 @@ window.onload = function() {
 
         for (let x = 0; x < tilesX; x++) {
             for (let y = 0; y < tilesY; y++) {
-                canvas.drawImage(renderableTiles[x][y].type.tile, x*64, y*64);                
+
+                function getBorders(x,y) {
+                    let result = [];
+                    if((renderableTiles[x+1]||[])[y] !== undefined)
+                    {
+                        result.push(renderableTiles[x+1][y]);  
+                    }
+                    if((renderableTiles[x]||[])[y+1] !== undefined)
+                    {
+                        result.push(renderableTiles[x][y+1]);
+                    }
+                    if((renderableTiles[x-1]||[])[y] !== undefined)
+                    {
+                        result.push(renderableTiles[x-1][y]);
+                    }
+                    if((renderableTiles[x]||[])[y-1] !== undefined)
+                    {
+                        result.push(renderableTiles[x][y-1]);  
+                    }        
+                    
+                    return result;            
+                }
+
+                function calculateRotation(tile, neighbour) {
+                    if (tile.x + 1 === neighbour.x) {
+                        return 270;
+                    }
+                    if (tile.x - 1 === neighbour.x) {
+                        return 90;
+                    }
+                    if (tile.y === neighbour.y + 1) {
+                        return 180;
+                    }
+                    if (tile.y === neighbour.y - 1) {
+                        return 0;
+                    }
+                }
+            
+                canvas.drawImage(renderableTiles[x][y].type.tile, x*TILE_SIZE, y*TILE_SIZE);
+                
+                getBorders(x, y).forEach(tile => {                    
+                    if (tile.type !== renderableTiles[x][y].type && tile.type.transitionIndex > renderableTiles[x][y].type.transitionIndex) {           
+                        let cx          = x*TILE_SIZE + 0.5 * TILE_SIZE;   // x of shape center
+                        let cy          = y*TILE_SIZE + 0.5 * TILE_SIZE;  // y of shape center
+                        let rotation  = calculateRotation(renderableTiles[x][y], tile);
+
+                        canvas.translate(cx, cy);              //translate to center of shape
+                        canvas.rotate( (Math.PI / 180) * rotation);  //rotate 90 degrees.
+                        canvas.translate(-cx, -cy);            //translate center back to 0,0
+                        
+                        canvas.drawImage(tile.type.transitionTile, x*TILE_SIZE, y*TILE_SIZE);
+                        canvas.resetTransform();
+                    }
+                });
+                droppedItems.forEach(element => {
+                    if (renderableTiles[x][y] === map.tiles[element.x][element.y]) {                        
+                        canvas.drawImage(element.item.image, x*TILE_SIZE, y*TILE_SIZE);
+                    }
+                });
+
             }
         }
-        canvas.drawImage(player.image, (tilesX/2)*64, (tilesY/2)*64);
+        canvas.drawImage(player.image, (tilesX/2)*TILE_SIZE, (tilesY/2)*TILE_SIZE);
+
+        //canvas.drawImage(clouds, 0, 0, CANVAS_WIDTH, CANVAS_WIDTH);
+
         drawUi();
+        window.requestAnimationFrame(loop);
     }
 
+    const fps = {
+        sampleSize : 60,    
+        value : 0,
+        _sample_ : [],
+        _index_ : 0,
+        _lastTick_: false,
+        tick : function(){
+            // if is first tick, just set tick timestamp and return
+            if( !this._lastTick_ ){
+                this._lastTick_ = performance.now();
+                return 0;
+            }
+            // calculate necessary values to obtain current tick FPS
+            let now = performance.now();
+            let delta = (now - this._lastTick_)/1000;
+            let fps = 1/delta;
+            // add to fps samples, current tick fps value 
+            this._sample_[ this._index_ ] = Math.round(fps);
+            
+            // iterate samples to obtain the average
+            let average = 0;
+            for(let i=0; i<this._sample_.length; i++) average += this._sample_[ i ];
+    
+            average = Math.round( average / this._sample_.length);
+    
+            // set new FPS
+            this.value = average;
+            // store current timestamp
+            this._lastTick_ = now;
+            // increase sample index counter, and reset it
+            // to 0 if exceded maximum sampleSize limit
+            this._index_++;
+            if( this._index_ === this.sampleSize) this._index_ = 0;
+            return this.value;
+        }
+    }    
+
     function loop() {
+        let fpsValue = fps.tick();
+        window.fps.innerHTML = fpsValue;
         update();
         draw();
     }
 
     setup();
      
-    window.setInterval(function(){
-        loop();
-    }, 16);
+    window.requestAnimationFrame(loop);
 };
-
-
-/* TEXTING
- https://github.com/josephg/noisejs
-
- 
-*/
