@@ -107,7 +107,6 @@ class Player {
     }
 
     pickup(droppedItems) {
-        
         droppedItems.forEach(item => {
             console.log(item, this);
             
@@ -119,6 +118,11 @@ class Player {
                 }
             }
         });
+    }
+
+    drop(droppedItems, item) {
+        droppedItems.push(new DroppedItem(this.x, this.y, item));
+        this.items.remove(item);
     }
 
     move(x,y, map) {   
