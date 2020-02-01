@@ -36,7 +36,9 @@ export default class Tile {
             let item = new DroppedItem(this.x, this.y, this.type.drops[0]);            
             map.droppedItems.push(item);
             this.type = terrain.LAND;
-            this.currentHealth = this.type.health;       
-        }        
+            this.currentHealth = this.type.health;  
+            return false;     
+        } 
+        return true;
     }
 }

@@ -13,9 +13,15 @@ export default class Player {
             food: 10,
             stone: 0,
         };
+        this.equipped;
         this.items = [];
         this.health = 100;
         this.direction = [0,1];
+        this.aimedTile; //Tile that the player is looking at based on direction.
+    }
+
+    updateAimedTile(map){
+        this.aimedTile = map.tiles[this.x + this.direction[0]][this.y + this.direction[1]];
     }
 
     pickup(droppedItems) {
@@ -37,6 +43,7 @@ export default class Player {
                             this.resources.stone += 5;
                             break;
                         default:
+                            this.equipped = actualItem.name;
                             this.items.push(actualItem);
                             break;
                     }
@@ -49,11 +56,17 @@ export default class Player {
     drop(droppedItems, item) {
         droppedItems.push(new DroppedItem(this.x, this.y, item));
         this.items.remove(item);
+        this.equipped = "";
     }
 
     chop(map) {
-        let tile = map.tiles[this.x + this.direction[0]][this.y + this.direction[1]];
-        tile.damage(1.5, map);
+        let working = false;
+        if(this.equipped === "Axe"){
+            if(this.aimedTile.type.name === "Forest"){
+                working = this.aimedTile.damage(1.5, map);
+            }
+        } 
+        return working;
     }
 
     move(x,y, map) {   
@@ -62,7 +75,8 @@ export default class Player {
             this.x += x;
             this.y += y;
         }
-                
+         
+        this.updateAimedTile(map);
         return map.tiles[this.x][this.y];
     }
 }

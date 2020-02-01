@@ -21,6 +21,18 @@ window.onload = function() {
     let canvasWidth;
     let canvasHeight;
 
+    function handleDropPickup() {
+        if (player.items.length < 1){
+            player.pickup(map.droppedItems);
+        } else {
+            for(var i = 0; i < player.items.length; i++){
+                if(player.items[i].name === player.equipped){
+                    player.drop(map.droppedItems, player.items[i]);  
+                } 
+            }
+        }
+    }
+
     function handleKeyPress(event)
     {        
         switch (event.code) {
@@ -37,9 +49,14 @@ window.onload = function() {
                 centerTile = player.move(0, -1, map)
                 break;
             case 'KeyE':
-                player.pickup(map.droppedItems);
-            case 'Enter':
-                player.chop(map);
+            case 'KeyS':
+            case 'Enter':    
+                let working = player.chop(map);
+                console.log(working);
+                if (!working){
+                    handleDropPickup();  
+                }
+                console.log(player.equipped);    
             default:
                 break;
         }        
@@ -52,7 +69,7 @@ window.onload = function() {
 
         map.droppedItems.push(new DroppedItem(centerTile.x + 1, centerTile.y + 1, items.axe));
 
-        player = new Player(centerTile.x, centerTile.y);
+        player = new Player(centerTile.x, centerTile.y, map);
 
         mapRenderer = new MapRenderer(tileSize, canvas, gameCanvas, map, player);
 

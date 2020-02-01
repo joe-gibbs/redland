@@ -2,7 +2,7 @@ import Terrain from '../terrain.js';
 import Tile from './tile.js';
 
 const TREE_OFFSET = 15;
-const PLAYER_OFFSET = 16;
+const PLAYER_OFFSET = 38;
 
 export default class MapRenderer {
     constructor(tileSize, canvas, gameCanvas, map, player) {
