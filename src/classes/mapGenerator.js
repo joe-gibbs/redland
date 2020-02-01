@@ -1,5 +1,5 @@
 import Tile from './tile.js';
-import terrain from './terrain.js';
+import terrain from '../terrain.js';
 
 export default class MapGenerator {
     constructor() {

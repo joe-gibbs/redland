@@ -1,17 +1,13 @@
 "use strict";
 
-import terrain from './src/classes/terrain.js';
+import terrain from './src/terrain.js';
 import DroppedItem from './src/classes/droppedItem.js';
-import Item from './src/classes/item.js';
 import GameMap from './src/classes/gameMap.js';
 import Player from './src/classes/player.js';
 import MapGenerator from './src/classes/mapGenerator.js';
 import fps from './src/fpsCounter.js';
 import MapRenderer from './src/classes/mapRenderer.js';
-
-const items = {
-    "AXE": new Item('Axe', './assets/img/axe.png'),
-}
+import items from './src/items.js';
 
 //Main function, put stuff here
 window.onload = function() {
@@ -54,7 +50,7 @@ window.onload = function() {
         
         centerTile = map.chooseRandomTile(terrain.LAND);
 
-        map.droppedItems.push(new DroppedItem(centerTile.x + 1, centerTile.y + 1, items.AXE));
+        map.droppedItems.push(new DroppedItem(centerTile.x + 1, centerTile.y + 1, items.axe));
 
         player = new Player(centerTile.x, centerTile.y);
 

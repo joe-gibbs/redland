@@ -1,5 +1,5 @@
 import DroppedItem from './droppedItem.js';
-import terrain from './terrain.js';
+import terrain from '../terrain.js';
 
 export default class Player {
     constructor(x, y) {

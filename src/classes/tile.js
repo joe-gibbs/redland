@@ -4,6 +4,13 @@ export default class Tile {
         this.x = x;
         this.y = y;
     }
+    /**
+     * 
+     * @param {Number} xcoord 
+     * @param {Number} ycoord 
+     * @param {Tile[]} map 
+     * @param {Number} radius 
+     */
     bordering(xcoord, ycoord, map, radius) {
         let borderingTiles = [];
 
