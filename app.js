@@ -41,7 +41,7 @@ window.onload = function() {
                 centerTile = player.move(0, -1, map)
                 break;
             case 'KeyE':
-                player.pickup(droppedItems);
+                player.pickup(map.droppedItems);
             case 'Enter':
                 player.chop(map.tiles);
             default:
