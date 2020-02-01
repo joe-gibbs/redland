@@ -1,4 +1,8 @@
+import Terrain from '../terrain.js';
 import Tile from './tile.js';
+
+const TREE_OFFSET = 15;
+const PLAYER_OFFSET = 16;
 
 export default class MapRenderer {
     constructor(tileSize, canvas, gameCanvas, map, player) {
@@ -31,7 +35,21 @@ export default class MapRenderer {
         for (let x = 0; x < this.tilesX; x++) {
             for (let y = 0; y < this.tilesY; y++) {
                 if ((this.renderableTiles[x]||[])[y]) {
-                    this.canvas.drawImage(this.renderableTiles[x][y].type.tile, x*this.tileSize, y*this.tileSize);
+                    switch(this.renderableTiles[x][y].type){
+                        case Terrain.FOREST:
+                            this.canvas.drawImage(this.renderableTiles[x][y].type.tile, x*this.tileSize, y*this.tileSize - TREE_OFFSET);
+                            break;
+                        default:
+                            this.canvas.drawImage(this.renderableTiles[x][y].type.tile, x*this.tileSize, y*this.tileSize);
+                            break;
+                    }
+                    // if(this.renderableTiles[x][y].type == Terrain.FOREST){
+                    //     this.canvas.drawImage(this.renderableTiles[x][y].type.tile, x*this.tileSize, y*this.tileSize - 15);
+                    // } else if( ) {
+
+                    // } else {
+                    //     this.canvas.drawImage(this.renderableTiles[x][y].type.tile, x*this.tileSize, y*this.tileSize);
+                    // }
                     this.drawItems(this.renderableTiles[x][y], this.map, x, y);
                 }
                 else {
@@ -42,7 +60,8 @@ export default class MapRenderer {
                 });
             }
         }
-        this.canvas.drawImage(this.player.image, (this.tilesX/2)*this.tileSize, (this.tilesY/2)*this.tileSize);
+        //Draw Player
+        this.canvas.drawImage(this.player.image, (this.tilesX/2)*this.tileSize, (this.tilesY/2)*this.tileSize - PLAYER_OFFSET);
     }
 
     drawEdges(renderableTiles, tile, x, y, canvas) {

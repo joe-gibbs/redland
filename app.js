@@ -61,12 +61,11 @@ window.onload = function() {
 
 
     function update() {
-        tileSize = window.innerWidth / 23;
-        canvasWidth = window.innerWidth;
-        canvasHeight = window.innerHeight;
+        canvasWidth = window.innerWidth; //Change Canvas size for preference*******
+        canvasHeight = window.innerHeight; //Adjust tile size as well. 
         gameCanvas.width = canvasWidth;
         gameCanvas.height = canvasHeight;
-        tileSize = window.innerWidth / 23;
+        tileSize = 64;// NEED TO ADJUST TILE SIZE WITH CANVAS SIZE
         canvas.font = canvasWidth/12 + "px Arial";
         canvas.fillRect(0, 0, canvasWidth, canvasHeight);
     }
