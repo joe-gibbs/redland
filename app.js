@@ -52,11 +52,9 @@ window.onload = function() {
             case 'KeyS':
             case 'Enter':    
                 let working = player.chop(map);
-                console.log(working);
                 if (!working){
                     handleDropPickup();  
-                }
-                console.log(player.equipped);    
+                }   
             default:
                 break;
         }        
@@ -69,7 +67,7 @@ window.onload = function() {
 
         map.droppedItems.push(new DroppedItem(centerTile.x + 1, centerTile.y + 1, items.axe));
 
-        player = new Player(centerTile.x, centerTile.y, map);
+        player = new Player(centerTile.x, centerTile.y);
 
         mapRenderer = new MapRenderer(tileSize, canvas, gameCanvas, map, player);
 
