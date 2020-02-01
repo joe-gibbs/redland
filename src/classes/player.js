@@ -1,5 +1,6 @@
 import DroppedItem from './droppedItem.js';
 import terrain from '../terrain.js';
+import items from '../items.js';
 
 export default class Player {
     constructor(x, y) {
@@ -22,7 +23,23 @@ export default class Player {
             if (item.x === this.x && item.y === this.y) {
                 let actualItem = item.item;
                 if (!this.items.includes(actualItem)) {
-                    this.items.push(actualItem);
+                    switch (actualItem) {
+                        case items.wood:
+                            this.resources.wood += 5;
+                            break;
+                        case items.food:
+                            this.resources.food += 5;
+                            break;
+                        case items.gold:
+                            this.resources.gold += 5;
+                            break;
+                        case items.stone:
+                            this.resources.stone += 5;
+                            break;
+                        default:
+                            this.items.push(actualItem);
+                            break;
+                    }
                     droppedItems.remove(item);
                 }
             }
@@ -35,7 +52,8 @@ export default class Player {
     }
 
     chop(map) {
-         map[this.x + this.direction[0]][this.y + this.direction[1]].type = terrain.LAND;
+        let tile = map.tiles[this.x + this.direction[0]][this.y + this.direction[1]];
+        tile.damage(1.5, map);
     }
 
     move(x,y, map) {   

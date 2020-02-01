@@ -27,6 +27,7 @@ export default class MapGenerator {
             if (forestVal < 0.9) {
                 if (tile.type === terrain.LAND) {
                     tile.type = terrain.FOREST;
+                    tile.currentHealth = terrain.FOREST.health;
                 }
             }
         
@@ -55,6 +56,8 @@ export default class MapGenerator {
                 if (rockVal < 0.95 && tile.bordering(tile.x, tile.y, data, 5).filter(e => e.type === terrain.WATER).length === 0) {
                     if (tile.type !== terrain.WATER) {
                         tile.type = terrain.ROCK;
+                        tile.drops = terrain.ROCK.drops;
+                        tile.currentHealth = terrain.ROCK.health;
                     }
                 }
             }

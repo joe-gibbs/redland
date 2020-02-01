@@ -39,7 +39,7 @@ window.onload = function() {
             case 'KeyE':
                 player.pickup(map.droppedItems);
             case 'Enter':
-                player.chop(map.tiles);
+                player.chop(map);
             default:
                 break;
         }        

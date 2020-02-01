@@ -1,8 +1,12 @@
+import DroppedItem from "./droppedItem.js";
+import terrain from '../terrain.js';
+
 export default class Tile {
     constructor(type, x, y) {
         this.type = type;
         this.x = x;
         this.y = y;
+        this.currentHealth = type.health;
     }
     /**
      * 
@@ -24,5 +28,15 @@ export default class Tile {
         borderingTiles.remove(this);
         
         return borderingTiles;
+    }
+
+    damage(amount, map) {
+        this.currentHealth -= amount;
+        if (this.currentHealth <= 0) {
+            let item = new DroppedItem(this.x, this.y, this.type.drops[0]);            
+            map.droppedItems.push(item);
+            this.type = terrain.LAND;
+            this.currentHealth = this.type.health;       
+        }        
     }
 }
