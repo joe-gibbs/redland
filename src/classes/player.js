@@ -73,10 +73,8 @@ export default class Player {
 
     move(x,y, map) { 
         this.direction = [x, y];
-        console.log(this.x, Math.round(this.x), this.closestX);
-        
-        
-        if (map.tiles[Math.round(this.closestX + x)][Math.round(this.closestY + y)].type.walkable) {
+            
+        if (map.tiles[Math.round(this.x + x)][Math.round(this.y + y)].type.walkable) {
             this.x += x;
             this.y += y;
         }
