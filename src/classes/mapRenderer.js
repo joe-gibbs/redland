@@ -29,7 +29,16 @@ export default class MapRenderer {
         }
     }
 
-    render(center) {
+    render(center, player) {
+
+        function calculateX(x, tileSize) {
+            return Math.ceil(x* tileSize) - ((center.x - player.x) * tileSize);
+        }
+
+        function calculateY(y, tileSize) {
+            return Math.ceil(y* tileSize) - ((center.y - player.y) * tileSize);
+        }
+
         this.fillRenderables(this.tilesX, this.tilesY, center, this.map);         
 
         for (let x = 0; x < this.tilesX; x++) {
@@ -38,10 +47,10 @@ export default class MapRenderer {
                     let currentTile = this.renderableTiles[x][y];
                     switch(currentTile.type){
                         case Terrain.FOREST:
-                            this.canvas.drawImage(currentTile.type.tile, x*this.tileSize, y*this.tileSize - TREE_OFFSET);
+                            this.canvas.drawImage(currentTile.type.tile, calculateX(x, this.tileSize), calculateY(y, this.tileSize) - TREE_OFFSET);
                             break;
                         default:
-                            this.canvas.drawImage(currentTile.type.tile, x*this.tileSize, y*this.tileSize);
+                            this.canvas.drawImage(currentTile.type.tile, calculateX(x, this.tileSize), calculateY(y, this.tileSize));
                             break;
                     }                    
                     
@@ -56,7 +65,7 @@ export default class MapRenderer {
                     // } else {
                     //     this.canvas.drawImage(this.renderableTiles[x][y].type.tile, x*this.tileSize, y*this.tileSize);
                     // }
-                    this.drawItems(this.renderableTiles[x][y], this.map, x, y);
+                    this.drawItems(this.renderableTiles[x][y], this.map, calculateX(x, this.tileSize), calculateY(y, this.tileSize));
                 }
                 else {
                     this.canvas.fillRect(x*this.tileSize, y*this.tileSize, this.tileSize, this.tileSize);
@@ -88,7 +97,7 @@ export default class MapRenderer {
     drawItems(tile, map, x, y) {        
         map.droppedItems.forEach(element => {
             if (tile === map.tiles[element.x][element.y]) {                        
-                this.canvas.drawImage(element.item.image, x*this.tileSize, y*this.tileSize);
+                this.canvas.drawImage(element.item.image, x, y);
             }
         });   
     }

@@ -17,16 +17,18 @@ export default class Player {
         this.items = [];
         this.health = 100;
         this.direction = [0,1];
+        this.closestX = x;
+        this.closestY = y;
         this.aimedTile; //Tile that the player is looking at based on direction.
     }
 
     updateAimedTile(map){
-        this.aimedTile = map.tiles[this.x + this.direction[0]][this.y + this.direction[1]];
+        this.aimedTile = map.tiles[Math.round(this.x + this.direction[0])][Math.round(this.y + this.direction[1])];
     }
 
     pickup(droppedItems) {
         droppedItems.forEach(item => {            
-            if (item.x === this.x && item.y === this.y) {
+            if (item.x === this.closestX && item.y === this.closestY) {
                 let actualItem = item.item;
                 if (!this.items.includes(actualItem)) {
                     switch (actualItem) {
@@ -54,7 +56,7 @@ export default class Player {
     }
 
     drop(droppedItems, item) {
-        droppedItems.push(new DroppedItem(this.x, this.y, item));
+        droppedItems.push(new DroppedItem(this.closestX, this.closestY, item));
         this.items.remove(item);
         this.equipped = "";
     }
@@ -69,14 +71,20 @@ export default class Player {
         return working;
     }
 
-    move(x,y, map) {   
+    move(x,y, map) { 
         this.direction = [x, y];
-        if (map.tiles[this.x + x][this.y + y].type.walkable) {
+        console.log(this.x, Math.round(this.x), this.closestX);
+        
+        
+        if (map.tiles[Math.round(this.closestX + x)][Math.round(this.closestY + y)].type.walkable) {
             this.x += x;
             this.y += y;
         }
+
+        this.closestX = Math.round(this.x);
+        this.closestY = Math.round(this.y);    
          
         this.updateAimedTile(map);
-        return map.tiles[this.x][this.y];
+        return map.tiles[this.closestX][this.closestY];
     }
 }

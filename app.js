@@ -37,20 +37,20 @@ window.onload = function() {
     {        
         switch (event.code) {
             case 'ArrowLeft': //left
-                centerTile = player.move(1, 0, map)
+                centerTile = player.move(.2, 0, map)
                 break;
             case 'ArrowUp': //up
-                centerTile = player.move(0, 1, map)
+                centerTile = player.move(0, .2, map)
                 break;
             case 'ArrowRight': //right
-                centerTile = player.move(-1, 0, map)
+                centerTile = player.move(-.2, 0, map)
                 break;
             case 'ArrowDown': //down
-                centerTile = player.move(0, -1, map)
+                centerTile = player.move(0, -.2, map)
                 break;
             case 'KeyE':
             case 'KeyS':
-            case 'Enter':    
+            case 'Enter':
                 let working = player.chop(map);
                 if (!working){
                     handleDropPickup();  
@@ -87,7 +87,7 @@ window.onload = function() {
     
     
     function draw() {
-        mapRenderer.render(centerTile);
+        mapRenderer.render(centerTile, player);
     }
 
     function loop() {
