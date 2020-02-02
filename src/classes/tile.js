@@ -30,7 +30,7 @@ export default class Tile {
         return borderingTiles;
     }
 
-    damage(amount, map) {
+    damage(amount, map) {        
         this.currentHealth -= amount;
         if (this.currentHealth <= 0) {
             let item = new DroppedItem(this.x, this.y, this.type.drops[0]);            

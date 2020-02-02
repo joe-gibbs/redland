@@ -35,13 +35,19 @@ export default class MapRenderer {
         for (let x = 0; x < this.tilesX; x++) {
             for (let y = 0; y < this.tilesY; y++) {
                 if ((this.renderableTiles[x]||[])[y]) {
-                    switch(this.renderableTiles[x][y].type){
+                    let currentTile = this.renderableTiles[x][y];
+                    switch(currentTile.type){
                         case Terrain.FOREST:
-                            this.canvas.drawImage(this.renderableTiles[x][y].type.tile, x*this.tileSize, y*this.tileSize - TREE_OFFSET);
+                            this.canvas.drawImage(currentTile.type.tile, x*this.tileSize, y*this.tileSize - TREE_OFFSET);
                             break;
                         default:
-                            this.canvas.drawImage(this.renderableTiles[x][y].type.tile, x*this.tileSize, y*this.tileSize);
+                            this.canvas.drawImage(currentTile.type.tile, x*this.tileSize, y*this.tileSize);
                             break;
+                    }                    
+                    
+                    if (currentTile.currentHealth < currentTile.type.health) {                                                
+                        this.canvas.fillStyle = "rgba(255, 255, 255," + (1 - (currentTile.currentHealth / currentTile.type.health)) + ")";                        
+                        this.canvas.fillRect(x*this.tileSize, y*this.tileSize, this.tileSize, this.tileSize);
                     }
                     // if(this.renderableTiles[x][y].type == Terrain.FOREST){
                     //     this.canvas.drawImage(this.renderableTiles[x][y].type.tile, x*this.tileSize, y*this.tileSize - 15);
