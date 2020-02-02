@@ -1,10 +1,20 @@
 import Terrain from '../terrain.js';
 import Tile from './tile.js';
+import GameMap from './gameMap.js';
+import Player from './player.js';
 
 const TREE_OFFSET = 15;
 const PLAYER_OFFSET = 38;
 
 export default class MapRenderer {
+    /**
+     * 
+     * @param {Number} tileSize 
+     * @param {CanvasRenderingContext2D} canvas 
+     * @param {HTMLElement} gameCanvas 
+     * @param {GameMap} map 
+     * @param {Player} player 
+     */
     constructor(tileSize, canvas, gameCanvas, map, player) {
         this.tileSize = tileSize;
         this.canvas = canvas;
@@ -30,7 +40,6 @@ export default class MapRenderer {
     }
 
     render(center, player) {
-
         function calculateX(x, tileSize) {
             return Math.ceil(x* tileSize) - ((center.x - player.x) * tileSize);
         }
@@ -57,6 +66,7 @@ export default class MapRenderer {
                     if (currentTile.currentHealth < currentTile.type.health) {                                                
                         this.canvas.fillStyle = "rgba(255, 255, 255," + (1 - (currentTile.currentHealth / currentTile.type.health)) + ")";                        
                         this.canvas.fillRect(calculateX(x, this.tileSize), calculateY(y, this.tileSize), y*this.tileSize, this.tileSize, this.tileSize);
+                        this.canvas.fillStyle = "#000";
                     }
                     // if(this.renderableTiles[x][y].type == Terrain.FOREST){
                     //     this.canvas.drawImage(this.renderableTiles[x][y].type.tile, x*this.tileSize, y*this.tileSize - 15);

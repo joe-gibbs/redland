@@ -8,6 +8,7 @@ import MapGenerator from './src/classes/mapGenerator.js';
 import fps from './src/fpsCounter.js';
 import MapRenderer from './src/classes/mapRenderer.js';
 import items from './src/items.js';
+import UiRenderer from './src/classes/uiRenderer.js';
 
 //Main function, put stuff here
 window.onload = function() {
@@ -17,6 +18,7 @@ window.onload = function() {
     let gameCanvas;
     let canvas;
     let mapRenderer;
+    let uiRenderer;
     let tileSize;
     let canvasWidth;
     let canvasHeight;
@@ -71,6 +73,8 @@ window.onload = function() {
 
         mapRenderer = new MapRenderer(tileSize, canvas, gameCanvas, map, player);
 
+        uiRenderer = new UiRenderer(player);
+
         window.addEventListener("keydown", handleKeyPress);
     }
 
@@ -81,13 +85,14 @@ window.onload = function() {
         gameCanvas.width = canvasWidth;
         gameCanvas.height = canvasHeight;
         tileSize = 64;// NEED TO ADJUST TILE SIZE WITH CANVAS SIZE
-        canvas.font = canvasWidth/12 + "px Arial";
+        canvas.font = canvasWidth/48 + "px Arial";
         canvas.fillRect(0, 0, canvasWidth, canvasHeight);
     }
     
     
     function draw() {
         mapRenderer.render(centerTile, player);
+        uiRenderer.render(canvas, canvasWidth, canvasHeight, tileSize);
     }
 
     function loop() {
