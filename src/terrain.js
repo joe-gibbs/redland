@@ -11,6 +11,9 @@ class Terrain {
     }
 }
 
+//FIX THE ARRAY OF IMAGES IN A TERRAIN so you can pick which tile gets printed off. 
+
+
 const terrain = {
     "LAND": new Terrain('Land', true, Infinity, ['./assets/img/grass_1.png'], []),
     "SAND": new Terrain('Sand', true, Infinity, ['./assets/img/sand.png'], []),
