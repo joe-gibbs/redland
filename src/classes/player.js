@@ -6,6 +6,7 @@ export default class Player {
     constructor(x, y) {
         this.x = x;
         this.y = y;
+        this.speed = 10;
         this.image = new Image();
         this.image.src = './assets/img/player.png';
         this.resources = {
@@ -33,16 +34,16 @@ export default class Player {
                 if (!this.items.includes(actualItem)) {
                     switch (actualItem) {
                         case items.wood:
-                            this.resources.wood += 5;
+                            this.resources.wood += speed;
                             break;
                         case items.food:
-                            this.resources.food += 5;
+                            this.resources.food += speed;
                             break;
                         case items.gold:
-                            this.resources.gold += 5;
+                            this.resources.gold += speed;
                             break;
                         case items.stone:
-                            this.resources.stone += 5;
+                            this.resources.stone += speed;
                             break;
                         default:
                             this.equipped = actualItem.name;

@@ -34,24 +34,24 @@ export default class MapRenderer {
         }
 
         this.renderableTiles = [];               //
-        for (let i = 0; i < this.tilesX; i++) {  // Create 2 dimensional array
+        for (let i = 0; i < this.tilesX + 4; i++) {  // Create 2 dimensional array
             this.renderableTiles[i] = [];        //
         }
     }
 
     render(center, player) {
         function calculateX(x, tileSize) {
-            return Math.ceil(x* tileSize) - ((center.x - player.x) * tileSize);
+            return Math.ceil(x* tileSize) - ((center.x - player.x) * tileSize + tileSize);
         }
 
         function calculateY(y, tileSize) {
-            return Math.ceil(y* tileSize) - ((center.y - player.y) * tileSize);
+            return Math.ceil(y* tileSize) - ((center.y - player.y) * tileSize + tileSize);
         }
 
         this.fillRenderables(this.tilesX, this.tilesY, center, this.map);         
 
-        for (let x = 0; x < this.tilesX; x++) {
-            for (let y = 0; y < this.tilesY; y++) {
+        for (let x = 0; x < (this.tilesX + 2); x++) {
+            for (let y = 0; y < (this.tilesY + 2); y++) {
                 if ((this.renderableTiles[x]||[])[y]) {
                     let currentTile = this.renderableTiles[x][y];
                     switch(currentTile.type){
@@ -90,18 +90,18 @@ export default class MapRenderer {
     }
 
     drawEdges(renderableTiles, tile, x, y, canvas) {
-        if (tile.type !== renderableTiles[x][y].type && tile.type.transitionIndex > renderableTiles[x][y].type.transitionIndex) {           
-            let cx          = x*this.tileSize + 0.5 * this.tileSize;   // x of shape center
-            let cy          = y*this.tileSize + 0.5 * this.tileSize;  // y of shape center
-            let rotation  = calculateRotation(renderableTiles[x][y], tile);
+        // if (tile.type !== renderableTiles[x][y].type && tile.type.transitionIndex > renderableTiles[x][y].type.transitionIndex) {           
+        //     let cx          = x*this.tileSize + 0.5 * this.tileSize;   // x of shape center
+        //     let cy          = y*this.tileSize + 0.5 * this.tileSize;  // y of shape center
+        //     let rotation  = calculateRotation(renderableTiles[x][y], tile);
 
-            canvas.translate(cx, cy);              //translate to center of shape
-            canvas.rotate( (Math.PI / 180) * rotation);  //rotate 90 degrees.
-            canvas.translate(-cx, -cy);            //translate center back to 0,0
+        //     canvas.translate(cx, cy);              //translate to center of shape
+        //     canvas.rotate( (Math.PI / 180) * rotation);  //rotate 90 degrees.
+        //     canvas.translate(-cx, -cy);            //translate center back to 0,0
             
-            canvas.drawImage(tile.type.transitionTile, x*this.tileSize, y*this.tileSize);
-            canvas.resetTransform();
-        }
+        //     canvas.drawImage(tile.type.transitionTile, x*this.tileSize, y*this.tileSize);
+        //     canvas.resetTransform();
+        // }
     }
 
     drawItems(tile, map, x, y) {        
@@ -113,12 +113,13 @@ export default class MapRenderer {
     }
 
     fillRenderables(width, height, center, map) {
-        for (let x = 0; x < width; x++) {
-            for (let y = 0; y < height; y++) {
+        let tileOffset = 4; 
+        for (let x = 0; x < width + tileOffset; x++) {
+            for (let y = 0; y < height + tileOffset; y++) {
                 let xcoord = center.x - (x - this.tilesX/2);
                 let ycoord = center.y - (y - this.tilesY/2);
                 if ((map.tiles[x+1]||[])[y]) {
-                    this.renderableTiles[x][y] = map.tiles[xcoord][ycoord];
+                    this.renderableTiles[x][y] = map.tiles[xcoord + 1][ycoord + 1];
                 }     
             }
         }
