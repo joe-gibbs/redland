@@ -22,6 +22,7 @@ window.onload = function() {
     let tileSize;
     let canvasWidth;
     let canvasHeight;
+    let kMap = []; // You could also use an array
 
     function handleDropPickup() {
         if (player.items.length < 1){
@@ -35,31 +36,26 @@ window.onload = function() {
         }
     }
 
-    function handleKeyPress(event)
-    {        
-        switch (event.code) {
-            case 'ArrowLeft': //left
-                centerTile = player.move(.2, 0, map)
-                break;
-            case 'ArrowUp': //up
-                centerTile = player.move(0, .2, map)
-                break;
-            case 'ArrowRight': //right
-                centerTile = player.move(-.2, 0, map)
-                break;
-            case 'ArrowDown': //down
-                centerTile = player.move(0, -.2, map)
-                break;
-            case 'KeyE':
-            case 'KeyS':
-            case 'Enter':
-                let working = player.chop(map);
-                if (!working){
-                    handleDropPickup();  
-                }   
-            default:
-                break;
-        }        
+    function handleKeyPress(kMap)
+    {
+        if (kMap['ArrowLeft']) {
+            centerTile = player.move(0.1, 0, map)
+        }
+        if (kMap['ArrowUp']) {
+            centerTile = player.move(0, 0.1, map)
+        }
+        if (kMap['ArrowRight']) {
+            centerTile = player.move(-0.1, 0, map)
+        }
+        if (kMap['ArrowDown']) {
+            centerTile = player.move(0, -0.1, map)
+        }
+        if (kMap['Enter']) {
+            let working = player.chop(map);
+            if (!working){
+                handleDropPickup();  
+            }   
+        }   
     }
 
     //Setup
@@ -75,7 +71,10 @@ window.onload = function() {
 
         uiRenderer = new UiRenderer(player);
 
-        window.addEventListener("keydown", handleKeyPress);
+            onkeydown = onkeyup = function(e){
+                e = e || event; // to deal with IE
+                kMap[e.code] = e.type == 'keydown';
+        }
     }
 
 
@@ -87,6 +86,10 @@ window.onload = function() {
         tileSize = 64;// NEED TO ADJUST TILE SIZE WITH CANVAS SIZE
         canvas.font = canvasWidth/48 + "px Arial";
         canvas.fillRect(0, 0, canvasWidth, canvasHeight);
+        if (player) {
+            player.updateMovement(map);
+            handleKeyPress(kMap);
+        }
     }
     
     
@@ -98,7 +101,6 @@ window.onload = function() {
     function loop() {
         let fpsValue = fps.tick();
         window.fps.innerHTML = fpsValue;
-        update();
         draw();
         window.requestAnimationFrame(loop);
     }
@@ -110,4 +112,5 @@ window.onload = function() {
     setup();
      
     window.requestAnimationFrame(loop);
+    this.setInterval(update, 16);
 };
