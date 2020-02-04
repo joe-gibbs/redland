@@ -1,16 +1,14 @@
 import DroppedItem from './droppedItem.js';
 import terrain from '../terrain.js';
 import items from '../items.js';
+import Spritesheet from './spritesheet.js';
 
 export default class Player {
     constructor(x, y) {
         this.x = x;
         this.y = y;
         this.speed = 10;
-        this.image = new Image();
-        this.image.src = './assets/img/player.png';
-        this.imageBack = new Image();
-        this.imageBack.src = './assets/img/player_back.png';
+        this.spritesheet = new Spritesheet('./assets/img/player.png', 64, 80);
         this.resources = {
             wood: 0,
             food: 10,

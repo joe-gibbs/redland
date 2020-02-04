@@ -93,7 +93,7 @@ export default class MapRenderer {
             }
         }
         //Draw Player
-        this.canvas.drawImage(this.player.image, (this.tilesX/2)*this.tileSize, (this.tilesY/2)*this.tileSize - PLAYER_OFFSET);
+        this.player.spritesheet.render(0, (this.tilesX/2)*this.tileSize, (this.tilesY/2)*this.tileSize - PLAYER_OFFSET, this.canvas);
     }
 
     drawEdges(renderableTiles, tile, x, y, canvas) {
