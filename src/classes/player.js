@@ -34,16 +34,16 @@ export default class Player {
                 if (!this.items.includes(actualItem)) {
                     switch (actualItem) {
                         case items.wood:
-                            this.resources.wood += speed;
+                            this.resources.wood += 10;
                             break;
                         case items.food:
-                            this.resources.food += speed;
+                            this.resources.food += 10;
                             break;
                         case items.gold:
-                            this.resources.gold += speed;
+                            this.resources.gold += 10;
                             break;
                         case items.stone:
-                            this.resources.stone += speed;
+                            this.resources.stone += 10;
                             break;
                         default:
                             this.equipped = actualItem.name;
