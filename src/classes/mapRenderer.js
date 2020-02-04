@@ -15,16 +15,21 @@ export default class MapRenderer {
      * @param {GameMap} map 
      * @param {Player} player 
      */
-    constructor(tileSize, canvas, gameCanvas, map, player) {
+    constructor(tileSize, canvas, map, player) {
         this.tileSize = tileSize;
         this.canvas = canvas;
         this.player = player;
+        this.map = map;
+        this.updateRenderableLength(canvas.canvas);
+    }
+
+    updateRenderableLength(gameCanvas) {
         this.canvasHeight = gameCanvas.height;
         this.canvasWidth = gameCanvas.width;
+
         this.tilesX = Math.ceil((this.canvasWidth) / this.tileSize);        
         this.tilesY = Math.ceil((this.canvasHeight) / this.tileSize);
-        this.map = map;
-        
+
         if (this.tilesX % 2 != 0) {
             this.tilesX++;
         }
@@ -37,6 +42,8 @@ export default class MapRenderer {
         for (let i = 0; i < this.tilesX + 4; i++) {  // Create 2 dimensional array
             this.renderableTiles[i] = [];        //
         }
+        console.log("Renderables updated", this.renderableTiles);
+        
     }
 
     render(center, player) {

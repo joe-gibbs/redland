@@ -67,7 +67,7 @@ window.onload = function() {
 
         player = new Player(centerTile.x, centerTile.y);
 
-        mapRenderer = new MapRenderer(tileSize, canvas, gameCanvas, map, player);
+        mapRenderer = new MapRenderer(tileSize, canvas, map, player);
 
         uiRenderer = new UiRenderer(player);
 
@@ -75,6 +75,13 @@ window.onload = function() {
                 e = e || event; // to deal with IE
                 kMap[e.code] = e.type == 'keydown';
         }
+
+
+        onresize = resize;
+    }
+
+    function resize() {
+        mapRenderer.updateRenderableLength(gameCanvas);        
     }
 
 

@@ -9,6 +9,8 @@ export default class Player {
         this.speed = 10;
         this.image = new Image();
         this.image.src = './assets/img/player.png';
+        this.imageBack = new Image();
+        this.imageBack.src = './assets/img/player_back.png';
         this.resources = {
             wood: 0,
             food: 10,
@@ -115,8 +117,6 @@ export default class Player {
 
         this.movementAxis[0] = this.movementAxis[0].clamp(-0.12, 0.12);
         this.movementAxis[1] = this.movementAxis[1].clamp(-0.12, 0.12);
-
-        console.log(this.movementAxis);
 
         return map.tiles[this.closestX][this.closestY];
     }
