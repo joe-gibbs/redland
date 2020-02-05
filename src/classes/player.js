@@ -28,9 +28,7 @@ export default class Player {
         this.aimedTile; //Tile that the player is looking at based on direction.
     }
 
-    animationState() {        
-        console.log(this.direction);
-        
+    animationState() {                
         if (this.movement[0] !== 0 || this.movement[1] !== 0) {
             if (this.direction[1] <= 0) {
                 return this.spritesheet.animationSets['walkForward'];
