@@ -29,8 +29,10 @@ export default class Player {
     }
 
     animationState() {        
+        console.log(this.direction);
+        
         if (this.movement[0] !== 0 || this.movement[1] !== 0) {
-            if (this.direction[1] == 0) {
+            if (this.direction[1] <= 0) {
                 return this.spritesheet.animationSets['walkForward'];
             }
             else {
@@ -38,7 +40,7 @@ export default class Player {
             }
         }
         else {
-            if (this.direction[1] !== 0) {
+            if (this.direction[1] <= 0) {
                 return this.spritesheet.animationSets['idleFront'];
             }
             else {
