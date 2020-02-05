@@ -50,7 +50,13 @@ window.onload = function() {
         if (kMap['ArrowDown']) {
             centerTile = player.move(0, -0.1, map)
         }
-        if (kMap['Enter']) {
+        if (kMap['KeyD']){
+            console.log('build');
+        }
+        if (kMap['KeyA']){
+            console.log('Toggle');
+        }
+        if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
             let working = player.chop(map);
             if (!working){
                 handleDropPickup();  

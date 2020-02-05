@@ -9,10 +9,14 @@ export default class Player {
         this.y = y;
         this.speed = 10;
         this.spritesheet = new Spritesheet('./assets/img/player.png', 64, 80);
-        this.spritesheet.addAnimationSet('idleFront', 0, 0);
+        this.spritesheet.addAnimationSet('idleForward', 0, 0);
         this.spritesheet.addAnimationSet('idleBack', 1, 1);
-        this.spritesheet.addAnimationSet('walkForward', 6, 9);
-        this.spritesheet.addAnimationSet('walkBack', 2, 5);
+        this.spritesheet.addAnimationSet('idleLeft', 2, 2);
+        this.spritesheet.addAnimationSet('idleRight', 3, 3);
+        this.spritesheet.addAnimationSet('walkBack', 4, 8);
+        this.spritesheet.addAnimationSet('walkForward', 8, 12);
+        this.spritesheet.addAnimationSet('walkLeft', 12, 16);
+        this.spritesheet.addAnimationSet('walkRight', 16, 20);
         this.resources = {
             wood: 0,
             food: 10,
@@ -21,7 +25,7 @@ export default class Player {
         this.equipped;
         this.items = [];
         this.health = 100;
-        this.direction = [0,1];
+        this.direction = [0,1]; // DIRECTIONS -> [Right <= 0 < Left, back <= 0 < front]
         this.movement = [0,0];
         this.closestX = x;
         this.closestY = y;
@@ -30,20 +34,33 @@ export default class Player {
 
     animationState() {                
         if (this.movement[0] !== 0 || this.movement[1] !== 0) {
-            if (this.direction[1] <= 0) {
+            if (this.direction[0] == 0 && this.direction[1] <= 0) {
                 return this.spritesheet.animationSets['walkForward'];
             }
-            else {
+            else if (this.direction[0] == 0 && this.direction[1] > 0) {
                 return this.spritesheet.animationSets['walkBack'];
+            } 
+            else if (this.direction[0] <= 0 && this.direction[1] == 0) {
+                return this.spritesheet.animationSets['walkRight'];
+            } 
+            else if (this.direction[0] > 0 && this.direction[1] == 0) {
+                return this.spritesheet.animationSets['walkLeft'];
             }
         }
         else {
-            if (this.direction[1] <= 0) {
-                return this.spritesheet.animationSets['idleFront'];
+            if (this.direction[0] <= 0 && this.direction[1] == 0) {
+                return this.spritesheet.animationSets['idleRight'];
+            } 
+            else if (this.direction[0] > 0 && this.direction[1] == 0) {
+                return this.spritesheet.animationSets['idleLeft'];
             }
-            else {
+            else if (this.direction[0] == 0 && this.direction[1] <= 0) {
+                return this.spritesheet.animationSets['idleForward'];
+            }
+            else if (this.direction[0] == 0 && this.direction[1] > 0) {
                 return this.spritesheet.animationSets['idleBack'];
-            }
+            } 
+
         }   
     }
 
