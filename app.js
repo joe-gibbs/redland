@@ -91,7 +91,7 @@ window.onload = function() {
         gameCanvas.width = canvasWidth;
         gameCanvas.height = canvasHeight;
         tileSize = 64;// NEED TO ADJUST TILE SIZE WITH CANVAS SIZE
-        canvas.font = canvasWidth/48 + "px Arial";
+        canvas.font = canvasWidth/48 + "px Pixelated";
         canvas.fillRect(0, 0, canvasWidth, canvasHeight);
         if (player) {
             player.updateMovement(map);
