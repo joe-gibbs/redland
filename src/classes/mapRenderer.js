@@ -98,9 +98,7 @@ export default class MapRenderer {
 
         if (this.renderFrame > 9) {
             this.renderFrame = 0;
-            this.player.animationState().increment();
-            console.log(this.player.animationState().current);
-            
+            this.player.animationState().increment();            
         }
     }
 
