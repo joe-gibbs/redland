@@ -66,7 +66,6 @@ window.onload = function() {
 
     //Setup
     function setup() {                    
-        
         centerTile = map.chooseRandomTile(terrain.LAND);
 
         map.droppedItems.push(new DroppedItem(centerTile.x + 1, centerTile.y + 1, items.axe));
