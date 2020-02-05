@@ -20,6 +20,7 @@ export default class MapRenderer {
         this.canvas = canvas;
         this.player = player;
         this.map = map;
+        this.renderFrame = 0;
         this.updateRenderableLength(canvas.canvas);
     }
 
@@ -41,9 +42,7 @@ export default class MapRenderer {
         this.renderableTiles = [];               //
         for (let i = 0; i < this.tilesX + 4; i++) {  // Create 2 dimensional array
             this.renderableTiles[i] = [];        //
-        }
-        console.log("Renderables updated", this.renderableTiles);
-        
+        }        
     }
 
     render(center, player) {
@@ -92,8 +91,17 @@ export default class MapRenderer {
                 });
             }
         }
-        //Draw Player
-        this.player.spritesheet.render(0, (this.tilesX/2)*this.tileSize, (this.tilesY/2)*this.tileSize - PLAYER_OFFSET, this.canvas);
+        
+        this.player.spritesheet.render(this.player.animationState().current, (this.tilesX/2)*this.tileSize, (this.tilesY/2)*this.tileSize - PLAYER_OFFSET, this.canvas);
+
+        this.renderFrame++;
+
+        if (this.renderFrame > 9) {
+            this.renderFrame = 0;
+            this.player.animationState().increment();
+            console.log(this.player.animationState().current);
+            
+        }
     }
 
     drawEdges(renderableTiles, tile, x, y, canvas) {

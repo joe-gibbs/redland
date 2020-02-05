@@ -14,6 +14,7 @@ export default class Spritesheet {
         this.xImages = this.image.width / width;
         this.yImages = this.image.height / height;
         this.imageCount = this.xImages * this.yImages;
+        this.animationSets = {};
     }
 
     /**
@@ -24,6 +25,20 @@ export default class Spritesheet {
      */
     render(index, x, y, canvas) {
         canvas.drawImage(this.image, this.calculateS(index)[0], this.calculateS(index)[1], this.width, this.height, x, y, this.width, this.height);
+    }
+    
+    addAnimationSet(name, start, end) {
+        this.animationSets[name] = {
+                start: start, 
+                end: end, 
+                current: start,
+                increment: function() {
+                    this.current++;
+                    if (this.current >= this.end) {
+                        this.current = this.start;
+                    }
+                }
+            };
     }
 
     calculateS(index) {
