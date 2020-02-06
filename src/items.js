@@ -7,6 +7,7 @@ const items = {
     "gold": new Item('Gold', './assets/img/axe.png'),
     "stone" : new Item('Stone', './assets/img/axe.png'),
     "food": new Item('Food', './assets/img/axe.png'),
+    "boat": new Item('Boat', './assets/img/axe.png'),
 }
 
 Object.freeze(items);

@@ -23,6 +23,16 @@ Array.prototype.remove = function() {
 Number.prototype.clamp = function(min, max) {
     return Math.min(Math.max(this, min), max);
   };
-  
 
 function normalise(val, max, min) { return (val - min) / (max - min); }    
+
+Object.prototype.forEach = function(func, context) {
+    var value;
+    context = context || this;  //apply the function to 'this' by default
+    for (key in this) {
+        if (this.hasOwnProperty(key)) {  //to rule out inherited properties
+            value = this[key];
+            func.call(context, key, value);
+        }
+    }    
+};

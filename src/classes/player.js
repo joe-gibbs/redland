@@ -22,6 +22,7 @@ export default class Player {
             food: 10,
             stone: 0,
         };
+        this.showCraftingMenu = false;
         this.equipped;
         this.items = [];
         this.health = 100;

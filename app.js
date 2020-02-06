@@ -50,6 +50,9 @@ window.onload = function() {
         if (kMap['ArrowDown']) {
             centerTile = player.move(0, -0.1, map)
         }
+        if (kMap['KeyM']) {
+            player.showCraftingMenu = !player.showCraftingMenu;
+        }
         if (kMap['KeyD']){
             console.log('build');
         }
@@ -113,7 +116,7 @@ window.onload = function() {
     
     function draw() {
         mapRenderer.render(centerTile, player);
-        uiRenderer.render(canvas, canvasWidth, canvasHeight, tileSize);
+        uiRenderer.render(tileSize);
     }
 
     function loop() {
