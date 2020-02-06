@@ -68,7 +68,13 @@ window.onload = function() {
     function setup() {                    
         centerTile = map.chooseRandomTile(terrain.LAND);
 
-        map.droppedItems.push(new DroppedItem(centerTile.x + 1, centerTile.y + 1, items.axe));
+        let borders = centerTile.bordering(centerTile.x, centerTile.y, map.tiles, 2);
+        for (let i = 0; i < borders.length; i++) {
+            if (borders[i].type.walkable) {
+                map.droppedItems.push(new DroppedItem(borders[i].x + 1, borders[i].y + 1, items.axe));
+                break;
+            }
+        }
 
         player = new Player(centerTile.x, centerTile.y);
 
