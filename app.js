@@ -50,21 +50,6 @@ window.onload = function() {
         if (kMap['ArrowDown']) {
             centerTile = player.move(0, -0.1, map)
         }
-        if (kMap['KeyM']) {
-            player.showCraftingMenu = !player.showCraftingMenu;
-        }
-        if (kMap['KeyD']){
-            console.log('build');
-        }
-        if (kMap['KeyA']){
-            console.log('Toggle');
-        }
-        if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
-            let working = player.chop(map);
-            if (!working){
-                handleDropPickup();  
-            }   
-        }   
     }
 
     //Setup
@@ -88,6 +73,22 @@ window.onload = function() {
             onkeydown = onkeyup = function(e){
                 e = e || event; // to deal with IE
                 kMap[e.code] = e.type == 'keydown';
+
+                    if (kMap['KeyM']) {
+                        player.showCraftingMenu = !player.showCraftingMenu;
+                    }
+                    if (kMap['KeyD']){
+                        console.log('build');
+                    }
+                    if (kMap['KeyA']){
+                        console.log('Toggle');
+                    }
+                    if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
+                        let working = player.chop(map);
+                        if (!working){
+                            handleDropPickup();  
+                        }   
+                    }   
         }
 
 
