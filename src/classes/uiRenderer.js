@@ -5,26 +5,27 @@ export default class UiRenderer {
     /**
      * 
      * @param {Player} player 
+     * @param {CanvasRenderingContext2D} canvas The canvas
      */
-    constructor(player) {
+    constructor(player, canvas) {
         this.player = player;
+        this.canvas = canvas;
+        this.canvasWidth = canvas.canvas.width;
+        this.canvasHeight = canvas.canvas.height;
     }
 
     /**
      * 
-     * @param {CanvasRenderingContext2D} canvas The canvas
-     * @param {Number} canvasWidth The size of the canvas
-     * @param {Number} canvasHeight 
      * @param {Number} tileSize The size of each tile
      */
-    render(canvas, canvasWidth, canvasHeight, tileSize) {
-        let uiX = Math.ceil(canvasWidth / 1.5 / tileSize) * tileSize;
-        let uiY = Math.ceil(canvasHeight / 80 / tileSize) * tileSize;
+    render(tileSize) {
+        let uiX = Math.ceil(this.canvasWidth / 1.5 / tileSize) * tileSize;
+        let uiY = Math.ceil(this.canvasHeight / 80 / tileSize) * tileSize;
 
         let iter = 0;
         for (var key in this.player.resources) {
             iter++;
-            canvas.fillText(key + ' ' + this.player.resources[key], uiX, uiY + (32 * iter));
+            this.canvas.fillText(key + ' ' + this.player.resources[key], uiX, uiY + (32 * iter));
         }
 
         let items = [];
@@ -37,6 +38,6 @@ export default class UiRenderer {
                 items.push(item.name + '\n');
             }
         });
-        canvas.fillText(items.toString(), uiX, uiY + (500));
+        this.canvas.fillText(items.toString(), uiX, uiY + (500));
     }
 }

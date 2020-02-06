@@ -10,20 +10,20 @@ import MapRenderer from './src/classes/mapRenderer.js';
 import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
 
+let map = new GameMap(new MapGenerator().generate(1024, new SimplexNoise()));
+let centerTile;
+let player;
+let gameCanvas;
+let canvas;
+let mapRenderer;
+let uiRenderer;
+let tileSize;
+let canvasWidth;
+let canvasHeight;
+let kMap = []; // You could also use an array
+
 //Main function, put stuff here
 window.onload = function() {
-    let map = new GameMap(new MapGenerator().generate(1024, new SimplexNoise()));
-    let centerTile;
-    let player;
-    let gameCanvas;
-    let canvas;
-    let mapRenderer;
-    let uiRenderer;
-    let tileSize;
-    let canvasWidth;
-    let canvasHeight;
-    let kMap = []; // You could also use an array
-
     function handleDropPickup() {
         if (player.items.length < 1){
             player.pickup(map.droppedItems);
@@ -80,7 +80,7 @@ window.onload = function() {
 
         mapRenderer = new MapRenderer(tileSize, canvas, map, player);
 
-        uiRenderer = new UiRenderer(player);
+        uiRenderer = new UiRenderer(player, canvas);
 
             onkeydown = onkeyup = function(e){
                 e = e || event; // to deal with IE
@@ -132,3 +132,4 @@ window.onload = function() {
     window.requestAnimationFrame(loop);
     this.setInterval(update, 16);
 };
+
