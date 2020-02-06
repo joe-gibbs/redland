@@ -29,7 +29,13 @@ export default class UiRenderer {
 
         let items = [];
         this.player.items.forEach(item => {
-            items.push(item.name + ' ');
+            if (item === this.player.equipped) {
+                items.push('>' + item.name + '\n');
+            }
+            else
+            {
+                items.push(item.name + '\n');
+            }
         });
         canvas.fillText(items.toString(), uiX, uiY + (500));
     }
