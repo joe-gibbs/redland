@@ -1,6 +1,7 @@
 import DroppedItem from './droppedItem.js';
 import terrain from '../terrain.js';
 import items from '../items.js';
+import Item from './item.js';
 import Spritesheet from './spritesheet.js';
 
 export default class Player {
@@ -22,7 +23,6 @@ export default class Player {
             stone: 0,
         };
         this.showCraftingMenu = false;
-        this.equipped;
         this.items = [];
         this.health = 100;
         this.direction = [0,1]; // DIRECTIONS -> [Right <= 0 < Left, back <= 0 < front]
@@ -30,6 +30,20 @@ export default class Player {
         this.closestX = x;
         this.closestY = y;
         this.aimedTile; //Tile that the player is looking at based on direction.
+    }
+
+    /**
+     * @type {Item}
+     */
+    get equipped() {
+        return this.items[0];
+    }
+
+    set equipped(equipped) {
+        this.items.push(equipped);
+        if (this.items.length > 2) {
+            this.drop(this.items.last());
+        }
     }
 
     animationState() {                
@@ -60,7 +74,6 @@ export default class Player {
             else if (this.direction[0] == 0 && this.direction[1] > 0) {
                 return this.spritesheet.animationSets['idleBack'];
             } 
-
         }   
     }
 
@@ -121,8 +134,7 @@ export default class Player {
                             this.resources.stone += 10;
                             break;
                         default:
-                            this.equipped = actualItem.name;
-                            this.items.push(actualItem);
+                            this.equipped = actualItem;
                             break;
                     }
                     droppedItems.remove(item);
@@ -131,15 +143,20 @@ export default class Player {
         });
     }
 
+    dropEquipped(droppedItems) {
+        this.drop(droppedItems, this.equipped);
+    }
+
     drop(droppedItems, item) {
+        console.log(droppedItems);
+        
         droppedItems.push(new DroppedItem(this.closestX, this.closestY, item));
         this.items.remove(item);
-        this.equipped = "";
     }
 
     chop(map) {
         let working = false;
-        if(this.equipped === "Axe"){
+        if(this.equipped === items.axe){
             if(this.aimedTile.type.name === "Forest"){
                 working = this.aimedTile.damage(1.5, map);
             }

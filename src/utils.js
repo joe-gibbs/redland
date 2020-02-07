@@ -9,6 +9,10 @@ Array.prototype.remove = function() {
     return this;
 };
 
+Array.prototype.last = function(){
+    return this[this.length - 1];
+};
+
 /**
  * Returns a number whose value is limited to the given range.
  *

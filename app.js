@@ -41,18 +41,6 @@ let kMap = []; // You could also use an array
 
 //Main function, put stuff here
 window.onload = function() {
-    function handleDropPickup() {
-        if (player.items.length < 1){
-            player.pickup(map.droppedItems);
-        } else {
-            for(var i = 0; i < player.items.length; i++){
-                if(player.items[i].name === player.equipped){
-                    player.drop(map.droppedItems, player.items[i]);  
-                } 
-            }
-        }
-    }
-
     /**
      * Handles inputs that you want done as a continuous series
      * @param {String[]} kMap 
@@ -85,9 +73,10 @@ window.onload = function() {
             console.log('Toggle');
         }
         if (kMap['KeyD']) {
-            handleDropPickup();  
+            player.dropEquipped(map.droppedItems);
         }
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
+            player.pickup(map.droppedItems);  
             player.chop(map);
         }
     }
