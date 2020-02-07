@@ -1,6 +1,7 @@
 import Player from './player.js';
 import recipes from '../recipes.js';
 import items from '../items.js';
+import CraftableItem from './craftableItem.js';
 
 export default class UiRenderer {
 
@@ -8,26 +9,32 @@ export default class UiRenderer {
      * 
      * @param {Player} player 
      * @param {CanvasRenderingContext2D} canvas The canvas
+     * @param {Number} mouseX
+     * @param {Number} mouseY
      */
     constructor(player, canvas) {
         this.player = player;
         this.canvas = canvas;
         this.canvasWidth = canvas.canvas.width;
         this.canvasHeight = canvas.canvas.height;
+        /**
+         * @type {CraftableItem}
+         */
+        this.selectedCraftable = null;
     }
 
     /**
      * 
      * @param {Number} tileSize The size of each tile
      */
-    render(tileSize) {
+    render(tileSize, mouseX, mouseY) {
         let uiX = Math.ceil(this.canvasWidth / 1.5 / tileSize) * tileSize;
         let uiY = Math.ceil(this.canvasHeight / 80 / tileSize) * tileSize;
 
         this.renderItems(uiX, uiY);
 
         if (this.player.showCraftingMenu) {
-            this.renderCraftingMenu();
+            this.renderCraftingMenu(mouseX, mouseY);
         }
     }
 
@@ -46,15 +53,25 @@ export default class UiRenderer {
 
     }
 
-    renderCraftingMenu() {
+    renderCraftingMenu(mouseX, mouseY) {
         let recipeKeys = Object.keys(recipes);
         let x = (this.canvasWidth / 2) - 288;
         let y = (this.canvasHeight / 2) - ((recipeKeys.length * 64) / 2);
         let canvasFill = this.canvas.fillStyle;
         this.canvas.font = "32px Pixelated";
 
+        this.selectedCraftable = null;
+
         recipeKeys.forEach(key => {
-            this.canvas.fillStyle = "rgba(0,0,0,0.5)";
+            if (recipes[key].canCraft(this.player)) {
+                this.canvas.fillStyle = "rgba(0,0,0,0.5)";
+            } else {
+                this.canvas.fillStyle = "rgba(128,128,128,128.5)";
+            }
+            if (mouseX > x && mouseX < x + 576 && mouseY > y && mouseY < y + 64 && recipes[key].canCraft(this.player)) {
+                this.canvas.fillStyle = "rgba(255,255,255,0.9)";
+                this.selectedCraftable = recipes[key];                
+            }
             this.canvas.lineWidth = 5;
             this.canvas.strokeRect(x, y, 576, 64);
             this.canvas.fillRect(x,y, 576, 64);

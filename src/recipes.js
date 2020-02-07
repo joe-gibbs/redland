@@ -5,12 +5,13 @@ const recipes = {
     pick: new CraftableItem(items.pick,
         {
             wood: 100,
-            stone: 50,
+            stone: 0,
         }
     ),
     boat: new CraftableItem(items.boat,
         {
             wood: 200,
+            stone: 0,
         }
     ),
 };
