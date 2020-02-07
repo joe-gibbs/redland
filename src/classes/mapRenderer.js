@@ -131,9 +131,12 @@ export default class MapRenderer {
             for (let y = 0; y < height + tileOffset; y++) {
                 let xcoord = center.x - (x - this.tilesX/2);
                 let ycoord = center.y - (y - this.tilesY/2);
-                if ((map.tiles[x+1]||[])[y]) {
+                if ((map.tiles[x+1]||[])[y] && ((map.tiles[xcoord + 1] || [])[ycoord + 1])) {
                     this.renderableTiles[x][y] = map.tiles[xcoord + 1][ycoord + 1];
-                }     
+                }
+                else {
+                    this.renderableTiles[x][y] = null;
+                }
             }
         }
     }
