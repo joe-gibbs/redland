@@ -70,7 +70,7 @@ window.onload = function() {
             player.showCraftingMenu = !player.showCraftingMenu;
         }
         if (kMap['KeyA']){
-            console.log('Toggle');
+            player.switchItems();
         }
         if (kMap['KeyD']) {
             player.dropEquipped(map.droppedItems);

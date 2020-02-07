@@ -46,6 +46,10 @@ export default class Player {
         }
     }
 
+    switchItems() {
+        this.items.reverse();
+    }
+
     animationState() {                
         if (this.movement[0] !== 0 || this.movement[1] !== 0) {
             if (this.direction[0] == 0 && this.direction[1] <= 0) {
