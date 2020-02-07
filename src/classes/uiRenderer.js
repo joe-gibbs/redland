@@ -48,7 +48,7 @@ export default class UiRenderer {
 
     renderCraftingMenu() {
         let recipeKeys = Object.keys(recipes);
-        let x = (this.canvasWidth / 2) - 256;
+        let x = (this.canvasWidth / 2) - 288;
         let y = (this.canvasHeight / 2) - ((recipeKeys.length * 64) / 2);
         let canvasFill = this.canvas.fillStyle;
         this.canvas.font = "32px Pixelated";
@@ -56,8 +56,8 @@ export default class UiRenderer {
         recipeKeys.forEach(key => {
             this.canvas.fillStyle = "rgba(0,0,0,0.5)";
             this.canvas.lineWidth = 5;
-            this.canvas.strokeRect(x, y, 512, 64);
-            this.canvas.fillRect(x,y, 512, 64);
+            this.canvas.strokeRect(x, y, 576, 64);
+            this.canvas.fillRect(x,y, 576, 64);
             this.canvas.strokeRect(x, y, 64, 64);
             this.canvas.drawImage(recipes[key].item.image, x, y);
             this.canvas.fillStyle = canvasFill;
