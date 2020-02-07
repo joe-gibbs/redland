@@ -3,6 +3,7 @@ import terrain from '../terrain.js';
 import items from '../items.js';
 import Item from './item.js';
 import Spritesheet from './spritesheet.js';
+import GameMap from './gameMap.js';
 
 export default class Player {
     constructor(x, y) {
@@ -18,10 +19,12 @@ export default class Player {
         this.spritesheet.addAnimationSet('walkForward', 8, 12);
         this.spritesheet.addAnimationSet('walkLeft', 12, 16);
         this.spritesheet.addAnimationSet('walkRight', 16, 20);
+        this.spritesheet.addAnimationSet('sail', 20, 20);
         this.resources = {
             wood: 0,
             stone: 0,
         };
+        this.onSea = false;
         this.showCraftingMenu = false;
         this.items = [];
         this.health = 100;
@@ -50,7 +53,11 @@ export default class Player {
         this.items.reverse();
     }
 
-    animationState() {                
+    animationState() {     
+        if (this.onSea) {
+            return this.spritesheet.animationSets['sail'];
+        }   
+        else {      
         if (this.movement[0] !== 0 || this.movement[1] !== 0) {
             if (this.direction[0] == 0 && this.direction[1] <= 0) {
                 return this.spritesheet.animationSets['walkForward'];
@@ -80,23 +87,39 @@ export default class Player {
             } 
         }   
     }
+    }
 
     updateAimedTile(map){
         this.aimedTile = map.tiles[Math.round(this.x + this.direction[0])][Math.round(this.y + this.direction[1])];
     }
 
+    /**
+     * 
+     * @param {GameMap} map 
+     */
     updateMovement(map) { 
         let x = this.movement[0];
         let y = this.movement[1];
 
-        if (map.tiles[Math.round(this.x + x)][Math.round(this.y + y)].type.walkable) {
+        let tileXYmovement = map.tiles[Math.round(this.x + x)][Math.round(this.y + y)].type;
+        let tileXmovement = map.tiles[Math.round(this.x + x)][Math.round(this.y)].type;
+        let tileYmovement = map.tiles[Math.round(this.x)][Math.round(this.y + y)].type;
+
+        if (this.equipped === items.boat && (tileXYmovement.sailable || tileXmovement.sailable || tileYmovement.sailable)) {
+            this.onSea = true;
+        }
+        else {
+            this.onSea = false;
+        }
+
+        if (tileXYmovement.walkable || (this.equipped === items.boat && tileXYmovement.sailable)) {
             this.x += x;
             this.y += y;
         }
-        else if (map.tiles[Math.round(this.x + x)][Math.round(this.y)].type.walkable) {
+        else if (tileXmovement.walkable || (this.equipped === items.boat && tileXmovement.sailable)) {
             this.x += x;
         }
-        else if (map.tiles[Math.round(this.x)][Math.round(this.y + y)].type.walkable) {
+        else if (tileYmovement.walkable || (this.equipped === items.boat && tileYmovement.sailable)) {
             this.y += y;
         }
 
@@ -151,9 +174,7 @@ export default class Player {
         this.drop(droppedItems, this.equipped);
     }
 
-    drop(droppedItems, item) {
-        console.log(droppedItems);
-        
+    drop(droppedItems, item) {        
         droppedItems.push(new DroppedItem(this.closestX, this.closestY, item));
         this.items.remove(item);
     }

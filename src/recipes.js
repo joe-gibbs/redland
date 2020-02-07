@@ -10,7 +10,7 @@ const recipes = {
     ),
     boat: new CraftableItem(items.boat,
         {
-            wood: 200,
+            wood: 20,
             stone: 0,
         }
     ),
