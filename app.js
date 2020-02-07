@@ -10,20 +10,37 @@ import MapRenderer from './src/classes/mapRenderer.js';
 import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
 
+/** @type {GameMap} */
+let map = new GameMap(new MapGenerator().generate(1024, new SimplexNoise()));
+
+/** @type {Tile} */
+let centerTile;
+
+/** @type {Player} */
+let player;
+
+/** @type {HTMLElement} */
+let gameCanvas;
+
+/** @type {CanvasRenderingContext2D} */
+let canvas;
+
+/** @type {MapRenderer} */
+let mapRenderer;
+
+/** @type {UiRenderer} */
+let uiRenderer;
+
+/** @type {Number} */
+let tileSize, canvasWidth, canvasHeight;
+
+let mouseX = 0, mouseY = 0;
+
+/** @type {String[]} */
+let kMap = []; // You could also use an array
+
 //Main function, put stuff here
 window.onload = function() {
-    let map = new GameMap(new MapGenerator().generate(1024, new SimplexNoise()));
-    let centerTile;
-    let player;
-    let gameCanvas;
-    let canvas;
-    let mapRenderer;
-    let uiRenderer;
-    let tileSize;
-    let canvasWidth;
-    let canvasHeight;
-    let kMap = []; // You could also use an array
-
     function handleDropPickup() {
         if (player.items.length < 1){
             player.pickup(map.droppedItems);
@@ -36,7 +53,11 @@ window.onload = function() {
         }
     }
 
-    function handleKeyPress(kMap)
+    /**
+     * Handles inputs that you want done as a continuous series
+     * @param {String[]} kMap 
+     */
+    function handleAxisMappings(kMap)
     {
         if (kMap['ArrowLeft']) {
             centerTile = player.move(0.1, 0, map)
@@ -50,39 +71,78 @@ window.onload = function() {
         if (kMap['ArrowDown']) {
             centerTile = player.move(0, -0.1, map)
         }
-        if (kMap['KeyD']){
-            console.log('build');
+    }
+
+    /**
+     * Handles inputs where you only want a single action to be taken
+     * @param {String[]} kMap 
+     */
+    function handleActionMappings(kMap) {
+        if (kMap['KeyM']) {
+            player.showCraftingMenu = !player.showCraftingMenu;
         }
         if (kMap['KeyA']){
             console.log('Toggle');
         }
+        if (kMap['KeyD']) {
+            handleDropPickup();  
+        }
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
-            let working = player.chop(map);
-            if (!working){
-                handleDropPickup();  
-            }   
-        }   
+            player.chop(map);
+        }
     }
 
     //Setup
     function setup() {                    
         centerTile = map.chooseRandomTile(terrain.LAND);
 
-        map.droppedItems.push(new DroppedItem(centerTile.x + 1, centerTile.y + 1, items.axe));
+        let borders = centerTile.bordering(centerTile.x, centerTile.y, map.tiles, 2);
+        for (let i = 0; i < borders.length; i++) {
+            if (borders[i].type.walkable) {
+                map.droppedItems.push(new DroppedItem(borders[i].x + 1, borders[i].y + 1, items.axe));
+                break;
+            }
+        }
 
         player = new Player(centerTile.x, centerTile.y);
 
         mapRenderer = new MapRenderer(tileSize, canvas, map, player);
 
-        uiRenderer = new UiRenderer(player);
+        uiRenderer = new UiRenderer(player, canvas, mouseX, mouseY);
 
             onkeydown = onkeyup = function(e){
                 e = e || event; // to deal with IE
                 kMap[e.code] = e.type == 'keydown';
+                handleActionMappings(kMap);
+        }
+        
+        document.onclick = function () {
+            if (player.showCraftingMenu && uiRenderer.selectedCraftable) {
+                uiRenderer.selectedCraftable.craft(player);
+            }
         }
 
-
+        document.onmousemove = findDocumentCoords;
+        
         onresize = resize;
+    }
+
+    function findDocumentCoords(mouseEvent)
+    {
+      let xpos, ypos;
+      if (mouseEvent)
+      {
+        xpos = mouseEvent.pageX;
+        ypos = mouseEvent.pageY;
+      }
+      else
+      {
+        //IE
+        xpos = window.event.x + document.body.scrollLeft - 2;
+        ypos = window.event.y + document.body.scrollTop - 2;
+      }
+      mouseX = xpos;
+      mouseY = ypos;      
     }
 
     function resize() {
@@ -100,14 +160,14 @@ window.onload = function() {
         canvas.fillRect(0, 0, canvasWidth, canvasHeight);
         if (player) {
             player.updateMovement(map);
-            handleKeyPress(kMap);
+            handleAxisMappings(kMap);
         }
     }
     
     
     function draw() {
-        mapRenderer.render(centerTile, player);
-        uiRenderer.render(canvas, canvasWidth, canvasHeight, tileSize);
+        mapRenderer.render(centerTile, player);        
+        uiRenderer.render(tileSize, mouseX, mouseY);
     }
 
     function loop() {
@@ -126,3 +186,4 @@ window.onload = function() {
     window.requestAnimationFrame(loop);
     this.setInterval(update, 16);
 };
+

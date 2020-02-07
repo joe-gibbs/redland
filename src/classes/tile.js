@@ -2,6 +2,12 @@ import DroppedItem from "./droppedItem.js";
 import terrain from '../terrain.js';
 
 export default class Tile {
+    /**
+     * 
+     * @param {terrain} type The terrain type
+     * @param {Number} x X-coord to create at
+     * @param {Number} y Y-coord to create at
+     */
     constructor(type, x, y) {
         this.type = type;
         this.x = x;

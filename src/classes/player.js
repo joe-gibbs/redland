@@ -19,9 +19,9 @@ export default class Player {
         this.spritesheet.addAnimationSet('walkRight', 16, 20);
         this.resources = {
             wood: 0,
-            food: 10,
             stone: 0,
         };
+        this.showCraftingMenu = false;
         this.equipped;
         this.items = [];
         this.health = 100;
