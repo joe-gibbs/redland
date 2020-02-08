@@ -171,7 +171,9 @@ export default class Player {
     }
 
     dropEquipped(droppedItems) {
-        this.drop(droppedItems, this.equipped);
+        if (this.equipped) {
+            this.drop(droppedItems, this.equipped);
+        }
     }
 
     drop(droppedItems, item) {        
