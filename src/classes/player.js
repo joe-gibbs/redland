@@ -184,10 +184,15 @@ export default class Player {
     chop(map) {
         let working = false;
         if(this.equipped === items.axe){
-            if(this.aimedTile.type.name === "Forest"){
+            if(this.aimedTile.type === terrain.FOREST){
                 working = this.aimedTile.damage(1.5, map);
             }
-        } 
+        }
+        if (this.equipped === items.pick) {
+            if(this.aimedTile.type === terrain.ROCK){
+                working = this.aimedTile.damage(2.5, map);
+            }
+        }
         return working;
     }
 
