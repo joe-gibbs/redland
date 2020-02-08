@@ -107,7 +107,7 @@ window.onload = function() {
         
         document.onclick = function () {
             if (player.showCraftingMenu && uiRenderer.selectedCraftable) {
-                uiRenderer.selectedCraftable.craft(player);
+                uiRenderer.selectedCraftable.craft(player, map.droppedItems);
             }
         }
 

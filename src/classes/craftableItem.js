@@ -1,5 +1,6 @@
 import Item from './item.js';
 import Player from './player.js';
+import DroppedItem from './droppedItem.js';
 
 export default class CraftableItem {
     /**
@@ -26,11 +27,13 @@ export default class CraftableItem {
     /**
      * 
      * @param {Player} player 
+     * @param {Item[]} droppedItems
      */
-    craft(player) {
+    craft(player, droppedItems) {
         if (this.canCraft(player)) {
             player.showCraftingMenu = false;
-            player.items.push(this.item);
+
+            droppedItems.push(new DroppedItem(player.closestX, player.closestY, this.item));
 
             player.resources.stone -= this.requirements.stone;
             player.resources.wood -= this.requirements.wood;
