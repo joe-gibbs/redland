@@ -143,31 +143,34 @@ export default class Player {
     }
 
     pickup(droppedItems) {
-        droppedItems.forEach(item => {            
-            if (item.x === this.closestX && item.y === this.closestY) {
-                let actualItem = item.item;
-                if (!this.items.includes(actualItem)) {
-                    switch (actualItem) {
-                        case items.wood:
-                            this.resources.wood += 10;
-                            break;
-                        case items.food:
-                            this.resources.food += 10;
-                            break;
-                        case items.gold:
-                            this.resources.gold += 10;
-                            break;
-                        case items.stone:
-                            this.resources.stone += 10;
-                            break;
-                        default:
-                            this.equipped = actualItem;
-                            break;
+        if(this.items.length < 2){
+            droppedItems.forEach(item => {            
+                if (item.x === this.closestX && item.y === this.closestY) {
+                    let actualItem = item.item;
+                    if (!this.items.includes(actualItem)) {
+                        switch (actualItem) {
+                            case items.wood:
+                                this.resources.wood += 10;
+                                break;
+                            case items.food:
+                                this.resources.food += 10;
+                                break;
+                            case items.gold:
+                                this.resources.gold += 10;
+                                break;
+                            case items.stone:
+                                this.resources.stone += 10;
+                                break;
+                            default:
+                                this.equipped = actualItem;
+                                break;
+                        }
+                        droppedItems.remove(item);
                     }
-                    droppedItems.remove(item);
                 }
-            }
-        });
+            });
+
+        }
     }
 
     dropEquipped(droppedItems) {
@@ -191,6 +194,11 @@ export default class Player {
         if (this.equipped === items.pick) {
             if(this.aimedTile.type === terrain.ROCK){
                 working = this.aimedTile.damage(2.5, map);
+            }
+        }
+        if (this.equipped === items.shovel){
+            if(this.aimedTile.type === terrain.LAND){
+                working = this.aimedTile.damage(1.5, map);
             }
         }
         return working;
