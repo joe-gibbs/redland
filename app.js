@@ -111,9 +111,10 @@ window.onload = function() {
 
         uiRenderer = new UiRenderer(player, canvas, mouseX, mouseY);
 
-        map.setTreasureMap(MapGenerator.generateTreasureMap(canvas, map.tiles));
+        map.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles));
 
             onkeydown = onkeyup = function(e){
+                e.preventDefault();
                 e = e || event; // to deal with IE
                 kMap[e.code] = e.type == 'keydown';
                 handleActionMappings(kMap);

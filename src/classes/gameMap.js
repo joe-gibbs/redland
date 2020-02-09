@@ -3,7 +3,7 @@ import Tile from './tile.js';
 export default class GameMap {
     /**
      * 
-     * @param {Tile[]} tiles 
+     * @param {Tile[]} tiles
      */
     constructor(tiles) {
         this.tiles = tiles;
@@ -17,18 +17,6 @@ export default class GameMap {
 
     setTile(x, y, terrainType) {
         this.tiles[x][y].type = terrainType;
-    }
-
-    /**
-     * @type {Image}
-     */
-    get treasureMap() {
-        return this.treasureMap;
-    }
-
-    set treasureMap(treasureMap) {
-        this.treasureMap = new Image();
-        this.treasureMap.src = treasureMap;
     }
 
     chooseRandomTile(terrain)
