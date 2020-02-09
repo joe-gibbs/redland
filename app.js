@@ -153,7 +153,6 @@ window.onload = function() {
         }
     }
     
-    
     function draw() {
         mapRenderer.render(centerTile, player);        
         uiRenderer.render(tileSize, mouseX, mouseY);
@@ -169,10 +168,15 @@ window.onload = function() {
     gameCanvas = document.getElementById('game');
     canvas = gameCanvas.getContext("2d");
 
-    update();
-    setup();
-     
-    window.requestAnimationFrame(loop);
-    this.setInterval(update, 16);
+    let loadingImg = new Image();
+    loadingImg.src = "assets/img/Creating_World.png";   
+    loadingImg.onload = () => {
+        canvas.drawImage(loadingImg, 0, 0, 100, 100);
+        update();
+        setup();
+         
+        window.requestAnimationFrame(loop);
+        this.setInterval(update, 16);
+    }
 };
 

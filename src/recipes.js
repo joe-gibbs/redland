@@ -4,7 +4,13 @@ import items from './items.js';
 const recipes = {
     pick: new CraftableItem(items.pick,
         {
-            wood: 100,
+            wood: 20,
+            stone: 0,
+        }
+    ),
+    shovel: new CraftableItem(items.pick,
+        {
+            wood: 20,
             stone: 0,
         }
     ),

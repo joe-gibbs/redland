@@ -4,6 +4,7 @@ import GameMap from './gameMap.js';
 import Player from './player.js';
 
 const TREE_OFFSET = 15;
+const ROCK_OFFSET = 16;
 const PLAYER_OFFSET = 38;
 
 export default class MapRenderer {
@@ -63,6 +64,9 @@ export default class MapRenderer {
                     switch(currentTile.type){
                         case Terrain.FOREST:
                             this.canvas.drawImage(currentTile.type.tile, calculateX(x, this.tileSize), calculateY(y, this.tileSize) - TREE_OFFSET);
+                            break;
+                        case Terrain.ROCK:
+                            this.canvas.drawImage(currentTile.type.tile, calculateX(x, this.tileSize), calculateY(y, this.tileSize) - ROCK_OFFSET);
                             break;
                         default:
                             this.canvas.drawImage(currentTile.type.tile, calculateX(x, this.tileSize), calculateY(y, this.tileSize));
