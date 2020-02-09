@@ -8,7 +8,7 @@ const recipes = {
             stone: 0,
         }
     ),
-    shovel: new CraftableItem(items.pick,
+    shovel: new CraftableItem(items.shovel,
         {
             wood: 20,
             stone: 0,
