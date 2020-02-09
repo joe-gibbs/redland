@@ -14,6 +14,9 @@ import UiRenderer from './src/classes/uiRenderer.js';
 let map = new GameMap(new MapGenerator().generate(1024, new SimplexNoise()));
 
 /** @type {Tile} */
+let TreasureTile;
+
+/** @type {Tile} */
 let centerTile;
 
 /** @type {Player} */
@@ -86,6 +89,15 @@ window.onload = function() {
         centerTile = map.chooseRandomTile(terrain.LAND);
 
         let borders = centerTile.bordering(centerTile.x, centerTile.y, map.tiles, 2);
+        //random location near player for treasure
+        for (let i = 0; i < borders.length; i++) {
+            if (borders[i].type.walkable) {
+                // TreasureTile = map[borders[i].x + 1][borders[i].y + 1];
+                map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 1, items.treasure));
+                break;
+            }
+        }
+        //Axe spawns near player.
         for (let i = 0; i < borders.length; i++) {
             if (borders[i].type.walkable) {
                 map.droppedItems.push(new DroppedItem(borders[i].x + 1, borders[i].y + 1, items.axe));
@@ -170,6 +182,7 @@ window.onload = function() {
     gameCanvas = document.getElementById('game');
     canvas = gameCanvas.getContext("2d");
 
+    // need to fix this shit so there's a loading animation/indication while canvas loads.
     let loadingImg = new Image();
     loadingImg.src = "assets/img/Creating_World.png";   
     loadingImg.onload = () => {
