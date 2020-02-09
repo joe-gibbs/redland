@@ -78,7 +78,7 @@ export default class UiRenderer {
             this.canvas.strokeRect(x, y, 64, 64);
             this.canvas.drawImage(recipes[key].item.image, x, y);
             this.canvas.fillStyle = canvasFill;
-            this.canvas.fillText(recipes[key].item.name.toUpperCase(),x + 96, y + 40)
+            this.canvas.fillText(recipes[key].item.name.toUpperCase(),x + 76, y + 40)
             this.canvas.strokeRect(x + 64, y, 128, 64);
             
             let requirementsX = x + 192;
