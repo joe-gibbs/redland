@@ -12,15 +12,23 @@ export default class UiRenderer {
      * @param {Number} mouseX
      * @param {Number} mouseY
      */
-    constructor(player, canvas) {
+    constructor(player, canvas, treasure) {
         this.player = player;
         this.canvas = canvas;
         this.canvasWidth = canvas.canvas.width;
         this.canvasHeight = canvas.canvas.height;
+        this.treasureX = treasure.x;
+        this.treasureY = treasure.y;
         /**
          * @type {CraftableItem}
          */
         this.selectedCraftable = null;
+
+        /**
+         * @type {Image}
+         */
+        this.treasureMap = new Image();
+
     }
 
     /**
@@ -36,6 +44,17 @@ export default class UiRenderer {
         if (this.player.showCraftingMenu) {
             this.renderCraftingMenu(mouseX, mouseY);
         }
+
+        if (this.player.showMap) {
+            this.renderMap();
+        }
+    }
+
+    renderMap() {
+        let background = new Image(512, 512);
+        background.src = './assets/img/map-border.png';
+        this.canvas.drawImage(this.treasureMap, (this.canvasWidth / 2 ) - 250, (this.canvasHeight / 2) - 250, 500, 500);
+        this.canvas.drawImage(background, (this.canvasWidth / 2 ) - 256, (this.canvasHeight / 2) - 256, 512, 512);
     }
 
     renderItems(uiX, uiY) {

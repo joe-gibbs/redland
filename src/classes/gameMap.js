@@ -8,11 +8,6 @@ export default class GameMap {
     constructor(tiles) {
         this.tiles = tiles;
         this.droppedItems = [];
-
-        /**
-         * @type {Image}
-         */
-        this.treasureMap = new Image();
     }
 
     setTile(x, y, terrainType) {

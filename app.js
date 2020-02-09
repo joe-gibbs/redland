@@ -69,8 +69,17 @@ window.onload = function() {
      * @param {String[]} kMap 
      */
     function handleActionMappings(kMap) {
-        if (kMap['KeyM']) {
+        if (kMap['KeyG']) {
+            player.showMap = false;
             player.showCraftingMenu = !player.showCraftingMenu;
+        }
+        if (kMap['KeyM']) {
+            player.showCraftingMenu = false;
+            player.showMap = !player.showMap;
+        }
+        if (kMap['Escape']) {
+            player.showCraftingMenu = false;
+            player.showMap = false;
         }
         if (kMap['KeyA']){
             player.switchItems();
@@ -87,13 +96,15 @@ window.onload = function() {
     //Setup
     function setup() {                    
         centerTile = map.chooseRandomTile(terrain.LAND);
+        let treasure;
 
         let borders = centerTile.bordering(centerTile.x, centerTile.y, map.tiles, 2);
         //random location near player for treasure
         for (let i = 0; i < borders.length; i++) {
             if (borders[i].type.walkable) {
                 // TreasureTile = map[borders[i].x + 1][borders[i].y + 1];
-                map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 1, items.treasure));
+                treasure = new DroppedItem(borders[i].x + 2, borders[i].y + 1, items.treasure);
+                map.droppedItems.push(treasure);
                 break;
             }
         }
@@ -109,9 +120,9 @@ window.onload = function() {
 
         mapRenderer = new MapRenderer(tileSize, canvas, map, player);
 
-        uiRenderer = new UiRenderer(player, canvas, mouseX, mouseY);
+        uiRenderer = new UiRenderer(player, canvas, treasure);
 
-        map.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles));
+        uiRenderer.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles));
 
             onkeydown = onkeyup = function(e){
                 e.preventDefault();
@@ -127,8 +138,10 @@ window.onload = function() {
         }
 
         document.onmousemove = findDocumentCoords;
+        document.oncontextmenu = e => e.preventDefault();
         
         onresize = resize;
+
     }
 
     function findDocumentCoords(mouseEvent)
@@ -150,7 +163,9 @@ window.onload = function() {
     }
 
     function resize() {
-        mapRenderer.updateRenderableLength(gameCanvas);        
+        mapRenderer.updateRenderableLength(gameCanvas);   
+        uiRenderer.canvasHeight = canvasHeight;
+        uiRenderer.canvasWidth = canvasWidth; 
     }
 
 
@@ -160,7 +175,7 @@ window.onload = function() {
         gameCanvas.width = canvasWidth;
         gameCanvas.height = canvasHeight;
         tileSize = 64;// NEED TO ADJUST TILE SIZE WITH CANVAS SIZE
-        canvas.font = canvasWidth/48 + "px Pixelated";
+        canvas.font = (canvasWidth + canvasHeight) / 92 + "px Pixelated";
         canvas.fillRect(0, 0, canvasWidth, canvasHeight);
         if (player) {
             player.updateMovement(map);

@@ -26,6 +26,7 @@ export default class Player {
         };
         this.onSea = false;
         this.showCraftingMenu = false;
+        this.showMap = false;
         this.items = [];
         this.health = 100;
         this.direction = [0,1]; // DIRECTIONS -> [Right <= 0 < Left, back <= 0 < front]
