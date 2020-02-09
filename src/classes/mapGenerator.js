@@ -65,4 +65,53 @@ export default class MapGenerator {
         
         return data;
     }
+
+    /**
+     * @param {CanvasRenderingContext2D} canvas
+     * @param {Tile[]} tiles 
+     */
+    static generateTreasureMap(canvas, tiles) {        
+        const tileToType = tile => tile.type.name;
+        const hexToRGBA = hexStr => [
+            parseInt(hexStr.substr(1, 2), 16),
+            parseInt(hexStr.substr(3, 2), 16),
+            parseInt(hexStr.substr(5, 2), 16),
+            255
+          ];
+        const tileColor = tile => {
+            let result = [];
+            switch (tile) {
+                case "Forest":
+                    result = hexToRGBA('#3d6613');
+                    break;
+                case "Rock":
+                    result = hexToRGBA('#757575');
+                    break;
+                case "Land":
+                    result = hexToRGBA('#cae366');
+                    break;
+                case "Water":
+                    result = hexToRGBA('#1c54ad');
+                    break;
+                default:
+                    result = hexToRGBA('#cae366');
+                    break;
+            }
+            return result;
+        }
+
+        const rgba = tiles
+            .flat(1)
+            .map(tileToType)  // 1d list of hex codes
+            .map(tileColor)  // 1d list of [R, G, B, A] byte arrays
+            .flat(1); // 1d list of bytes
+                
+        let imgData = new ImageData(Uint8ClampedArray.from(rgba), tiles.length, tiles.length);
+
+        canvas.canvas.width = imgData.width;
+        canvas.canvas.height = imgData.height;
+    
+        canvas.putImageData(imgData, 0, 0);
+        return (canvas.canvas.toDataURL());
+    }
 }
