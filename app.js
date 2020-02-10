@@ -62,6 +62,9 @@ window.onload = function() {
         if (kMap['ArrowDown']) {
             centerTile = player.move(0, -0.1, map)
         }
+        if (kMap['TouchVector']) {
+            centerTile = player.move(-kMap['TouchVector'].x / 20, kMap['TouchVector'].y / 20, map);
+        }
     }
 
     /**
@@ -123,11 +126,38 @@ window.onload = function() {
 
         uiRenderer.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles, treasure));
 
-            onkeydown = onkeyup = function(e){
-                e.preventDefault();
-                e = e || event; // to deal with IE
-                kMap[e.code] = e.type == 'keydown';
-                handleActionMappings(kMap);
+        /**
+         * Enable touch controls for touchscreen
+         */
+        let dynamic;
+        let touched = false;
+
+        window.addEventListener('touchstart', function() {
+            if (!touched) {
+                dynamic = nipplejs.create({
+                    zone: document.getElementById('dynamic'),
+                    color: 'gray'
+                });
+                touched = true;
+                dynamic.on('move', function(evt, data) {     
+                    kMap['TouchVector'] = data.vector;
+                });
+        
+                dynamic.on('end', function(evt, data) {   
+                    kMap['TouchVector'] = {
+                        x: 0,
+                        y: 0,
+                    };
+                });
+            }
+        });
+  
+
+        onkeydown = onkeyup = function(e){
+            e.preventDefault();
+            e = e || event; // to deal with IE
+            kMap[e.code] = e.type == 'keydown';
+            handleActionMappings(kMap);
         }
         
         document.onclick = function () {

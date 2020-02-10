@@ -88,6 +88,7 @@ export default class Player {
                 } 
             }   
         }
+        return this.spritesheet.animationSets['idleForward'];
     }
 
     updateAimedTile(map){
