@@ -1,4 +1,5 @@
 import Item from './classes/item.js';
+import Treasure from './classes/treasure.js';
 
 const items = {
     "axe": new Item('Axe', './assets/img/axe.png'),
@@ -9,7 +10,7 @@ const items = {
     "stone" : new Item('Stone', './assets/img/logs.png'),
     "food": new Item('Food', './assets/img/logs.png'),
     "boat": new Item('Boat', './assets/img/raft.png'),
-    "treasure": new Item('Treasure', './assets/img/treasure.png')
+    "treasure": new Treasure('Treasure')
 }
 
 Object.freeze(items);
