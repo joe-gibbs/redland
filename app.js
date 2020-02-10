@@ -102,7 +102,6 @@ window.onload = function() {
         //random location near player for treasure
         for (let i = 0; i < borders.length; i++) {
             if (borders[i].type.walkable) {
-                // TreasureTile = map[borders[i].x + 1][borders[i].y + 1];
                 treasure = new DroppedItem(borders[i].x + 2, borders[i].y + 1, items.treasure);
                 map.droppedItems.push(treasure);
                 break;

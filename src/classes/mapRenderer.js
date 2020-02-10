@@ -2,6 +2,7 @@ import Terrain from '../terrain.js';
 import Tile from './tile.js';
 import GameMap from './gameMap.js';
 import Player from './player.js';
+import Treasure from './treasure.js';
 
 const TREE_OFFSET = 15;
 const ROCK_OFFSET = 16;
@@ -85,6 +86,7 @@ export default class MapRenderer {
                     // } else {
                     //     this.canvas.drawImage(this.renderableTiles[x][y].type.tile, x*this.tileSize, y*this.tileSize);
                     // }
+                    
                     this.drawItems(this.renderableTiles[x][y], this.map, calculateX(x, this.tileSize), calculateY(y, this.tileSize));
                 }
                 else {
@@ -96,6 +98,7 @@ export default class MapRenderer {
             }
         }
         
+        //Render Player
         this.player.spritesheet.render(this.player.animationState().current, (this.tilesX/2)*this.tileSize, (this.tilesY/2)*this.tileSize - PLAYER_OFFSET, this.canvas);
 
         this.renderFrame++;
@@ -123,8 +126,12 @@ export default class MapRenderer {
 
     drawItems(tile, map, x, y) {        
         map.droppedItems.forEach(element => {
-            if (tile === map.tiles[element.x][element.y]) {                        
-                this.canvas.drawImage(element.item.image, x, y);
+            if (tile === map.tiles[element.x][element.y]) { 
+                if (element.item.name === 'Treasure'){
+                    element.item.spritesheet.render(element.item.animationState().current, x, y, this.canvas); 
+                } else {
+                    this.canvas.drawImage(element.item.image, x, y);
+                }                     
             }
         });   
     }

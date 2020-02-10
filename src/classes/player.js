@@ -59,35 +59,35 @@ export default class Player {
             return this.spritesheet.animationSets['sail'];
         }   
         else {      
-        if (this.movement[0] !== 0 || this.movement[1] !== 0) {
-            if (this.direction[0] == 0 && this.direction[1] <= 0) {
-                return this.spritesheet.animationSets['walkForward'];
+            if (this.movement[0] !== 0 || this.movement[1] !== 0) {
+                if (this.direction[0] == 0 && this.direction[1] <= 0) {
+                    return this.spritesheet.animationSets['walkForward'];
+                }
+                else if (this.direction[0] == 0 && this.direction[1] > 0) {
+                    return this.spritesheet.animationSets['walkBack'];
+                } 
+                else if (this.direction[0] <= 0 && this.direction[1] == 0) {
+                    return this.spritesheet.animationSets['walkRight'];
+                } 
+                else if (this.direction[0] > 0 && this.direction[1] == 0) {
+                    return this.spritesheet.animationSets['walkLeft'];
+                }
             }
-            else if (this.direction[0] == 0 && this.direction[1] > 0) {
-                return this.spritesheet.animationSets['walkBack'];
-            } 
-            else if (this.direction[0] <= 0 && this.direction[1] == 0) {
-                return this.spritesheet.animationSets['walkRight'];
-            } 
-            else if (this.direction[0] > 0 && this.direction[1] == 0) {
-                return this.spritesheet.animationSets['walkLeft'];
-            }
+            else {
+                if (this.direction[0] <= 0 && this.direction[1] == 0) {
+                    return this.spritesheet.animationSets['idleRight'];
+                } 
+                else if (this.direction[0] > 0 && this.direction[1] == 0) {
+                    return this.spritesheet.animationSets['idleLeft'];
+                }
+                else if (this.direction[0] == 0 && this.direction[1] <= 0) {
+                    return this.spritesheet.animationSets['idleForward'];
+                }
+                else if (this.direction[0] == 0 && this.direction[1] > 0) {
+                    return this.spritesheet.animationSets['idleBack'];
+                } 
+            }   
         }
-        else {
-            if (this.direction[0] <= 0 && this.direction[1] == 0) {
-                return this.spritesheet.animationSets['idleRight'];
-            } 
-            else if (this.direction[0] > 0 && this.direction[1] == 0) {
-                return this.spritesheet.animationSets['idleLeft'];
-            }
-            else if (this.direction[0] == 0 && this.direction[1] <= 0) {
-                return this.spritesheet.animationSets['idleForward'];
-            }
-            else if (this.direction[0] == 0 && this.direction[1] > 0) {
-                return this.spritesheet.animationSets['idleBack'];
-            } 
-        }   
-    }
     }
 
     updateAimedTile(map){
