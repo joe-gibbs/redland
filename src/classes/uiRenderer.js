@@ -12,13 +12,11 @@ export default class UiRenderer {
      * @param {Number} mouseX
      * @param {Number} mouseY
      */
-    constructor(player, canvas, treasure) {
+    constructor(player, canvas) {
         this.player = player;
         this.canvas = canvas;
         this.canvasWidth = canvas.canvas.width;
         this.canvasHeight = canvas.canvas.height;
-        this.treasureX = treasure.x;
-        this.treasureY = treasure.y;
         /**
          * @type {CraftableItem}
          */
@@ -28,7 +26,8 @@ export default class UiRenderer {
          * @type {Image}
          */
         this.treasureMap = new Image();
-
+        this.background = new Image(512, 512);
+        this.background.src = './assets/img/map-border.png';
     }
 
     /**
@@ -51,10 +50,8 @@ export default class UiRenderer {
     }
 
     renderMap() {
-        let background = new Image(512, 512);
-        background.src = './assets/img/map-border.png';
         this.canvas.drawImage(this.treasureMap, (this.canvasWidth / 2 ) - 250, (this.canvasHeight / 2) - 250, 500, 500);
-        this.canvas.drawImage(background, (this.canvasWidth / 2 ) - 256, (this.canvasHeight / 2) - 256, 512, 512);
+        this.canvas.drawImage(this.background, (this.canvasWidth / 2 ) - 256, (this.canvasHeight / 2) - 256, 512, 512);
     }
 
     renderItems(uiX, uiY) {

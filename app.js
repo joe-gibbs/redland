@@ -122,7 +122,7 @@ window.onload = function() {
 
         uiRenderer = new UiRenderer(player, canvas, treasure);
 
-        uiRenderer.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles));
+        uiRenderer.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles, treasure));
 
             onkeydown = onkeyup = function(e){
                 e.preventDefault();
