@@ -22,12 +22,12 @@ const buildings = {
     farm: {
         keys : [terrain.LAND],
         map : [
-            [1,1,1,1],
-            [1,1,1,1],
-            [1,1,1,1],
-            [1,1,1,1],
+            [0,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0],
         ],
-    }
+    },
 }
 
 Object.freeze(buildings);

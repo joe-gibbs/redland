@@ -11,7 +11,7 @@ import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
 
 /** @type {GameMap} */
-let map = new GameMap(new MapGenerator().generate(1024, new SimplexNoise()));
+let map = new GameMap(new MapGenerator().generate(64, new SimplexNoise(500)));
 
 /** @type {Tile} */
 let TreasureTile;
