@@ -35,7 +35,7 @@ export default class UiRenderer {
      * @param {Number} tileSize The size of each tile
      */
     render(tileSize, mouseX, mouseY) {
-        let uiX = this.canvasWidth / 1.2;
+        let uiX = (this.canvasWidth / 1.2) - 128;
         let uiY = this.canvasHeight / 1.2;
 
         this.renderItems(uiX, uiY);
@@ -47,6 +47,7 @@ export default class UiRenderer {
         if (this.player.showMap) {
             this.renderMap();
         }
+        this.renderResources();
     }
 
     renderMap() {
@@ -54,9 +55,26 @@ export default class UiRenderer {
         this.canvas.drawImage(this.background, (this.canvasWidth / 2 ) - 256, (this.canvasHeight / 2) - 256, 512, 512);
     }
 
+    renderResources() {
+        let uiX = (this.canvasWidth / 1.2) - 256;
+        let uiY = 64;
+
+        this.canvas.font = "48px Pixelated";
+        this.canvas.fillStyle = 'rgba(255,255,255,0.3)';
+        this.canvas.fillRect(uiX, uiY, 192, 64);
+        this.canvas.fillRect(uiX + 192, uiY, 192, 64);
+        this.canvas.strokeRect(uiX, uiY, 64, 64);
+        this.canvas.drawImage(items.wood.image, uiX, uiY);
+        this.canvas.strokeRect(uiX + 192, uiY, 64, 64);
+        this.canvas.drawImage(items.stone.image, uiX, uiY);
+        this.canvas.fillStyle = 'rgba(0,0,0,1)';
+        this.canvas.fillText(this.player.resources.stone, uiX + 192 + 64 + 16, uiY + 48);
+        this.canvas.fillText(this.player.resources.wood, uiX + 64 + 16, uiY + 48);
+    }
+
     renderItems(uiX, uiY) {
         this.canvas.lineWidth = 5;
-        this.canvas.fillStyle = 'rgba(0,0,0,0.3)';
+        this.canvas.fillStyle = 'rgba(255,255,255,0.3)';
         this.canvas.fillRect(uiX, uiY, 64, 64);
         this.canvas.fillRect(uiX + 64, uiY, 64, 64);
         this.canvas.strokeRect(uiX, uiY, 64, 64);
