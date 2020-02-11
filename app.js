@@ -11,7 +11,7 @@ import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
 
 /** @type {GameMap} */
-let map = new GameMap(new MapGenerator().generate(1024, new SimplexNoise()));
+let map = new GameMap(new MapGenerator().generate(64, new SimplexNoise()));
 
 /** @type {Tile} */
 let TreasureTile;
@@ -97,13 +97,13 @@ window.onload = function() {
     function setup() {                    
         centerTile = map.chooseRandomTile(terrain.LAND);
         let treasure;
+        let treasureLocation;
 
         let borders = centerTile.bordering(centerTile.x, centerTile.y, map.tiles, 2);
         //random location near player for treasure
         for (let i = 0; i < borders.length; i++) {
             if (borders[i].type.walkable) {
-                treasure = new DroppedItem(borders[i].x + 2, borders[i].y + 1, items.treasure);
-                map.droppedItems.push(treasure);
+                treasureLocation = {x: borders[i].x + 2, y:  borders[i].y + 1 };
                 break;
             }
         }
@@ -115,7 +115,7 @@ window.onload = function() {
             }
         }
 
-        player = new Player(centerTile.x, centerTile.y);
+        player = new Player(centerTile.x, centerTile.y, treasureLocation);
 
         mapRenderer = new MapRenderer(tileSize, canvas, map, player);
 
@@ -124,7 +124,7 @@ window.onload = function() {
         uiRenderer.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles));
 
             onkeydown = onkeyup = function(e){
-                e.preventDefault();
+                // e.preventDefault();
                 e = e || event; // to deal with IE
                 kMap[e.code] = e.type == 'keydown';
                 handleActionMappings(kMap);

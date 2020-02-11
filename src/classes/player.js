@@ -6,7 +6,7 @@ import Spritesheet from './spritesheet.js';
 import GameMap from './gameMap.js';
 
 export default class Player {
-    constructor(x, y) {
+    constructor(x, y, treasureLocation) {
         this.x = x;
         this.y = y;
         this.speed = 10;
@@ -34,6 +34,7 @@ export default class Player {
         this.closestX = x;
         this.closestY = y;
         this.aimedTile; //Tile that the player is looking at based on direction.
+        this.treasureLocation = treasureLocation;
     }
 
     /**
@@ -199,7 +200,10 @@ export default class Player {
         }
         if (this.equipped === items.shovel){
             if(this.aimedTile.type === terrain.LAND){
-                working = this.aimedTile.damage(1.5, map);
+                //locates there will only be damage on the floor in the treasure location. 
+                if(this.aimedTile.x === this.treasureLocation.x && this.aimedTile.y === this.treasureLocation.y){
+                    working = this.aimedTile.damage(1.5, map);
+                }
             }
         }
         return working;

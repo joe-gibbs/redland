@@ -39,8 +39,10 @@ export default class Tile {
     damage(amount, map) {        
         this.currentHealth -= amount;
         if (this.currentHealth <= 0) {
-            let item = new DroppedItem(this.x, this.y, this.type.drops[0]);            
-            map.droppedItems.push(item);
+            if(this.type.drops[0]){
+                let item = new DroppedItem(this.x, this.y, this.type.drops[0]);            
+                map.droppedItems.push(item);
+            }
             this.type = terrain.LAND;
             this.currentHealth = this.type.health;  
             return false;     

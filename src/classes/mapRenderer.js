@@ -2,7 +2,6 @@ import Terrain from '../terrain.js';
 import Tile from './tile.js';
 import GameMap from './gameMap.js';
 import Player from './player.js';
-import Treasure from './treasure.js';
 
 const TREE_OFFSET = 15;
 const ROCK_OFFSET = 16;
@@ -127,6 +126,7 @@ export default class MapRenderer {
     drawItems(tile, map, x, y) {        
         map.droppedItems.forEach(element => {
             if (tile === map.tiles[element.x][element.y]) { 
+                //render treasure item with sprites.
                 if (element.item.name === 'Treasure'){
                     element.item.spritesheet.render(element.item.animationState().current, x, y, this.canvas); 
                 } else {
