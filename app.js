@@ -124,7 +124,7 @@ window.onload = function() {
 
         uiRenderer = new UiRenderer(player, canvas, treasure);
 
-        uiRenderer.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles, treasure));
+        uiRenderer.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles, treasureLocation));
 
         /**
          * Enable touch controls for touchscreen

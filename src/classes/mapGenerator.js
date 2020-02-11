@@ -92,7 +92,7 @@ export default class MapGenerator {
      * @param {CanvasRenderingContext2D} canvas
      * @param {Tile[]} tiles 
      */
-    static generateTreasureMap(canvas, tiles, treasure) {        
+    static generateTreasureMap(canvas, tiles, treasureLocation) {        
         const tileToType = tile => tile.type.name;
         const hexToRGBA = hexStr => [
             parseInt(hexStr.substr(1, 2), 16),
@@ -138,7 +138,7 @@ export default class MapGenerator {
         let treasureIcon = new Image(64, 64);
         treasureIcon.src = './assets/img/marker.png';
         
-        canvas.drawImage(treasureIcon, treasure.y, treasure.x);
+        canvas.drawImage(treasureIcon, treasureLocation.x, treasureLocation.y);
         return (canvas.canvas.toDataURL());
     }
 }
