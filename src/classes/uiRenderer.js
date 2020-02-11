@@ -26,7 +26,8 @@ export default class UiRenderer {
          * @type {Image}
          */
         this.treasureMap = new Image();
-
+        this.background = new Image(512, 512);
+        this.background.src = './assets/img/map-border.png';
     }
 
     /**
@@ -34,8 +35,8 @@ export default class UiRenderer {
      * @param {Number} tileSize The size of each tile
      */
     render(tileSize, mouseX, mouseY) {
-        let uiX = Math.ceil(this.canvasWidth / 1.5 / tileSize) * tileSize;
-        let uiY = Math.ceil(this.canvasHeight / 80 / tileSize) * tileSize;
+        let uiX = (this.canvasWidth / 1.2) - 128;
+        let uiY = this.canvasHeight / 1.2;
 
         this.renderItems(uiX, uiY);
 
@@ -46,32 +47,46 @@ export default class UiRenderer {
         if (this.player.showMap) {
             this.renderMap();
         }
+        this.renderResources();
     }
 
     renderMap() {
-        let background = new Image(512, 512);
-        background.src = './assets/img/map-border.png';
-        this.canvas.save();
-        this.canvas.translate(this.treasureMap.width/2, this.treasureMap.height/2)
-        this.canvas.rotate(0);
-        this.canvas.drawImage(this.treasureMap, (this.canvasWidth/2) - 282, (this.canvasHeight / 2) - 282, 512, 512);
-        this.canvas.restore();
-        this.canvas.drawImage(background, (this.canvasWidth / 2 ) - 256, (this.canvasHeight / 2) - 256, 524, 524);
+        this.canvas.drawImage(this.treasureMap, (this.canvasWidth / 2 ) - 250, (this.canvasHeight / 2) - 250, 500, 500);
+        this.canvas.drawImage(this.background, (this.canvasWidth / 2 ) - 256, (this.canvasHeight / 2) - 256, 512, 512);
+    }
+
+    renderResources() {
+        let uiX = (this.canvasWidth / 1.2) - 256;
+        let uiY = 64;
+
+        this.canvas.font = "48px Pixelated";
+        this.canvas.fillStyle = 'rgba(255,255,255,0.3)';
+        this.canvas.fillRect(uiX, uiY, 192, 64);
+        this.canvas.fillRect(uiX + 192, uiY, 192, 64);
+        this.canvas.strokeRect(uiX, uiY, 64, 64);
+        this.canvas.drawImage(items.wood.image, uiX, uiY);
+        this.canvas.strokeRect(uiX + 192, uiY, 64, 64);
+        this.canvas.drawImage(items.stone.image, uiX, uiY);
+        this.canvas.fillStyle = 'rgba(0,0,0,1)';
+        this.canvas.fillText(this.player.resources.stone, uiX + 192 + 64 + 16, uiY + 48);
+        this.canvas.fillText(this.player.resources.wood, uiX + 64 + 16, uiY + 48);
     }
 
     renderItems(uiX, uiY) {
-        let items = [];
-        this.player.items.forEach(item => {
-            if (item === this.player.equipped) {
-                items.push('>' + item.name + '\n');
-            }
-            else
-            {
-                items.push(item.name + '\n');
-            }
-        });
-        this.canvas.fillText(items.toString(), uiX, uiY + (500));
-
+        this.canvas.lineWidth = 5;
+        this.canvas.fillStyle = 'rgba(255,255,255,0.3)';
+        this.canvas.fillRect(uiX, uiY, 64, 64);
+        this.canvas.fillRect(uiX + 64, uiY, 64, 64);
+        this.canvas.strokeRect(uiX, uiY, 64, 64);
+        this.canvas.strokeRect(uiX + 64, uiY, 64, 64);
+        
+        if (this.player.items[0]) {
+            this.canvas.drawImage(this.player.items[0].image, uiX, uiY);
+        }
+        if (this.player.items[1]) {
+            this.canvas.drawImage(this.player.items[1].image, uiX + 64, uiY);
+        }
+        this.canvas.fillStyle = 'rgba(0,0,0,1)';
     }
 
     renderCraftingMenu(mouseX, mouseY) {

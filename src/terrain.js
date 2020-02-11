@@ -27,6 +27,7 @@ const terrain = {
     "WATER": new Terrain('Water', false, true, Infinity, ['./assets/img/water.png'], []),
     "ROCK": new Terrain('Rock', false, false, 500, ['./assets/img/rock.png'],[items.gold, items.stone]),
     "FOREST": new Terrain('Forest', false, false, 50, ['./assets/img/forest.png'], [items.wood]),
+    "BARRIER": new Terrain('Barrier', false, false, Infinity, ['./assets/img/barrier.png'], []),
 }
 
 Object.freeze(terrain);
