@@ -7,14 +7,14 @@ export default class Spritesheet {
      */
     constructor (image, width, height) {
         this.image = new Image();
-        this.image.src = image;
         this.width = width;
         this.height = height;
-
+        
         this.xImages = this.image.width / width;
         this.yImages = this.image.height / height;
         this.imageCount = this.xImages * this.yImages;
         this.animationSets = {};
+        this.image.src = image;
     }
 
     /**
@@ -23,7 +23,7 @@ export default class Spritesheet {
      * @param {Number} y 
      * @param {CanvasRenderingContext2D} canvas 
      */
-    render(index, x, y, canvas) {
+    render(index, x, y, canvas) {        
         canvas.drawImage(this.image, this.calculateS(index)[0], this.calculateS(index)[1], this.width, this.height, x, y, this.width, this.height);
     }
     
