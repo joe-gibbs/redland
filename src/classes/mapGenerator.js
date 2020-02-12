@@ -121,19 +121,19 @@ export default class MapGenerator {
             let result = [];
             switch (tile) {
                 case "Forest":
-                    result = hexToRGBA('#3d6613');
+                    result = hexToRGBA('#DB7644');
                     break;
                 case "Rock":
-                    result = hexToRGBA('#757575');
+                    result = hexToRGBA('#C85F3A');
                     break;
                 case "Land":
-                    result = hexToRGBA('#cae366');
+                    result = hexToRGBA('#E5A773');
                     break;
                 case "Water":
-                    result = hexToRGBA('#1c54ad');
+                    result = hexToRGBA('#E9D7A9');
                     break;
                 default:
-                    result = hexToRGBA('#cae366');
+                    result = hexToRGBA('#E5A773');
                     break;
             }
             return result;
