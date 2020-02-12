@@ -11,7 +11,7 @@ import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
 
 /** @type {GameMap} */
-let map = new GameMap(new MapGenerator().generate(64, new SimplexNoise(500)));
+let map = new GameMap(new MapGenerator().generate(256, new SimplexNoise())); //512 o3 256 are good Sizes for visibility and reduced blur.
 
 /** @type {Tile} */
 let TreasureTile;
@@ -99,17 +99,34 @@ window.onload = function() {
     //Setup
     function setup() {                    
         centerTile = map.chooseRandomTile(terrain.LAND);
-        let treasure;
-        let treasureLocation;
+        let treasure = map.chooseRandomTile(terrain.LAND);
+        treasure.type = terrain.TREASURE;
+        map.tiles[map.tiles[treasure.x][treasure.y].x + 1][map.tiles[treasure.x][treasure.y].y + 1].type = terrain.TREASURE;
+        map.tiles[map.tiles[treasure.x][treasure.y].x - 1][map.tiles[treasure.x][treasure.y].y - 1].type = terrain.TREASURE;
+        map.tiles[map.tiles[treasure.x][treasure.y].x + 1][map.tiles[treasure.x][treasure.y].y - 1].type = terrain.TREASURE;
+        map.tiles[map.tiles[treasure.x][treasure.y].x - 1][map.tiles[treasure.x][treasure.y].y + 1].type = terrain.TREASURE;
+        let treasureLocation = {x: treasure.x, y: treasure.y};
+
+
+
 
         let borders = centerTile.bordering(centerTile.x, centerTile.y, map.tiles, 2);
         //random location near player for treasure
-        for (let i = 0; i < borders.length; i++) {
-            if (borders[i].type.walkable) {
-                treasureLocation = {x: borders[i].x + 2, y:  borders[i].y + 1 };
-                break;
-            }
-        }
+        // for (let i = 0; i < borders.length; i++) {
+        //     if (borders[i].type.walkable) {
+        //         map.tiles[borders[i].x][borders[i].y].type = terrain.TREASURE;
+        //         map.tiles[borders[i].x + 1][borders[i].y + 1].type = terrain.TREASURE;
+        //         map.tiles[borders[i].x - 1][borders[i].y - 1].type = terrain.TREASURE;
+        //         map.tiles[borders[i].x + 1][borders[i].y - 1].type = terrain.TREASURE;
+        //         map.tiles[borders[i].x - 1][borders[i].y + 1].type = terrain.TREASURE;
+
+                
+        //         treasureLocation = {x: map.tiles[borders[i].x][borders[i].y].x, y: map.tiles[borders[i].x][borders[i].y].y};
+        //         console.log(map.tiles[borders[i].x][borders[i].y].type);
+        //         break;
+        //     }
+        // }
+
         //Axe spawns near player.
         for (let i = 0; i < borders.length; i++) {
             if (borders[i].type.walkable) {
@@ -122,7 +139,7 @@ window.onload = function() {
 
         mapRenderer = new MapRenderer(tileSize, canvas, map, player);
 
-        uiRenderer = new UiRenderer(player, canvas, treasure);
+        uiRenderer = new UiRenderer(player, canvas);
 
         uiRenderer.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles, treasureLocation));
 
@@ -234,9 +251,11 @@ window.onload = function() {
         canvas.drawImage(loadingImg, 0, 0, 100, 100);
         update();
         setup();
-         
-        window.requestAnimationFrame(loop);
-        this.setInterval(update, 16);
+        
+        player.spritesheet.image.onload = () =>  {
+            window.requestAnimationFrame(loop);
+            this.setInterval(update, 16);
+        }
     }
 };
 

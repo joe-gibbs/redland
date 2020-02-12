@@ -110,7 +110,6 @@ export default class MapGenerator {
             return b;
           }
 
-        const tileToType = tile => tile.type.name;
         const hexToRGBA = hexStr => [
             parseInt(hexStr.substr(1, 2), 16),
             parseInt(hexStr.substr(3, 2), 16),
@@ -132,6 +131,9 @@ export default class MapGenerator {
                 case "Water":
                     result = hexToRGBA('#E9D7A9');
                     break;
+                case "Treasure":
+                    result = hexToRGBA('#000000');
+                    break;
                 default:
                     result = hexToRGBA('#E5A773');
                     break;
@@ -139,12 +141,13 @@ export default class MapGenerator {
             return result;
         }
 
-        const rgba = rotate180(tiles)
+        const rgba = 
+            rotate180(tiles)
             .reduce((prev, next) => next.map((item, i) =>
             (prev[i] || []).concat(next[i])
             ), [])
             .flat(1)
-            .map(tileToType)  // 1d list of hex codes
+            .map(tile => tile.type.name)  // 1d list of hex codes
             .map(tileColor)  // 1d list of [R, G, B, A] byte arrays
             .flat(1); // 1d list of bytes
                 
@@ -154,11 +157,7 @@ export default class MapGenerator {
         canvas.canvas.height = imgData.height;
         
         canvas.putImageData(imgData, 0, 0);
-        
-        let treasureIcon = new Image(64, 64);
-        treasureIcon.src = './assets/img/marker.png';
-        
-        canvas.drawImage(treasureIcon, treasureLocation.x, treasureLocation.y);
+    
         return (canvas.canvas.toDataURL());
     }
 }

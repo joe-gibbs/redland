@@ -35,6 +35,7 @@ export default class Player {
         this.closestY = y;
         this.aimedTile; //Tile that the player is looking at based on direction.
         this.treasureLocation = treasureLocation;
+
     }
 
     /**
@@ -200,7 +201,7 @@ export default class Player {
             }
         }
         if (this.equipped === items.shovel){
-            if(this.aimedTile.type === terrain.LAND){
+            if(/*this.aimedTile.type === terrain.LAND ||*/ this.aimedTile.type === terrain.TREASURE){
                 //locates there will only be damage on the floor in the treasure location. 
                 if(this.aimedTile.x === this.treasureLocation.x && this.aimedTile.y === this.treasureLocation.y){
                     working = this.aimedTile.damage(1.5, map);
