@@ -67,7 +67,7 @@ export default class UiRenderer {
         this.canvas.strokeRect(uiX, uiY, 64, 64);
         this.canvas.drawImage(items.wood.image, uiX, uiY);
         this.canvas.strokeRect(uiX + 192, uiY, 64, 64);
-        this.canvas.drawImage(items.stone.image, uiX, uiY);
+        this.canvas.drawImage(items.stone.image, uiX + 192, uiY);
         this.canvas.fillStyle = 'rgba(0,0,0,1)';
         this.canvas.fillText(this.player.resources.stone, uiX + 192 + 64 + 16, uiY + 48);
         this.canvas.fillText(this.player.resources.wood, uiX + 64 + 16, uiY + 48);
