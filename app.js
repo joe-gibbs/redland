@@ -97,9 +97,14 @@ window.onload = function() {
     }
 
     //Setup
-    function setup() {                    
-        centerTile = map.chooseRandomTile(terrain.LAND);
-        let treasure = map.chooseRandomTile(terrain.LAND);
+    function setup() { 
+        let treasure;
+        try {
+            centerTile = map.chooseRandomTile(terrain.LAND);
+            treasure = map.chooseRandomTile(terrain.LAND);
+        } catch (error) {
+            location.reload();
+        }            
         treasure.type = terrain.TREASURE;
         map.tiles[map.tiles[treasure.x][treasure.y].x + 1][map.tiles[treasure.x][treasure.y].y + 1].type = terrain.TREASURE;
         map.tiles[map.tiles[treasure.x][treasure.y].x - 1][map.tiles[treasure.x][treasure.y].y - 1].type = terrain.TREASURE;
