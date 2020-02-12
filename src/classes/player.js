@@ -208,6 +208,10 @@ export default class Player {
                 }
             }
         }
+        if (this.equipped === items.map){
+            this.showMap = !this.showMap;
+            //make so cant move while seeing map.
+        }
         return working;
     }
 

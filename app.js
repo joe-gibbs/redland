@@ -11,7 +11,7 @@ import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
 
 /** @type {GameMap} */
-let map = new GameMap(new MapGenerator().generate(256, new SimplexNoise())); //512 o3 256 are good Sizes for visibility and reduced blur.
+let map = new GameMap(new MapGenerator().generate(218, new SimplexNoise())); //512 o3 256 are good Sizes for visibility and reduced blur.
 
 /** @type {Tile} */
 let TreasureTile;
@@ -76,10 +76,10 @@ window.onload = function() {
             player.showMap = false;
             player.showCraftingMenu = !player.showCraftingMenu;
         }
-        if (kMap['KeyM']) {
-            player.showCraftingMenu = false;
-            player.showMap = !player.showMap;
-        }
+        // if (kMap['KeyM']) {
+        //     player.showCraftingMenu = false;
+        //     player.showMap = !player.showMap;
+        // }
         if (kMap['Escape']) {
             player.showCraftingMenu = false;
             player.showMap = false;
@@ -91,6 +91,7 @@ window.onload = function() {
             player.dropEquipped(map.droppedItems);
         }
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
+            player.showCraftingMenu = false;
             player.pickup(map.droppedItems);  
             player.chop(map);
         }
@@ -131,6 +132,7 @@ window.onload = function() {
         for (let i = 0; i < borders.length; i++) {
             if (borders[i].type.walkable) {
                 map.droppedItems.push(new DroppedItem(borders[i].x + 1, borders[i].y + 1, items.axe));
+                map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 1, items.map));                
                 break;
             }
         }
@@ -231,7 +233,7 @@ window.onload = function() {
     
     function draw() {
         mapRenderer.render(centerTile, player);        
-        uiRenderer.render(tileSize, mouseX, mouseY);
+        uiRenderer.render(mouseX, mouseY, player);
     }
 
     function loop() {

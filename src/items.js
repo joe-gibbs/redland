@@ -10,6 +10,7 @@ const items = {
     "stone" : new Item('Stone', './assets/img/rocks.png'),
     "food": new Item('Food', './assets/img/logs.png'),
     "boat": new Item('Boat', './assets/img/raft.png'),
+    "map": new Item('Map', './assets/img/world_map.png'),
     "treasure": new Treasure('Treasure')
 }
 
