@@ -92,7 +92,24 @@ export default class MapGenerator {
      * @param {CanvasRenderingContext2D} canvas
      * @param {Tile[]} tiles 
      */
-    static generateTreasureMap(canvas, tiles, treasureLocation) {        
+    static generateTreasureMap(canvas, tiles, treasureLocation) {  
+        function rotate180(a) {
+            const w = a[0].length;
+            const h = a.length;
+            let b = new Array(h);
+          
+            for (let y = 0; y < h; y++) {
+              let n = h - 1 - y;
+              b[n] = new Array(w);
+          
+              for (let x = 0; x < w; x++) {
+                b[n][w - 1 - x] = a[y][x];
+              }
+            }
+          
+            return b;
+          }
+
         const tileToType = tile => tile.type.name;
         const hexToRGBA = hexStr => [
             parseInt(hexStr.substr(1, 2), 16),
@@ -122,7 +139,10 @@ export default class MapGenerator {
             return result;
         }
 
-        const rgba = tiles
+        const rgba = rotate180(tiles)
+            .reduce((prev, next) => next.map((item, i) =>
+            (prev[i] || []).concat(next[i])
+            ), [])
             .flat(1)
             .map(tileToType)  // 1d list of hex codes
             .map(tileColor)  // 1d list of [R, G, B, A] byte arrays

@@ -2,7 +2,9 @@
   "name": "game",
   "version": "1.0.0",
   "description": "",
-  "repository": {"url": "https://github.com/joe-gibbs/world-strategy"},
+  "repository": {
+    "url": "https://github.com/joe-gibbs/world-strategy"
+  },
   "main": "index.js",
   "scripts": {
     "start": "electron ."
@@ -13,6 +15,7 @@
     "electron": "^7.1.10"
   },
   "dependencies": {
+    "2d-array-rotation": "^2.1.0",
     "nipplejs": "^0.8.5"
   }
 }
