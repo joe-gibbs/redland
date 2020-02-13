@@ -35,7 +35,6 @@ export default class Player {
         this.closestY = y;
         this.aimedTile; //Tile that the player is looking at based on direction.
         this.treasureLocation = treasureLocation;
-
     }
 
     /**
@@ -147,35 +146,39 @@ export default class Player {
     }
 
     pickup(droppedItems) {
-        if(this.items.length < 2){
-            droppedItems.forEach(item => {            
-                if (item.x === this.closestX && item.y === this.closestY) {
-                    let actualItem = item.item;
-                    if (!this.items.includes(actualItem)) {
-                        switch (actualItem) {
-                            case items.wood:
-                                this.resources.wood += 10;
-                                break;
-                            case items.food:
-                                this.resources.food += 10;
-                                break;
-                            case items.gold:
-                                this.resources.gold += 10;
-                                break;
-                            case items.stone:
-                                this.resources.stone += 10;
-                                break;
-                            default:
+        let equipped2 = false;
+        droppedItems.forEach(item => {    
+            if (item.x === this.closestX && item.y === this.closestY) {
+                let actualItem = item.item;
+                if (!this.items.includes(actualItem)) {
+                    switch (actualItem) {
+                        case items.wood:
+                            this.resources.wood += 10;
+                            break;
+                        case items.food:
+                            this.resources.food += 10;
+                            break;
+                        case items.gold:
+                            this.resources.gold += 10;
+                            break;
+                        case items.stone:
+                            this.resources.stone += 10;
+                            break;
+                        default:
+                            if (this.items.length < 2){
                                 this.equipped = actualItem;
-                                break;
-                        }
-                        droppedItems.remove(item);
-                        return true;
+                            } else {
+                                equipped2 = true;
+                            }
+                            break;
                     }
+                    if(!equipped2){
+                        droppedItems.remove(item);
+                    }
+                    return true;
                 }
-            });
-
-        }
+            }
+        }); 
     }
 
     dropEquipped(droppedItems) {

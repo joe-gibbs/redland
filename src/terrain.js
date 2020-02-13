@@ -22,13 +22,13 @@ class Terrain {
 }
 
 const terrain = {
-    "LAND": new Terrain('Land', true, false, 50, ['./assets/img/grass_1.png'],[]),
+    "LAND": new Terrain('Land', true, false, 50, ['./assets/img/grass_2.png'],[]),
     "SAND": new Terrain('Sand', true, false, 50, ['./assets/img/sand.png'], []),
     "WATER": new Terrain('Water', false, true, Infinity, ['./assets/img/water.png'], []),
     "ROCK": new Terrain('Rock', false, false, 500, ['./assets/img/rock.png'],[items.stone]),
     "FOREST": new Terrain('Forest', false, false, 50, ['./assets/img/forest.png'], [items.wood]),
     "BARRIER": new Terrain('Barrier', false, false, Infinity, ['./assets/img/barrier.png'], []),
-    "TREASURE": new Terrain('Treasure', true, false, 50, ['./assets/img/grass_1.png'], [items.treasure]),
+    "TREASURE": new Terrain('Treasure', true, false, 50, ['./assets/img/grass_2.png'], [items.treasure]),
 }
 
 Object.freeze(terrain);

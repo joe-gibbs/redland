@@ -11,10 +11,7 @@ import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
 
 /** @type {GameMap} */
-let map = new GameMap(new MapGenerator().generate(218, new SimplexNoise())); //512 o3 256 are good Sizes for visibility and reduced blur.
-
-/** @type {Tile} */
-let TreasureTile;
+let map = new GameMap(new MapGenerator().generate(128, new SimplexNoise())); //218  - 256 are good Sizes for visibility and reduced blur.
 
 /** @type {Tile} */
 let centerTile;
@@ -76,10 +73,6 @@ window.onload = function() {
             player.showMap = false;
             player.showCraftingMenu = !player.showCraftingMenu;
         }
-        // if (kMap['KeyM']) {
-        //     player.showCraftingMenu = false;
-        //     player.showMap = !player.showMap;
-        // }
         if (kMap['Escape']) {
             player.showCraftingMenu = false;
             player.showMap = false;
@@ -92,7 +85,12 @@ window.onload = function() {
         }
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
             player.showCraftingMenu = false;
-            player.pickup(map.droppedItems)
+            if(player.pickup(map.droppedItems)){
+                if(player.equipped === items.map){
+                    console.log(player.equipped, items.map);
+                    player.switchItems();
+                }
+            }
             player.chop(map);
         }
     }
@@ -252,17 +250,11 @@ window.onload = function() {
     canvas = gameCanvas.getContext("2d");
 
     // need to fix this shit so there's a loading animation/indication while canvas loads.
-    let loadingImg = new Image();
-    loadingImg.src = "assets/img/Creating_World.png";   
-    loadingImg.onload = () => {
-        canvas.drawImage(loadingImg, 0, 0, 100, 100);
-        update();
-        setup();
-        
-        player.spritesheet.image.onload = () =>  {
-            window.requestAnimationFrame(loop);
-            this.setInterval(update, 16);
-        }
+    update();
+    setup();
+    player.spritesheet.image.onload = () =>  {
+        window.requestAnimationFrame(loop);
+        this.setInterval(update, 16);
     }
 };
 
