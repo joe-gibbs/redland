@@ -135,7 +135,8 @@ window.onload = function() {
         for (let i = 0; i < borders.length; i++) {
             if (borders[i].type.walkable) {
                 map.droppedItems.push(new DroppedItem(borders[i].x + 1, borders[i].y + 1, items.axe));
-                map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 1, items.map));                
+                map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 1, items.map));   
+                map.droppedItems.push(new DroppedItem(borders[i].x + 1, borders[i].y + 2, items.food));  
                 break;
             }
         }
@@ -231,7 +232,8 @@ window.onload = function() {
         if (player && !player.showMap) {
             player.updateMovement(map);
             handleAxisMappings(kMap);
-        }
+            player.handleEnergy();
+        }   
     }
     
     function draw() {

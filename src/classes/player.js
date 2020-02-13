@@ -35,6 +35,24 @@ export default class Player {
         this.closestY = y;
         this.aimedTile; //Tile that the player is looking at based on direction.
         this.treasureLocation = treasureLocation;
+
+        this.energy = 100;
+    }
+
+    handleEnergy(){
+        console.log(this.energy);   
+        if (this.energy <= 0){
+            console.log("YOU DEAD MOTHAFOCKA GET FREAKING GUD!!!");
+            this.movement[0] /= 4;
+            this.movement[1] /= 4;
+
+        } else if(this.energy <= 25){
+            this.movement[0] /= 2;
+            this.movement[1] /= 2;
+        } else if(this.energy <= 10){
+            this.movement[0] /= 4;
+            this.movement[1] /= 4;
+        }
     }
 
     /**
@@ -156,7 +174,7 @@ export default class Player {
                             this.resources.wood += 10;
                             break;
                         case items.food:
-                            this.resources.food += 10;
+                            this.energy += 50;
                             break;
                         case items.gold:
                             this.resources.gold += 10;
@@ -204,11 +222,13 @@ export default class Player {
         if(this.equipped === items.axe){
             if(this.aimedTile.type === terrain.FOREST){
                 working = this.aimedTile.damage(1.5, map);
+                this.energy -= 0.5;
             }
         }
         if (this.equipped === items.pick) {
             if(this.aimedTile.type === terrain.ROCK){
                 working = this.aimedTile.damage(2.5, map);
+                this.energy -= 0.5;
             }
         }
         if (this.equipped === items.shovel){
@@ -216,6 +236,7 @@ export default class Player {
                 //locates there will only be damage on the floor in the treasure location. 
                 if(this.aimedTile.x === this.treasureLocation.x && this.aimedTile.y === this.treasureLocation.y){
                     working = this.aimedTile.damage(1.5, map);
+                    this.energy -= 0.5;
                 }
             }
         }
@@ -227,12 +248,14 @@ export default class Player {
 
     move(x,y, map) { 
         this.direction = [x, y];
-                     
+
         this.movement[0] += x;
         this.movement[1] += y;
 
         this.movement[0] = this.movement[0].clamp(-0.12, 0.12);
         this.movement[1] = this.movement[1].clamp(-0.12, 0.12);
+
+        this.energy -= 0.05;
 
         return map.tiles[this.closestX][this.closestY];
     }
