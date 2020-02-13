@@ -228,7 +228,7 @@ window.onload = function() {
         tileSize = 64;// NEED TO ADJUST TILE SIZE WITH CANVAS SIZE
         canvas.font = (canvasWidth + canvasHeight) / 92 + "px Pixelated";
         canvas.fillRect(0, 0, canvasWidth, canvasHeight);
-        if (player) {
+        if (player && !player.showMap) {
             player.updateMovement(map);
             handleAxisMappings(kMap);
         }
