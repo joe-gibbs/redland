@@ -170,12 +170,12 @@ export default class Player {
                                 break;
                         }
                         droppedItems.remove(item);
+                        return true;
                     }
                 }
             });
 
         }
-        console.log(this.resources);
     }
 
     dropEquipped(droppedItems) {
@@ -187,6 +187,13 @@ export default class Player {
     drop(droppedItems, item) {        
         droppedItems.push(new DroppedItem(this.closestX, this.closestY, item));
         this.items.remove(item);
+
+        //close map if you drop it.
+        if(item.name === items.map.name){
+            console.log('map item');
+            this.showMap = false;
+        }
+
     }
 
     chop(map) {

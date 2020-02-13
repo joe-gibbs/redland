@@ -92,7 +92,7 @@ window.onload = function() {
         }
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
             player.showCraftingMenu = false;
-            player.pickup(map.droppedItems);  
+            player.pickup(map.droppedItems)
             player.chop(map);
         }
     }

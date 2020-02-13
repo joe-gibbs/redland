@@ -51,7 +51,6 @@ export default class UiRenderer {
     }
 
     renderMap() {
-        console.log('rendering map...');
         this.canvas.drawImage(this.treasureMap, (this.canvasWidth / 2 ) - 250, (this.canvasHeight / 2) - 250, 512, 512);
         // this.canvas.drawImage(this.background, (this.canvasWidth / 2 ) - 256, (this.canvasHeight / 2) - 256, 512, 512);
     }
