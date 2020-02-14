@@ -24,11 +24,18 @@
             font-family: Pixelated;
             text-align: center;
         }
+        #menu .container {
+            padding: 10% 20%;
+        }
+        #menu p {
+            margin: 40px 0;
+        }
         #game {
             image-rendering: -moz-crisp-edges;
             image-rendering: -webkit-crisp-edges;
             image-rendering: pixelated !important;
             image-rendering: crisp-edges;
+            display: none;
         }
         #dynamic {
             position: absolute;
@@ -42,8 +49,12 @@
     <!-- <div id="dynamic"></div> -->
     <div style="position: absolute;" id="fps">--</div>
     <section id="menu">
-        <h1>Game Title</h1>
-        <input type='button' id='gameButton' value="Start"/>
+        <div class='container'>
+            <h1>The Greatest Game of all Time</h1>
+            <p>By: <strong>JS STUDIO</strong></p>
+            <p>A PVP and PVE, Survival, Treasure Hunting, Adventure, and RTS game. What more could you want? </p>
+            <input type='button' id='gameButton' value="Start"/>
+        </div>
     </section>
     <canvas width="500px" height="500px" id="game"></canvas>
 </body>

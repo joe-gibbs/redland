@@ -45,13 +45,12 @@ export default class Player {
             console.log("YOU DEAD MOTHAFOCKA GET FREAKING GUD!!!");
             this.movement[0] /= 4;
             this.movement[1] /= 4;
-
-        } else if(this.energy <= 25){
-            this.movement[0] /= 2;
-            this.movement[1] /= 2;
         } else if(this.energy <= 10){
             this.movement[0] /= 4;
             this.movement[1] /= 4;
+        } else if(this.energy <= 25){
+            this.movement[0] /= 2;
+            this.movement[1] /= 2;
         }
     }
 

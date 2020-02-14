@@ -261,6 +261,7 @@ function startGame() {
     }
 
     gameCanvas = document.getElementById('game');
+    gameCanvas.style.display = "block";
     canvas = gameCanvas.getContext("2d");
 
     // need to fix this shit so there's a loading animation/indication while canvas loads.
