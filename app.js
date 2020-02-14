@@ -10,6 +10,8 @@ import MapRenderer from './src/classes/mapRenderer.js';
 import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
 
+let gameState = {menu: true, game: false};
+
 /** @type {GameMap} */
 let map = new GameMap(new MapGenerator().generate(128, new SimplexNoise())); //218  - 256 are good Sizes for visibility and reduced blur.
 
@@ -39,8 +41,18 @@ let mouseX = 0, mouseY = 0;
 /** @type {String[]} */
 let kMap = []; // You could also use an array
 
+document.getElementById('gameButton').onclick = function(){
+    gameState.menu = false;
+    gameState.game = true;
+    document.getElementById('menu').style.display = "none";
+    console.log('toggle');
+    startGame();
+}
+
+
 //Main function, put stuff here
-window.onload = function() {
+function startGame() {
+
     /**
      * Handles inputs that you want done as a continuous series
      * @param {String[]} kMap 
@@ -177,7 +189,7 @@ window.onload = function() {
   
 
         onkeydown = onkeyup = function(e){
-            e.preventDefault();
+            // e.preventDefault();
             e = e || event; // to deal with IE
             kMap[e.code] = e.type == 'keydown';
             handleActionMappings(kMap);
@@ -252,11 +264,11 @@ window.onload = function() {
     canvas = gameCanvas.getContext("2d");
 
     // need to fix this shit so there's a loading animation/indication while canvas loads.
-    update();
-    setup();
-    player.spritesheet.image.onload = () =>  {
-        window.requestAnimationFrame(loop);
-        this.setInterval(update, 16);
+    if(gameState.game === true){
+        update();
+        setup();
+        requestAnimationFrame(loop);
+        setInterval(update, 16);
     }
 };
 
