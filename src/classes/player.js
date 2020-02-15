@@ -45,10 +45,10 @@ export default class Player {
             console.log("YOU DEAD MOTHAFOCKA GET FREAKING GUD!!!");
             this.movement[0] /= 4;
             this.movement[1] /= 4;
-        } else if(this.energy <= 10){
+        } else if(this.energy <= 15){
             this.movement[0] /= 4;
             this.movement[1] /= 4;
-        } else if(this.energy <= 25){
+        } else if(this.energy <= 30){
             this.movement[0] /= 2;
             this.movement[1] /= 2;
         }
@@ -188,7 +188,7 @@ export default class Player {
                                 equipped2 = true;
                             }
                             break;
-                    }
+                        }  
                     if(!equipped2){
                         droppedItems.remove(item);
                     }
@@ -210,7 +210,6 @@ export default class Player {
 
         //close map if you drop it.
         if(item.name === items.map.name){
-            console.log('map item');
             this.showMap = false;
         }
 
@@ -236,7 +235,7 @@ export default class Player {
                 if(this.aimedTile.x === this.treasureLocation.x && this.aimedTile.y === this.treasureLocation.y){
                     working = this.aimedTile.damage(1.5, map);
                     this.energy -= 0.5;
-                }
+                }                                                                                                                                                                                                                                                               
             }
         }
         if (this.equipped === items.map){

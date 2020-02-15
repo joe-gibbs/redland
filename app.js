@@ -12,8 +12,10 @@ import UiRenderer from './src/classes/uiRenderer.js';
 
 let gameState = {menu: true, game: false};
 
+const MapSize = 128;
+
 /** @type {GameMap} */
-let map = new GameMap(new MapGenerator().generate(128, new SimplexNoise())); //218  - 256 are good Sizes for visibility and reduced blur.
+let map = new GameMap(new MapGenerator().generate(MapSize, new SimplexNoise())); //218  - 256 are good Sizes for visibility and reduced blur.
 
 /** @type {Tile} */
 let centerTile;
@@ -109,21 +111,26 @@ function startGame() {
 
     //Setup
     function setup() { 
+        let fruitNum = MapSize/15;
         let treasure;
         try {
             centerTile = map.chooseRandomTile(terrain.LAND);
             treasure = map.chooseRandomTile(terrain.LAND);
+            for(let i = 0; i < fruitNum; i++){
+                let foundTile = map.chooseRandomTile(terrain.LAND);
+                console.log(foundTile.x, foundTile.y);
+                map.droppedItems.push(new DroppedItem(foundTile.x, foundTile.y, items.food));
+            }
+            
         } catch (error) {
             location.reload();
-        }            
+        }       
         treasure.type = terrain.TREASURE;
         map.tiles[map.tiles[treasure.x][treasure.y].x + 1][map.tiles[treasure.x][treasure.y].y + 1].type = terrain.TREASURE;
         map.tiles[map.tiles[treasure.x][treasure.y].x - 1][map.tiles[treasure.x][treasure.y].y - 1].type = terrain.TREASURE;
         map.tiles[map.tiles[treasure.x][treasure.y].x + 1][map.tiles[treasure.x][treasure.y].y - 1].type = terrain.TREASURE;
         map.tiles[map.tiles[treasure.x][treasure.y].x - 1][map.tiles[treasure.x][treasure.y].y + 1].type = terrain.TREASURE;
         let treasureLocation = {x: treasure.x, y: treasure.y};
-
-
 
 
         let borders = centerTile.bordering(centerTile.x, centerTile.y, map.tiles, 2);

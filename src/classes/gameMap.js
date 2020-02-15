@@ -17,12 +17,12 @@ export default class GameMap {
     chooseRandomTile(terrain)
     {
         function randomIndex(length) {
-            return Math.round(Math.random() * (length - 0) + 0);
+            return Math.floor(Math.random() * length);
           }
 
         let tile = this.tiles[randomIndex(this.tiles.length)][randomIndex(this.tiles.length)];        
 
-        while (tile.type != terrain) {
+         while (tile.type != terrain) {
             tile = this.tiles[randomIndex(this.tiles.length)][randomIndex(this.tiles.length)];
         }
         return tile;
