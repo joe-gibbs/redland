@@ -7,13 +7,19 @@ If playing with another player, you will race to the treasure location. He who r
 
 ## To D0: 
 ---
-- add food source
+- add energy indicator
 - Add loading screen
 - create menu which starts/ends the game possibly gives options in the future?
 - put a max 60 fps threshold on the game
-- decide what steps need to be taken to find the final treasure, or the more precise location of the treasure, which would no longer be given by the main treasure map. 
+- 3 spots marked in the map give location of the treasure all together. 
+    1. structure for treasure tracker
+    2. piece of the treasure to track 
+    3. Indication of area where treasure is. 
 - Create needs for building a base and needing to expand your power while exploring, energy and other measurements may need to be implemented before we add a base. 
 - add structures and buildings. 
+- add day and night
+- add animals 
+- make animals agro at night.
 - add second player. 
 
 ## Storyline Concept Ideas:
