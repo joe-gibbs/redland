@@ -48,7 +48,6 @@ document.addEventListener('readystatechange', event => {
         let button = document.getElementById('gameButton');
         button.style.visibility = "visible";
         button.onclick = function(){
-            console.log('clicked');
             document.getElementById('menu').style.display = "none";
             gameState.menu = false;
             gameState.game = true;
@@ -122,9 +121,7 @@ function startGame() {
         let treasure;
         try {
             centerTile = map.chooseRandomTile(terrain.LAND);
-            console.log('finding centertile');
             treasure = map.chooseRandomTile(terrain.LAND);
-            console.log('finding treasure');
             for(let i = 0; i < fruitNum; i++){
                 let foundTile = map.chooseRandomTile(terrain.LAND);
                 map.droppedItems.push(new DroppedItem(foundTile.x, foundTile.y, items.food));

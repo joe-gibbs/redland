@@ -40,7 +40,6 @@ export default class Player {
     }
 
     handleEnergy(){
-        console.log(this.energy);   
         if (this.energy <= 0){
             console.log("YOU DEAD MOTHAFOCKA GET FREAKING GUD!!!");
             this.movement[0] /= 4;
