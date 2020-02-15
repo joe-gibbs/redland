@@ -48,11 +48,20 @@ export default class UiRenderer {
             this.renderMap();
         }
         this.renderResources();
+        this.renderEnergy(player);
     }
 
     renderMap() {
         this.canvas.drawImage(this.treasureMap, (this.canvasWidth / 2 ) - 250, (this.canvasHeight / 2) - 250, 512, 512);
         // this.canvas.drawImage(this.background, (this.canvasWidth / 2 ) - 256, (this.canvasHeight / 2) - 256, 512, 512);
+    }
+
+    renderEnergy(player){
+        this.canvas.fillStyle = 'rgba(0, 0,, 1 1)';
+        this.canvas.fillRect(64, 32, 104, 32);
+        this.canvas.fillStyle = '#FFF48E';
+        this.canvas.fillRect(66, 34, player.energy, 28)
+        this.player.energy;
     }
 
     renderResources() {

@@ -43,13 +43,20 @@ let mouseX = 0, mouseY = 0;
 /** @type {String[]} */
 let kMap = []; // You could also use an array
 
-document.getElementById('gameButton').onclick = function(){
-    gameState.menu = false;
-    gameState.game = true;
-    document.getElementById('menu').style.display = "none";
-    console.log('toggle');
-    startGame();
-}
+document.addEventListener('readystatechange', event => {
+    if (event.target.readyState === "complete") {
+        let button = document.getElementById('gameButton');
+        button.style.visibility = "visible";
+        button.onclick = function(){
+            console.log('clicked');
+            document.getElementById('menu').style.display = "none";
+            gameState.menu = false;
+            gameState.game = true;
+            startGame();
+        }   
+    }
+});
+
 
 
 //Main function, put stuff here
@@ -115,13 +122,13 @@ function startGame() {
         let treasure;
         try {
             centerTile = map.chooseRandomTile(terrain.LAND);
+            console.log('finding centertile');
             treasure = map.chooseRandomTile(terrain.LAND);
+            console.log('finding treasure');
             for(let i = 0; i < fruitNum; i++){
                 let foundTile = map.chooseRandomTile(terrain.LAND);
-                console.log(foundTile.x, foundTile.y);
                 map.droppedItems.push(new DroppedItem(foundTile.x, foundTile.y, items.food));
             }
-            
         } catch (error) {
             location.reload();
         }       
@@ -263,8 +270,8 @@ function startGame() {
     function loop() {
         let fpsValue = fps.tick();
         window.fps.innerHTML = fpsValue;
+        update();
         draw();
-        window.requestAnimationFrame(loop);
     }
 
     gameCanvas = document.getElementById('game');
@@ -275,8 +282,7 @@ function startGame() {
     if(gameState.game === true){
         update();
         setup();
-        requestAnimationFrame(loop);
-        setInterval(update, 16);
+        setInterval(loop, 16);
     }
 };
 

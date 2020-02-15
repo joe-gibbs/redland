@@ -52,6 +52,12 @@ export default class Player {
             this.movement[0] /= 2;
             this.movement[1] /= 2;
         }
+
+        if (this.movement[0] != 0){
+            this.energy -= 0.05;
+        } else if (this.movement[1] != 0){
+            this.energy -= 0.05;
+        }
     }
 
     /**
@@ -252,8 +258,6 @@ export default class Player {
 
         this.movement[0] = this.movement[0].clamp(-0.12, 0.12);
         this.movement[1] = this.movement[1].clamp(-0.12, 0.12);
-
-        this.energy -= 0.05;
 
         return map.tiles[this.closestX][this.closestY];
     }
