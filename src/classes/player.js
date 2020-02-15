@@ -74,6 +74,9 @@ export default class Player {
     }
 
     switchItems() {
+        if(this.items[0] === items.map){
+            this.showMap = false;
+        }
         this.items.reverse();
     }
 

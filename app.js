@@ -138,21 +138,6 @@ function startGame() {
 
 
         let borders = centerTile.bordering(centerTile.x, centerTile.y, map.tiles, 2);
-        //random location near player for treasure
-        // for (let i = 0; i < borders.length; i++) {
-        //     if (borders[i].type.walkable) {
-        //         map.tiles[borders[i].x][borders[i].y].type = terrain.TREASURE;
-        //         map.tiles[borders[i].x + 1][borders[i].y + 1].type = terrain.TREASURE;
-        //         map.tiles[borders[i].x - 1][borders[i].y - 1].type = terrain.TREASURE;
-        //         map.tiles[borders[i].x + 1][borders[i].y - 1].type = terrain.TREASURE;
-        //         map.tiles[borders[i].x - 1][borders[i].y + 1].type = terrain.TREASURE;
-
-                
-        //         treasureLocation = {x: map.tiles[borders[i].x][borders[i].y].x, y: map.tiles[borders[i].x][borders[i].y].y};
-        //         console.log(map.tiles[borders[i].x][borders[i].y].type);
-        //         break;
-        //     }
-        // }
 
         //Axe spawns near player.
         for (let i = 0; i < borders.length; i++) {
@@ -264,7 +249,7 @@ function startGame() {
         uiRenderer.render(mouseX, mouseY, player);
     }
 
-    function loop() {
+    function gameLoop() {
         let fpsValue = fps.tick();
         window.fps.innerHTML = fpsValue;
         update();
@@ -279,7 +264,7 @@ function startGame() {
     if(gameState.game === true){
         update();
         setup();
-        setInterval(loop, 16);
+        setInterval(gameLoop, 16);
     }
 };
 
