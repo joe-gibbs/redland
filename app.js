@@ -101,9 +101,7 @@ function load() {
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
             player.showCraftingMenu = false;
 
-            if (player.equipped !== items.map) {
-                player.pickup(map.droppedItems);
-            }
+            player.pickup(map.droppedItems);
 
             player.chop(map);
         }
@@ -115,9 +113,7 @@ function load() {
         try {
             centerTile = map.chooseRandomTile(terrain.LAND);
             treasure = map.chooseRandomTile(terrain.LAND);
-        } catch (error) {
-            console.log(error);
-            
+        } catch (error) {            
             load();
         }       
         treasure.type = terrain.TREASURE;
