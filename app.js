@@ -13,7 +13,7 @@ import UiRenderer from './src/classes/uiRenderer.js';
 const MapSize = 128;
 
 /** @type {GameMap} */
-let map = new GameMap(new MapGenerator().generate(MapSize, new SimplexNoise())); //218  - 256 are good Sizes for visibility and reduced blur.
+let map;
 
 /** @type {Tile} */
 let centerTile;
@@ -42,7 +42,10 @@ let mouseX = 0, mouseY = 0;
 let kMap = []; // You could also use an array
 
 //Main function, put stuff here
-window.onload = function() {
+window.onload = load;
+
+function load() {
+    map = new GameMap(new MapGenerator().generate(MapSize, new SimplexNoise())); //218  - 256 are good Sizes for visibility and reduced blur.
     /**
      * Handles inputs that you want done as a continuous series
      * @param {String[]} kMap 
@@ -85,14 +88,14 @@ window.onload = function() {
         if (kMap['KeyD']) {
             player.dropEquipped(map.droppedItems);
         }
+
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
             player.showCraftingMenu = false;
-            if(player.pickup(map.droppedItems)){
-                if(player.equipped === items.map){
-                    console.log(player.equipped, items.map);
-                    player.switchItems();
-                }
+
+            if (player.equipped !== items.map) {
+                player.pickup(map.droppedItems);
             }
+
             player.chop(map);
         }
     }
@@ -104,7 +107,7 @@ window.onload = function() {
             centerTile = map.chooseRandomTile(terrain.LAND);
             treasure = map.chooseRandomTile(terrain.LAND);
         } catch (error) {
-            location.reload();
+            load();
         }       
         treasure.type = terrain.TREASURE;
         map.tiles[map.tiles[treasure.x][treasure.y].x + 1][map.tiles[treasure.x][treasure.y].y + 1].type = terrain.TREASURE;
