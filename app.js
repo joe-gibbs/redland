@@ -222,7 +222,6 @@ window.onload = function() {
         if (player && !player.showMap) {
             player.updateMovement(map);
             handleAxisMappings(kMap);
-            player.handleEnergy();
         }   
     }
     
