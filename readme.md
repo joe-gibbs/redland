@@ -2,12 +2,10 @@
 ---
 
 ## Game Alfa: 
----
 A treasure exploration game where you explore the world around you follow the clues and find the treasure.  
 
 
 ## Goal Game: 
----
 A survival game where the goal is to explore the randomly generated game map and follow a treasure map to find the ultimate treasure and achieve victory. 
 
 If playing with another player, you will race to the treasure location. He who reaches the spoils first, will be one step closer to victory, but will have to make sure they are not stopped from making a boat and taking the treasure home!
@@ -15,7 +13,6 @@ If playing with another player, you will race to the treasure location. He who r
 
 
 ## Future To Do's: 
----
 - add energy indicator
 - Add loading screen
 - create menu which starts/ends the game possibly gives options in the future?
