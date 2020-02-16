@@ -200,8 +200,7 @@ export default class Player {
                     if(!equipped2){
                         droppedItems.remove(item);
                     }
-                    return true;
-                }
+                } 
             }
         }); 
     }

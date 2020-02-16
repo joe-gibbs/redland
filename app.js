@@ -12,7 +12,7 @@ import UiRenderer from './src/classes/uiRenderer.js';
 
 let gameState = {menu: true, game: false};
 
-const MapSize = 128;
+const MapSize = 192;
 
 /** @type {GameMap} */
 let map = new GameMap(new MapGenerator().generate(MapSize, new SimplexNoise())); //218  - 256 are good Sizes for visibility and reduced blur.
@@ -105,12 +105,7 @@ function startGame() {
         }
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
             player.showCraftingMenu = false;
-            if(player.pickup(map.droppedItems)){
-                if(player.equipped === items.map){
-                    console.log(player.equipped, items.map);
-                    player.switchItems();
-                }
-            }
+            player.pickup(map.droppedItems);
             player.chop(map);
         }
     }
