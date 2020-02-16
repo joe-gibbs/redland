@@ -99,15 +99,10 @@ window.onload = function() {
 
     //Setup
     function setup() { 
-        let fruitNum = MapSize/15;
         let treasure;
         try {
             centerTile = map.chooseRandomTile(terrain.LAND);
             treasure = map.chooseRandomTile(terrain.LAND);
-            for(let i = 0; i < fruitNum; i++){
-                let foundTile = map.chooseRandomTile(terrain.LAND);
-                map.droppedItems.push(new DroppedItem(foundTile.x, foundTile.y, items.food));
-            }
         } catch (error) {
             location.reload();
         }       
@@ -126,7 +121,6 @@ window.onload = function() {
             if (borders[i].type.walkable) {
                 map.droppedItems.push(new DroppedItem(borders[i].x + 1, borders[i].y + 1, items.axe));
                 map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 1, items.map));   
-                map.droppedItems.push(new DroppedItem(borders[i].x + 1, borders[i].y + 2, items.food));  
                 break;
             }
         }
