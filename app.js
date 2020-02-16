@@ -12,6 +12,8 @@ import UiRenderer from './src/classes/uiRenderer.js';
 
 const MapSize = 128;
 
+let gameTime = 0.0;
+
 /** @type {GameMap} */
 let map;
 
@@ -228,6 +230,16 @@ function load() {
             handleAxisMappings(kMap);
         }   
     }
+
+    function updateTime() {
+        gameTime += 0.015;
+        if (gameTime >= 2400) {
+            gameTime = 0;
+        }
+        let brightness = Math.max(10, Math.min(((1 - (Math.sin(gameTime / 240))) * 100), 100));
+        
+        gameCanvas.style.filter = "brightness(" + brightness + "%)";
+    }
     
     function draw() {
         mapRenderer.render(centerTile, player);        
@@ -239,6 +251,7 @@ function load() {
         window.fps.innerHTML = fpsValue;
         update();
         draw();
+        updateTime();
     }
 
     gameCanvas = document.getElementById('game');
