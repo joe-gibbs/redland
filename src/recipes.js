@@ -10,8 +10,8 @@ const recipes = {
     ),
     shovel: new CraftableItem(items.shovel,
         {
-            wood: 20,
-            stone: 0,
+            wood: 10,
+            stone: 20,
         }
     ),
     boat: new CraftableItem(items.boat,

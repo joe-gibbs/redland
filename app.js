@@ -10,7 +10,7 @@ import MapRenderer from './src/classes/mapRenderer.js';
 import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
 
-const MapSize = 128;
+const MapSize = 192;
 
 let gameTime = 0.0;
 
