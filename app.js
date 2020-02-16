@@ -173,7 +173,7 @@ function load() {
   
 
         onkeydown = onkeyup = function(e){
-            // e.preventDefault();
+            e.preventDefault();
             e = e || event; // to deal with IE
             kMap[e.code] = e.type == 'keydown';
             handleActionMappings(kMap);
