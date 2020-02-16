@@ -101,9 +101,7 @@ function load() {
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
             player.showCraftingMenu = false;
 
-            if (player.equipped !== items.map) {
-                player.pickup(map.droppedItems);
-            }
+            player.pickup(map.droppedItems);
 
             player.chop(map);
         }
