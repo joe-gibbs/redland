@@ -1,3 +1,7 @@
+//THIS VERSION WILL BE DELETED ONCE INDIVIDUAL FEATURES FROM IT ARE SEPARATED INTO DIFFERENT BRANCHES.
+
+
+
 "use strict";
 
 import terrain from './src/terrain.js';
