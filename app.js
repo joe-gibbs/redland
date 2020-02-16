@@ -10,12 +10,10 @@ import MapRenderer from './src/classes/mapRenderer.js';
 import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
 
-let gameState = {menu: true, game: false};
-
-const MapSize = 192;
+const MapSize = 128;
 
 /** @type {GameMap} */
-let map = new GameMap(new MapGenerator().generate(MapSize, new SimplexNoise())); //218  - 256 are good Sizes for visibility and reduced blur.
+let map;
 
 /** @type {Tile} */
 let centerTile;
@@ -43,24 +41,11 @@ let mouseX = 0, mouseY = 0;
 /** @type {String[]} */
 let kMap = []; // You could also use an array
 
-document.addEventListener('readystatechange', event => {
-    if (event.target.readyState === "complete") {
-        let button = document.getElementById('gameButton');
-        button.style.visibility = "visible";
-        button.onclick = function(){
-            document.getElementById('menu').style.display = "none";
-            gameState.menu = false;
-            gameState.game = true;
-            startGame();
-        }   
-    }
-});
-
-
-
 //Main function, put stuff here
-function startGame() {
+window.onload = load;
 
+function load() {
+    map = new GameMap(new MapGenerator().generate(MapSize, new SimplexNoise())); //218  - 256 are good Sizes for visibility and reduced blur.
     /**
      * Handles inputs that you want done as a continuous series
      * @param {String[]} kMap 
@@ -103,26 +88,37 @@ function startGame() {
         if (kMap['KeyD']) {
             player.dropEquipped(map.droppedItems);
         }
+
+        if (kMap['KeyM']) {
+            if (player.items.includes(items.map)) {
+                player.showMap = !player.showMap;
+            }
+            else {
+                player.showMap = false;
+            }
+        }
+
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
             player.showCraftingMenu = false;
-            player.pickup(map.droppedItems);
+
+            if (player.equipped !== items.map) {
+                player.pickup(map.droppedItems);
+            }
+
             player.chop(map);
         }
     }
 
     //Setup
     function setup() { 
-        let fruitNum = MapSize/15;
         let treasure;
         try {
             centerTile = map.chooseRandomTile(terrain.LAND);
             treasure = map.chooseRandomTile(terrain.LAND);
-            for(let i = 0; i < fruitNum; i++){
-                let foundTile = map.chooseRandomTile(terrain.LAND);
-                map.droppedItems.push(new DroppedItem(foundTile.x, foundTile.y, items.food));
-            }
         } catch (error) {
-            location.reload();
+            console.log(error);
+            
+            load();
         }       
         treasure.type = terrain.TREASURE;
         map.tiles[map.tiles[treasure.x][treasure.y].x + 1][map.tiles[treasure.x][treasure.y].y + 1].type = terrain.TREASURE;
@@ -139,7 +135,6 @@ function startGame() {
             if (borders[i].type.walkable) {
                 map.droppedItems.push(new DroppedItem(borders[i].x + 1, borders[i].y + 1, items.axe));
                 map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 1, items.map));   
-                map.droppedItems.push(new DroppedItem(borders[i].x + 1, borders[i].y + 2, items.food));  
                 break;
             }
         }
@@ -235,7 +230,6 @@ function startGame() {
         if (player && !player.showMap) {
             player.updateMovement(map);
             handleAxisMappings(kMap);
-            player.handleEnergy();
         }   
     }
     
@@ -253,13 +247,9 @@ function startGame() {
 
     gameCanvas = document.getElementById('game');
     gameCanvas.style.display = "block";
-    canvas = gameCanvas.getContext("2d");
+    canvas = gameCanvas.getContext("2d");    
 
-    // need to fix this shit so there's a loading animation/indication while canvas loads.
-    if(gameState.game === true){
-        update();
-        setup();
-        setInterval(gameLoop, 16);
-    }
+    update();
+    setup();
+    setInterval(gameLoop, 16);
 };
-

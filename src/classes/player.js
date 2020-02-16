@@ -36,27 +36,6 @@ export default class Player {
         this.aimedTile; //Tile that the player is looking at based on direction.
         this.treasureLocation = treasureLocation;
 
-        this.energy = 100;
-    }
-
-    handleEnergy(){
-        if (this.energy <= 0){
-            console.log("YOU DEAD MOTHAFOCKA GET FREAKING GUD!!!");
-            this.movement[0] /= 4;
-            this.movement[1] /= 4;
-        } else if(this.energy <= 15){
-            this.movement[0] /= 4;
-            this.movement[1] /= 4;
-        } else if(this.energy <= 30){
-            this.movement[0] /= 2;
-            this.movement[1] /= 2;
-        }
-
-        if (this.movement[0] != 0){
-            this.energy -= 0.05;
-        } else if (this.movement[1] != 0){
-            this.energy -= 0.05;
-        }
     }
 
     /**
@@ -180,9 +159,6 @@ export default class Player {
                         case items.wood:
                             this.resources.wood += 10;
                             break;
-                        case items.food:
-                            this.energy += 50;
-                            break;
                         case items.gold:
                             this.resources.gold += 10;
                             break;
@@ -227,13 +203,11 @@ export default class Player {
         if(this.equipped === items.axe){
             if(this.aimedTile.type === terrain.FOREST){
                 working = this.aimedTile.damage(1.5, map);
-                this.energy -= 0.5;
             }
         }
         if (this.equipped === items.pick) {
             if(this.aimedTile.type === terrain.ROCK){
                 working = this.aimedTile.damage(2.5, map);
-                this.energy -= 0.5;
             }
         }
         if (this.equipped === items.shovel){
@@ -241,12 +215,8 @@ export default class Player {
                 //locates there will only be damage on the floor in the treasure location. 
                 if(this.aimedTile.x === this.treasureLocation.x && this.aimedTile.y === this.treasureLocation.y){
                     working = this.aimedTile.damage(1.5, map);
-                    this.energy -= 0.5;
                 }                                                                                                                                                                                                                                                               
             }
-        }
-        if (this.equipped === items.map){
-            this.showMap = !this.showMap
         }
         return working;
     }

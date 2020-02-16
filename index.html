@@ -20,16 +20,6 @@
             display:grid;
             touch-action: none;
         }
-        #menu {
-            font-family: Pixelated;
-            text-align: center;
-        }
-        #menu .container {
-            padding: 10% 20%;
-        }
-        #menu p {
-            margin: 40px 0;
-        }
         #gameButton {
             visibility: hidden;
         }
@@ -49,16 +39,8 @@
     </style>
 </head>
 <body>
-    <!-- <div id="dynamic"></div> -->
+    <div id="dynamic"></div>
     <div style="position: absolute;" id="fps">--</div>
-    <section id="menu">
-        <div class='container'>
-            <h1>The Greatest Game of all Time</h1>
-            <p>By: <strong>JS STUDIO</strong></p>
-            <p>A PVP and PVE, Survival, Treasure Hunting, Adventure, and RTS game. What more could you want? </p>
-            <input type='button' id='gameButton' value="Start"/>
-        </div>
-    </section>
     <canvas width="500px" height="500px" id="game"></canvas>
 </body>
 </html>
