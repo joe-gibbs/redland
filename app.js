@@ -10,8 +10,6 @@ import MapRenderer from './src/classes/mapRenderer.js';
 import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
 
-let gameState = {menu: true, game: false};
-
 const MapSize = 128;
 
 /** @type {GameMap} */
@@ -42,21 +40,6 @@ let mouseX = 0, mouseY = 0;
 
 /** @type {String[]} */
 let kMap = []; // You could also use an array
-
-document.addEventListener('readystatechange', event => {
-    if (event.target.readyState === "complete") {
-        let button = document.getElementById('gameButton');
-        button.style.visibility = "visible";
-        button.onclick = function(){
-            document.getElementById('menu').style.display = "none";
-            gameState.menu = false;
-            gameState.game = true;
-            startGame();
-        }   
-    }
-});
-
-
 
 //Main function, put stuff here
 function startGame() {
