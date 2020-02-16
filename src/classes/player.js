@@ -219,9 +219,6 @@ export default class Player {
                 }                                                                                                                                                                                                                                                               
             }
         }
-        if (this.equipped === items.map){
-            this.showMap = !this.showMap
-        }
         return working;
     }
 

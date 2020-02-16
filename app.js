@@ -89,6 +89,15 @@ function load() {
             player.dropEquipped(map.droppedItems);
         }
 
+        if (kMap['KeyM']) {
+            if (player.items.includes(items.map)) {
+                player.showMap = !player.showMap;
+            }
+            else {
+                player.showMap = false;
+            }
+        }
+
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
             player.showCraftingMenu = false;
 
@@ -107,6 +116,8 @@ function load() {
             centerTile = map.chooseRandomTile(terrain.LAND);
             treasure = map.chooseRandomTile(terrain.LAND);
         } catch (error) {
+            console.log(error);
+            
             load();
         }       
         treasure.type = terrain.TREASURE;
