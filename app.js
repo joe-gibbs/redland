@@ -42,8 +42,7 @@ let mouseX = 0, mouseY = 0;
 let kMap = []; // You could also use an array
 
 //Main function, put stuff here
-function startGame() {
-
+window.onload = function() {
     /**
      * Handles inputs that you want done as a continuous series
      * @param {String[]} kMap 
@@ -241,13 +240,9 @@ function startGame() {
 
     gameCanvas = document.getElementById('game');
     gameCanvas.style.display = "block";
-    canvas = gameCanvas.getContext("2d");
+    canvas = gameCanvas.getContext("2d");    
 
-    // need to fix this shit so there's a loading animation/indication while canvas loads.
-    if(gameState.game === true){
-        update();
-        setup();
-        setInterval(gameLoop, 16);
-    }
+    update();
+    setup();
+    setInterval(gameLoop, 16);
 };
-
