@@ -121,20 +121,21 @@ function load() {
         try {
             centerTile = map.chooseRandomTile(terrain.LAND);
             treasure = map.chooseRandomTile(terrain.LAND);
-            // mapPieces[0] = map.chooseRandomTile(terrain.LAND);
-            // mapPieces[1] = map.chooseRandomTile(terrain.LAND);
-            // mapPieces[2] = map.chooseRandomTile(terrain.LAND);
+            mapPieces[0] = map.chooseRandomTile(terrain.LAND);
+            mapPieces[1] = map.chooseRandomTile(terrain.LAND);
+            mapPieces[2] = map.chooseRandomTile(terrain.LAND);
         } catch (error) {            
             load();
         }
         let treasureLocation = ChangeTileType(treasure, terrain.TREASURE);
-        // let mapPiece1 = ChangeTileType(mapPieces[0], terrain.TREASURE);
-        // let mapPiece2 = ChangeTileType(mapPieces[1], terrain.TREASURE);
-        // let mapPiece3 = ChangeTileType(mapPieces[2], terrain.TREASURE);
+        let mapPiece1 = ChangeTileType(mapPieces[0], terrain.TREASUREPIECE);
+        let mapPiece2 = ChangeTileType(mapPieces[1], terrain.TREASUREPIECE);
+        let mapPiece3 = ChangeTileType(mapPieces[2], terrain.TREASUREPIECE);
 
-        // map.droppedItems.push(new DroppedItem(mapPiece1.x, mapPiece1.y, items.mapPiece1));
-        // map.droppedItems.push(new DroppedItem(mapPiece2.x, mapPiece2.y, items.mapPiece2));
-        // map.droppedItems.push(new DroppedItem(mapPiece3.x, mapPiece3.y, items.mapPiece3));
+        map.droppedItems.push(new DroppedItem(mapPiece1.x, mapPiece1.y, items.mapPiece1));
+        map.droppedItems.push(new DroppedItem(mapPiece2.x, mapPiece2.y, items.mapPiece2));
+        map.droppedItems.push(new DroppedItem(mapPiece3.x, mapPiece3.y, items.mapPiece3));
+        console.log(map.droppedItems)
 
 
         let borders = centerTile.bordering(centerTile.x, centerTile.y, map.tiles, 2);
@@ -144,9 +145,9 @@ function load() {
             if (borders[i].type.walkable) {
                 map.droppedItems.push(new DroppedItem(borders[i].x + 1, borders[i].y + 1, items.axe));
                 map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 1, items.map)); 
-                map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 2, items.mapPiece1));
-                map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 3, items.mapPiece2));
-                map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 4, items.mapPiece3));  
+                // map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 2, items.mapPiece1));
+                // map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 3, items.mapPiece2));
+                // map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 4, items.mapPiece3));  
                 break;
             }
         }
@@ -157,7 +158,7 @@ function load() {
 
         uiRenderer = new UiRenderer(player, canvas);
 
-        uiRenderer.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles));
+        uiRenderer.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles, "Treasure Piece"));
 
         /**
          * Enable touch controls for touchscreen

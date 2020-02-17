@@ -92,7 +92,7 @@ export default class MapGenerator {
      * @param {CanvasRenderingContext2D} canvas
      * @param {Tile[]} tiles 
      */
-    static generateTreasureMap(canvas, tiles) {  
+    static generateTreasureMap(canvas, tiles, searchedItem) {  
         function rotate180(a) {
             const w = a[0].length;
             const h = a.length;
@@ -131,7 +131,7 @@ export default class MapGenerator {
                 case "Water":
                     result = hexToRGBA('#E9D7A9');
                     break;
-                case "Treasure":
+                case searchedItem:
                     result = hexToRGBA('#000000');
                     break;
                 default:

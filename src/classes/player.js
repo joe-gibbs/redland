@@ -191,6 +191,7 @@ export default class Player {
                 } 
             }
         }); 
+        console.log(this.resources);    
     }
 
     dropEquipped(droppedItems) {
