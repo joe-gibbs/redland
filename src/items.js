@@ -13,7 +13,7 @@ const items = {
     "mapPiece1": new Item('Map Piece', './assets/img/map_piece1.png'),
     "mapPiece2": new Item('Map Piece', './assets/img/map_piece2.png'),
     "mapPiece3": new Item('Map Piece', './assets/img/map_piece3.png'),
-    "completedMap": new Item('Completed Map', './assets/img/completed_map.png'),
+    "completedMap": new Item('Map', './assets/img/completed_map.png'),
     "treasure": new Treasure('Treasure')
 }
 Object.freeze(items);

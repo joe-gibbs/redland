@@ -23,6 +23,9 @@ export default class Player {
         this.resources = {
             wood: 0,
             stone: 0,
+            mapPiece1: 0, 
+            mapPiece2: 0,
+            mapPiece3: 0,
         };
         this.onSea = false;
         this.showCraftingMenu = false;
@@ -164,6 +167,15 @@ export default class Player {
                             break;
                         case items.stone:
                             this.resources.stone += 10;
+                            break;
+                        case items.mapPiece1:
+                            this.resources.mapPiece1 += 1;
+                            break;
+                        case items.mapPiece2:
+                            this.resources.mapPiece2 += 1;
+                            break;
+                        case items.mapPiece3:
+                            this.resources.mapPiece3 += 1;
                             break;
                         default:
                             if (this.items.length < 2){

@@ -20,6 +20,8 @@ export default class CraftableItem {
     canCraft(player) {
         if (player.resources.stone >= this.requirements.stone && player.resources.wood >= this.requirements.wood) {
             return true;
+        } else if (this.requirements.mapPiece1 <= player.resources.mapPiece1 && this.requirements.mapPiece2 <= player.resources.mapPiece2 && this.requirements.mapPiece3 <= player.resources.mapPiece3){
+            return true
         }
         return false;
     }
@@ -35,6 +37,9 @@ export default class CraftableItem {
 
             droppedItems.push(new DroppedItem(player.closestX, player.closestY, this.item));
 
+            player.resources.mapPiece1 -= this.requirements.mapPiece1;
+            player.resources.mapPiece2 -= this.requirements.mapPiece2;
+            player.resources.mapPiece3 -= this.requirements.mapPiece3;
             player.resources.stone -= this.requirements.stone;
             player.resources.wood -= this.requirements.wood;
         }

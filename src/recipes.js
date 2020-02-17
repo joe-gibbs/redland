@@ -20,6 +20,13 @@ const recipes = {
             stone: 0,
         }
     ),
+    map: new CraftableItem(items.completedMap,
+        {
+            mapPiece1: 1,
+            mapPiece2: 1,
+            mapPiece3: 1
+        }   
+    )
 };
 
 Object.freeze(recipes);
