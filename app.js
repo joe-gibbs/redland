@@ -134,11 +134,8 @@ function load() {
 
         map.droppedItems.push(new DroppedItem(mapPiece1.x, mapPiece1.y, items.mapPiece1));
         map.droppedItems.push(new DroppedItem(mapPiece2.x, mapPiece2.y, items.mapPiece2));
-        map.droppedItems.push(new DroppedItem(mapPiece.x, mapPiece.y, items.mapPiece));
+        map.droppedItems.push(new DroppedItem(mapPiece3.x, mapPiece3.y, items.mapPiece3));
 
-        
-
-        // MAKE IT SO THE SHARDS ACTUALLY SHOW!!!
 
         let borders = centerTile.bordering(centerTile.x, centerTile.y, map.tiles, 2);
 
