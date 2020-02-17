@@ -109,22 +109,36 @@ function load() {
         }
     }
 
+    function ChangeTileType(tile, terrainType){
+        tile.type = terrainType;
+        return {x: tile.x, y: tile.y};
+    }
+
     //Setup
     function setup() { 
         let treasure;
+        let mapPieces = [];
         try {
             centerTile = map.chooseRandomTile(terrain.LAND);
             treasure = map.chooseRandomTile(terrain.LAND);
+            mapPieces[0] = map.chooseRandomTile(terrain.LAND);
+            mapPieces[1] = map.chooseRandomTile(terrain.LAND);
+            mapPieces[2] = map.chooseRandomTile(terrain.LAND);
         } catch (error) {            
             load();
-        }       
-        treasure.type = terrain.TREASURE;
-        map.tiles[map.tiles[treasure.x][treasure.y].x + 1][map.tiles[treasure.x][treasure.y].y + 1].type = terrain.TREASURE;
-        map.tiles[map.tiles[treasure.x][treasure.y].x - 1][map.tiles[treasure.x][treasure.y].y - 1].type = terrain.TREASURE;
-        map.tiles[map.tiles[treasure.x][treasure.y].x + 1][map.tiles[treasure.x][treasure.y].y - 1].type = terrain.TREASURE;
-        map.tiles[map.tiles[treasure.x][treasure.y].x - 1][map.tiles[treasure.x][treasure.y].y + 1].type = terrain.TREASURE;
-        let treasureLocation = {x: treasure.x, y: treasure.y};
+        }
+        let treasureLocation = ChangeTileType(treasure, terrain.TREASURE);
+        let mapPiece1 = ChangeTileType(mapPieces[0], terrain.TREASURE);
+        let mapPiece2 = ChangeTileType(mapPieces[1], terrain.TREASURE);
+        let mapPiece3 = ChangeTileType(mapPieces[2], terrain.TREASURE);
 
+        map.droppedItems.push(new DroppedItem(mapPiece1.x, mapPiece1.y, items.mapPiece1));
+        map.droppedItems.push(new DroppedItem(mapPiece2.x, mapPiece2.y, items.mapPiece2));
+        map.droppedItems.push(new DroppedItem(mapPiece.x, mapPiece.y, items.mapPiece));
+
+        
+
+        // MAKE IT SO THE SHARDS ACTUALLY SHOW!!!
 
         let borders = centerTile.bordering(centerTile.x, centerTile.y, map.tiles, 2);
 
@@ -143,7 +157,7 @@ function load() {
 
         uiRenderer = new UiRenderer(player, canvas);
 
-        uiRenderer.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles, treasureLocation));
+        uiRenderer.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles));
 
         /**
          * Enable touch controls for touchscreen
