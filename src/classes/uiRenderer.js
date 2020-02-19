@@ -45,7 +45,7 @@ export default class UiRenderer {
         }
 
         if (player.showMap) {
-            this.renderMap();
+            // this.renderMap();
         }
         this.renderResources();
     }

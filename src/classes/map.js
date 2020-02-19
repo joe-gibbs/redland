@@ -1,8 +1,10 @@
 export default class Map {
-    constructor(canvas, tiles, searchedItem){
+    constructor(canvas, tiles, player, searchedItem){
         this.canvas = canvas;
+        this.player = player;
         this.tiles = tiles;
         this.searchedItem = searchedItem;
+        this.map = new Image();
     }
     rotate180(a) {
         const w = a[0].length;
@@ -31,7 +33,7 @@ export default class Map {
         
         const tileColor = tile => {
             let result = [];
-            switch (this.tile) {
+            switch (tile) {
                 case "Forest":
                     result = hexToRGBA('#DB7644');
                     break;
@@ -55,7 +57,7 @@ export default class Map {
         }
     
         const rgba = 
-            rotate180(tiles)
+            this.rotate180(this.tiles)
             .reduce((prev, next) => next.map((item, i) =>
             (prev[i] || []).concat(next[i])
             ), [])
@@ -64,13 +66,19 @@ export default class Map {
             .map(tileColor)  // 1d list of [R, G, B, A] byte arrays
             .flat(1); // 1d list of bytes
                 
-        let imgData = new ImageData(Uint8ClampedArray.from(rgba), tiles.length, tiles.length);
+        let imgData = new ImageData(Uint8ClampedArray.from(rgba), this.tiles.length, this.tiles.length);
     
-        canvas.canvas.width = imgData.width;
-        canvas.canvas.height = imgData.height;
+        this.canvas.canvas.width = imgData.width;
+        this.canvas.canvas.height = imgData.height;
         
-        canvas.putImageData(imgData, 0, 0);
+        this.canvas.putImageData(imgData, 0, 0);
     
-        return (canvas.canvas.toDataURL());
+        return this.canvas.canvas.toDataURL();
+    }
+    renderMap(){
+        if (this.player.showMap){
+            console.log("rendering map...");
+            this.canvas.drawImage(this.map, (this.canvasWidth / 2 ) - 250, (this.canvasHeight / 2) - 250, 512, 512);
+        }
     }
 }

@@ -9,6 +9,7 @@ import fps from './src/fpsCounter.js';
 import MapRenderer from './src/classes/mapRenderer.js';
 import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
+import Map from './src/classes/Map.js';
 
 const MapSize = 192;
 
@@ -34,6 +35,8 @@ let mapRenderer;
 
 /** @type {UiRenderer} */
 let uiRenderer;
+
+let pieceMap;
 
 /** @type {Number} */
 let tileSize, canvasWidth, canvasHeight;
@@ -158,7 +161,12 @@ function load() {
 
         uiRenderer = new UiRenderer(player, canvas);
 
-        uiRenderer.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles, "Treasure Piece"));
+        // uiRenderer.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles, "Treasure Piece"));
+
+        pieceMap = new Map(canvas, map.tiles, player, "Treasure Piece");
+        pieceMap.map.src = pieceMap.generateMap()
+
+
 
         /**
          * Enable touch controls for touchscreen
@@ -259,6 +267,7 @@ function load() {
     function draw() {
         mapRenderer.render(centerTile, player);        
         uiRenderer.render(mouseX, mouseY, player);
+        pieceMap.renderMap();
     }
 
     function gameLoop() {
