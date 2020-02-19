@@ -94,22 +94,12 @@ function load() {
         if (kMap['KeyD']) {
             player.dropEquipped(map.droppedItems);
         }
-
-        if (kMap['KeyM']) {
-            if (player.items.includes(items.map)) {
-                player.showMap = !player.showMap;
-            }
-            else {
-                player.showMap = false;
-            }
-        }
-
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
             player.showCraftingMenu = false;
-
-            player.pickup(map.droppedItems);
-
-            player.chop(map);
+            let pickedUp = player.pickup(map.droppedItems);
+            if (!pickedUp){
+                player.chop(map); 
+            }     
         }
     }
 

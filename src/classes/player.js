@@ -153,6 +153,7 @@ export default class Player {
     }
 
     pickup(droppedItems) {
+        let result = false;
         let equipped2 = false;
         droppedItems.forEach(item => {    
             if (item.x === this.closestX && item.y === this.closestY) {
@@ -160,25 +161,32 @@ export default class Player {
                 if (!this.items.includes(actualItem)) {
                     switch (actualItem) {
                         case items.wood:
+                            result = true;
                             this.resources.wood += 10;
                             break;
                         case items.gold:
+                            result = true;
                             this.resources.gold += 10;
                             break;
                         case items.stone:
+                            result = true;
                             this.resources.stone += 10;
                             break;
                         case items.mapPiece1:
+                            result = true;
                             this.resources.mapPiece1 += 1;
                             break;
                         case items.mapPiece2:
+                            result = true;
                             this.resources.mapPiece2 += 1;
                             break;
                         case items.mapPiece3:
+                            result = true;
                             this.resources.mapPiece3 += 1;
                             break;
                         default:
                             if (this.items.length < 2){
+                                result = true;
                                 this.equipped = actualItem;
                             } else {
                                 equipped2 = true;
@@ -191,7 +199,8 @@ export default class Player {
                 } 
             }
         }); 
-        console.log(this.resources);    
+        console.log(this.resources, result);   
+        return result; 
     }
 
     dropEquipped(droppedItems) {
@@ -224,12 +233,16 @@ export default class Player {
             }
         }
         if (this.equipped === items.shovel){
-            if(/*this.aimedTile.type === terrain.LAND ||*/ this.aimedTile.type === terrain.TREASURE){
+            if(this.aimedTile.type === terrain.TREASURE){
                 //locates there will only be damage on the floor in the treasure location. 
                 if(this.aimedTile.x === this.treasureLocation.x && this.aimedTile.y === this.treasureLocation.y){
                     working = this.aimedTile.damage(1.5, map);
                 }                                                                                                                                                                                                                                                               
             }
+        }
+        if (this.equipped === items.map){
+            this.showMap = !this.showMap;
+            //make so cant move while seeing map.
         }
         return working;
     }
