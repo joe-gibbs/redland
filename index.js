@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron')
+const { webFrame } = require('electron')
 
 function createWindow () {
   // Create the browser window.
@@ -6,12 +7,12 @@ function createWindow () {
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
     }
   })
 
   // and load the index.html of the app.
-  win.loadFile('index.html')
+  win.loadFile('electron.html')    
 }
 
-app.on('ready', createWindow)
+app.whenReady().then(createWindow)
