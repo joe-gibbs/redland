@@ -74,7 +74,11 @@ function load() {
             centerTile = player.move(0, -0.1, map)
         }
         if (kMap['TouchVector']) {
-            centerTile = player.move(-kMap['TouchVector'].x / 20, kMap['TouchVector'].y / 20, map);
+            let x = kMap['TouchVector'].x;
+            let y = kMap['TouchVector'].y;
+            if (x != 0 && y != 0) {
+                centerTile = player.move(-x / 20, y / 20, map);
+            }
         }
         if (kMap['TouchDistance'] && kMap['TouchDistance'] === 100) {
             player.chop(map);
