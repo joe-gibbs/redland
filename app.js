@@ -151,24 +151,25 @@ function load() {
         let dynamic;
         let touched = false;
 
-        window.addEventListener('touchstart', function() {
-            if (!touched) {
+        window.addEventListener('touchstart', function() {            
+            if (!touched) { 
                 dynamic = nipplejs.create({
                     zone: document.getElementById('dynamic'),
                     color: 'gray'
                 });
                 touched = true;
-                dynamic.on('move', function(evt, data) {     
-                    kMap['TouchVector'] = data.vector;
-                });
-        
-                dynamic.on('end', function(evt, data) {   
-                    kMap['TouchVector'] = {
-                        x: 0,
-                        y: 0,
-                    };
-                });
             }
+            
+            dynamic.on('move', function(evt, data) {     
+                kMap['TouchVector'] = data.vector;
+            });
+        
+            dynamic.on('end', function(evt, data) {   
+                kMap['TouchVector'] = {
+                    x: 0,
+                    y: 0,
+                };
+            });
         });
   
 
