@@ -158,8 +158,7 @@ function load() {
         pieceMap.map.src = pieceMap.generateMap()
 
         treasureMap = new Map(canvas, map.tiles, player, "Treasure");
-        treasureMap.map.src = pieceMap.generateMap();
-
+        treasureMap.map.src = treasureMap.generateMap();
 
 
         /**
