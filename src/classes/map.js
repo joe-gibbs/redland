@@ -73,7 +73,6 @@ export default class Map {
         
         this.canvas.putImageData(imgData, 0, 0);
         
-        console.log(this.searchedItem)
         return this.canvas.canvas.toDataURL();
     }
     renderMap(canvasWidth, canvasHeight){
