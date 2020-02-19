@@ -1,5 +1,8 @@
 export default class Map {
     constructor(canvas, tiles, player, searchedItem){
+        /**
+         * @type {CanvasRenderingContext2D}
+         */
         this.canvas = canvas;
         this.player = player;
         this.tiles = tiles;
@@ -76,6 +79,7 @@ export default class Map {
         return this.canvas.canvas.toDataURL();
     }
     renderMap(canvasWidth, canvasHeight){
-        this.canvas.drawImage(this.map, (canvasWidth / 2 ) - 250, (canvasHeight / 2) - 250, 512, 512);
+        let width = Math.min(512, canvasWidth);
+        this.canvas.drawImage(this.map, (canvasWidth / 2 ) - (width/2), (canvasHeight / 2) - (width/2), width, width);
     }
 }
