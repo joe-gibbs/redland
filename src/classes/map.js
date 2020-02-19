@@ -77,9 +77,6 @@ export default class Map {
     }
     renderMap(canvasWidth, canvasHeight){
         if (this.player.showMap){
-            console.log("rendering map...");
-            console.log(this.map);
-            
             this.canvas.drawImage(this.map, (canvasWidth / 2 ) - 250, (canvasHeight / 2) - 250, 512, 512);
         }
     }
