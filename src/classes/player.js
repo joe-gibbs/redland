@@ -57,6 +57,10 @@ export default class Player {
     }
 
     switchItems() {
+        if (this.onSea) {
+            return;
+        }
+        
         if(this.items[0] === items.map){
             this.showPieceMap = false;
         } else if (this.items[0] === items.completedMap){
@@ -211,7 +215,11 @@ export default class Player {
         }
     }
 
-    drop(droppedItems, item) {        
+    drop(droppedItems, item) {  
+        if (this.onSea) {
+            return;
+        }      
+
         droppedItems.push(new DroppedItem(this.closestX, this.closestY, item));
         this.items.remove(item);
 
