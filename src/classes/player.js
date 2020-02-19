@@ -29,7 +29,8 @@ export default class Player {
         };
         this.onSea = false;
         this.showCraftingMenu = false;
-        this.showMap = false;
+        this.showPieceMap = false;
+        this.showTreasureMap = false;
         this.items = [];
         this.health = 100;
         this.direction = [0,1]; // DIRECTIONS -> [Right <= 0 < Left, back <= 0 < front]
@@ -57,7 +58,9 @@ export default class Player {
 
     switchItems() {
         if(this.items[0] === items.map){
-            this.showMap = false;
+            this.showPieceMap = false;
+        } else if (this.items[0] === items.completedMap){
+            this.showTreasureMap = false;
         }
         this.items.reverse();
     }
@@ -214,7 +217,8 @@ export default class Player {
 
         //close map if you drop it.
         if(item.name === items.map.name){
-            this.showMap = false;
+            this.showPieceMap = false;
+            this.showTreasureMap = false;
         }
 
     }
@@ -240,8 +244,9 @@ export default class Player {
             }
         }
         if (this.equipped === items.map){
-            this.showMap = !this.showMap;
-            //make so cant move while seeing map.
+            this.showPieceMap = !this.showPieceMap;
+        } else if (this.equipped === items.completedMap){
+            this.showTreasureMap = !this.showTreasureMap;
         }
         return working;
     }

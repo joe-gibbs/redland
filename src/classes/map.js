@@ -76,8 +76,6 @@ export default class Map {
         return this.canvas.canvas.toDataURL();
     }
     renderMap(canvasWidth, canvasHeight){
-        if (this.player.showMap){
-            this.canvas.drawImage(this.map, (canvasWidth / 2 ) - 250, (canvasHeight / 2) - 250, 512, 512);
-        }
+        this.canvas.drawImage(this.map, (canvasWidth / 2 ) - 250, (canvasHeight / 2) - 250, 512, 512);
     }
 }

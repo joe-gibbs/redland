@@ -39,6 +39,9 @@ let uiRenderer;
 /** @type {Map} */
 let pieceMap;
 
+/** @type {Map} */
+let treasureMap;
+
 /** @type {Number} */
 let tileSize, canvasWidth, canvasHeight;
 
@@ -81,12 +84,14 @@ function load() {
      */
     function handleActionMappings(kMap) {
         if (kMap['KeyG']) {
-            player.showMap = false;
+            player.showPieceMap = false;
+            player.showTreasureMap = false;
             player.showCraftingMenu = !player.showCraftingMenu;
         }
         if (kMap['Escape']) {
             player.showCraftingMenu = false;
-            player.showMap = false;
+            player.showPieceMap = false;
+            player.showTreasureMap = false;
         }
         if (kMap['KeyA']){
             player.switchItems();
@@ -99,7 +104,7 @@ function load() {
             let pickedUp = player.pickup(map.droppedItems);
             if (!pickedUp){
                 player.chop(map); 
-            }     
+            }
         }
     }
 
@@ -129,7 +134,6 @@ function load() {
         map.droppedItems.push(new DroppedItem(mapPiece1.x, mapPiece1.y, items.mapPiece1));
         map.droppedItems.push(new DroppedItem(mapPiece2.x, mapPiece2.y, items.mapPiece2));
         map.droppedItems.push(new DroppedItem(mapPiece3.x, mapPiece3.y, items.mapPiece3));
-        console.log(map.droppedItems)
 
 
         let borders = centerTile.bordering(centerTile.x, centerTile.y, map.tiles, 2);
@@ -138,10 +142,7 @@ function load() {
         for (let i = 0; i < borders.length; i++) {
             if (borders[i].type.walkable) {
                 map.droppedItems.push(new DroppedItem(borders[i].x + 1, borders[i].y + 1, items.axe));
-                map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 1, items.map)); 
-                // map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 2, items.mapPiece1));
-                // map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 3, items.mapPiece2));
-                // map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 4, items.mapPiece3));  
+                map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 1, items.map));  
                 break;
             }
         }
@@ -152,10 +153,12 @@ function load() {
 
         uiRenderer = new UiRenderer(player, canvas);
 
-        // uiRenderer.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles, "Treasure Piece"));
-
+        //Create Maps
         pieceMap = new Map(canvas, map.tiles, player, "Treasure Piece");
         pieceMap.map.src = pieceMap.generateMap()
+
+        treasureMap = new Map(canvas, map.tiles, player, "Treasure");
+        treasureMap.map.src = pieceMap.generateMap();
 
 
 
@@ -239,7 +242,7 @@ function load() {
         tileSize = 64;// NEED TO ADJUST TILE SIZE WITH CANVAS SIZE
         canvas.font = (canvasWidth + canvasHeight) / 92 + "px Pixelated";
         canvas.fillRect(0, 0, canvasWidth, canvasHeight);
-        if (player && !player.showMap) {
+        if (player && !player.showPieceMap && !player.showTreasureMap) {
             player.updateMovement(map);
             handleAxisMappings(kMap);
         }   
@@ -258,7 +261,12 @@ function load() {
     function draw() {
         mapRenderer.render(centerTile, player);        
         uiRenderer.render(mouseX, mouseY, player);
-        pieceMap.renderMap(canvasWidth, canvasHeight);
+        if(player.showPieceMap){
+            pieceMap.renderMap(canvasWidth, canvasHeight);
+        } else if (player.showTreasureMap){
+            treasureMap.renderMap(canvasWidth, canvasHeight);
+        }
+
     }
 
     function gameLoop() {
