@@ -9,6 +9,7 @@ import fps from './src/fpsCounter.js';
 import MapRenderer from './src/classes/mapRenderer.js';
 import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
+import Map from './src/classes/Map.js';
 
 const MapSize = 192;
 
@@ -34,6 +35,12 @@ let mapRenderer;
 
 /** @type {UiRenderer} */
 let uiRenderer;
+
+/** @type {Map} */
+let pieceMap;
+
+/** @type {Map} */
+let treasureMap;
 
 /** @type {Number} */
 let tileSize, canvasWidth, canvasHeight;
@@ -77,12 +84,14 @@ function load() {
      */
     function handleActionMappings(kMap) {
         if (kMap['KeyG']) {
-            player.showMap = false;
+            player.showPieceMap = false;
+            player.showTreasureMap = false;
             player.showCraftingMenu = !player.showCraftingMenu;
         }
         if (kMap['Escape']) {
             player.showCraftingMenu = false;
-            player.showMap = false;
+            player.showPieceMap = false;
+            player.showTreasureMap = false;
         }
         if (kMap['KeyA']){
             player.switchItems();
@@ -90,40 +99,41 @@ function load() {
         if (kMap['KeyD']) {
             player.dropEquipped(map.droppedItems);
         }
-
-        if (kMap['KeyM']) {
-            if (player.items.includes(items.map)) {
-                player.showMap = !player.showMap;
-            }
-            else {
-                player.showMap = false;
-            }
-        }
-
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
             player.showCraftingMenu = false;
-
-            player.pickup(map.droppedItems);
-
-            player.chop(map);
+            let pickedUp = player.pickup(map.droppedItems);
+            if (!pickedUp){
+                player.chop(map); 
+            }
         }
+    }
+
+    function ChangeTileType(tile, terrainType){
+        tile.type = terrainType;
+        return {x: tile.x, y: tile.y};
     }
 
     //Setup
     function setup() { 
         let treasure;
+        let mapPieces = [];
         try {
             centerTile = map.chooseRandomTile(terrain.LAND);
             treasure = map.chooseRandomTile(terrain.LAND);
+            mapPieces[0] = map.chooseRandomTile(terrain.LAND);
+            mapPieces[1] = map.chooseRandomTile(terrain.LAND);
+            mapPieces[2] = map.chooseRandomTile(terrain.LAND);
         } catch (error) {            
             load();
-        }       
-        treasure.type = terrain.TREASURE;
-        map.tiles[map.tiles[treasure.x][treasure.y].x + 1][map.tiles[treasure.x][treasure.y].y + 1].type = terrain.TREASURE;
-        map.tiles[map.tiles[treasure.x][treasure.y].x - 1][map.tiles[treasure.x][treasure.y].y - 1].type = terrain.TREASURE;
-        map.tiles[map.tiles[treasure.x][treasure.y].x + 1][map.tiles[treasure.x][treasure.y].y - 1].type = terrain.TREASURE;
-        map.tiles[map.tiles[treasure.x][treasure.y].x - 1][map.tiles[treasure.x][treasure.y].y + 1].type = terrain.TREASURE;
-        let treasureLocation = {x: treasure.x, y: treasure.y};
+        }
+        let treasureLocation = ChangeTileType(treasure, terrain.TREASURE);
+        let mapPiece1 = ChangeTileType(mapPieces[0], terrain.TREASUREPIECE);
+        let mapPiece2 = ChangeTileType(mapPieces[1], terrain.TREASUREPIECE);
+        let mapPiece3 = ChangeTileType(mapPieces[2], terrain.TREASUREPIECE);
+
+        map.droppedItems.push(new DroppedItem(mapPiece1.x, mapPiece1.y, items.mapPiece1));
+        map.droppedItems.push(new DroppedItem(mapPiece2.x, mapPiece2.y, items.mapPiece2));
+        map.droppedItems.push(new DroppedItem(mapPiece3.x, mapPiece3.y, items.mapPiece3));
 
 
         let borders = centerTile.bordering(centerTile.x, centerTile.y, map.tiles, 2);
@@ -132,7 +142,7 @@ function load() {
         for (let i = 0; i < borders.length; i++) {
             if (borders[i].type.walkable) {
                 map.droppedItems.push(new DroppedItem(borders[i].x + 1, borders[i].y + 1, items.axe));
-                map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 1, items.map));   
+                map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 1, items.map));  
                 break;
             }
         }
@@ -143,7 +153,13 @@ function load() {
 
         uiRenderer = new UiRenderer(player, canvas);
 
-        uiRenderer.treasureMap.src = (MapGenerator.generateTreasureMap(canvas, map.tiles, treasureLocation));
+        //Create Maps
+        pieceMap = new Map(canvas, map.tiles, player, "Treasure Piece");
+        pieceMap.map.src = pieceMap.generateMap()
+
+        treasureMap = new Map(canvas, map.tiles, player, "Treasure");
+        treasureMap.map.src = treasureMap.generateMap();
+
 
         /**
          * Enable touch controls for touchscreen
@@ -227,7 +243,7 @@ function load() {
         tileSize = 64;// NEED TO ADJUST TILE SIZE WITH CANVAS SIZE
         canvas.font = (canvasWidth + canvasHeight) / 92 + "px Pixelated";
         canvas.fillRect(0, 0, canvasWidth, canvasHeight);
-        if (player && !player.showMap) {
+        if (player && !player.showPieceMap && !player.showTreasureMap) {
             player.updateMovement(map);
             handleAxisMappings(kMap);
         }   
@@ -246,6 +262,12 @@ function load() {
     function draw() {
         mapRenderer.render(centerTile, player);        
         uiRenderer.render(mouseX, mouseY, player);
+        if(player.showPieceMap){
+            pieceMap.renderMap(canvasWidth, canvasHeight);
+        } else if (player.showTreasureMap){
+            treasureMap.renderMap(canvasWidth, canvasHeight);
+        }
+
     }
 
     function gameLoop() {
@@ -253,7 +275,7 @@ function load() {
         window.fps.innerHTML = fpsValue;
         update();
         draw();
-        updateTime();
+        // updateTime();
     }
 
     gameCanvas = document.getElementById('game');

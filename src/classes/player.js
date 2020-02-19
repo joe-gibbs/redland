@@ -23,10 +23,14 @@ export default class Player {
         this.resources = {
             wood: 0,
             stone: 0,
+            mapPiece1: 0, 
+            mapPiece2: 0,
+            mapPiece3: 0,
         };
         this.onSea = false;
         this.showCraftingMenu = false;
-        this.showMap = false;
+        this.showPieceMap = false;
+        this.showTreasureMap = false;
         this.items = [];
         this.health = 100;
         this.direction = [0,1]; // DIRECTIONS -> [Right <= 0 < Left, back <= 0 < front]
@@ -54,7 +58,9 @@ export default class Player {
 
     switchItems() {
         if(this.items[0] === items.map){
-            this.showMap = false;
+            this.showPieceMap = false;
+        } else if (this.items[0] === items.completedMap){
+            this.showTreasureMap = false;
         }
         this.items.reverse();
     }
@@ -150,6 +156,7 @@ export default class Player {
     }
 
     pickup(droppedItems) {
+        let result = false;
         let equipped2 = false;
         droppedItems.forEach(item => {    
             if (item.x === this.closestX && item.y === this.closestY) {
@@ -157,16 +164,32 @@ export default class Player {
                 if (!this.items.includes(actualItem)) {
                     switch (actualItem) {
                         case items.wood:
+                            result = true;
                             this.resources.wood += 10;
                             break;
                         case items.gold:
+                            result = true;
                             this.resources.gold += 10;
                             break;
                         case items.stone:
+                            result = true;
                             this.resources.stone += 10;
+                            break;
+                        case items.mapPiece1:
+                            result = true;
+                            this.resources.mapPiece1 += 1;
+                            break;
+                        case items.mapPiece2:
+                            result = true;
+                            this.resources.mapPiece2 += 1;
+                            break;
+                        case items.mapPiece3:
+                            result = true;
+                            this.resources.mapPiece3 += 1;
                             break;
                         default:
                             if (this.items.length < 2){
+                                result = true;
                                 this.equipped = actualItem;
                             } else {
                                 equipped2 = true;
@@ -178,7 +201,8 @@ export default class Player {
                     }
                 } 
             }
-        }); 
+        });    
+        return result; 
     }
 
     dropEquipped(droppedItems) {
@@ -193,7 +217,8 @@ export default class Player {
 
         //close map if you drop it.
         if(item.name === items.map.name){
-            this.showMap = false;
+            this.showPieceMap = false;
+            this.showTreasureMap = false;
         }
 
     }
@@ -211,12 +236,17 @@ export default class Player {
             }
         }
         if (this.equipped === items.shovel){
-            if(/*this.aimedTile.type === terrain.LAND ||*/ this.aimedTile.type === terrain.TREASURE){
+            if(this.aimedTile.type === terrain.TREASURE){
                 //locates there will only be damage on the floor in the treasure location. 
                 if(this.aimedTile.x === this.treasureLocation.x && this.aimedTile.y === this.treasureLocation.y){
                     working = this.aimedTile.damage(1.5, map);
                 }                                                                                                                                                                                                                                                               
             }
+        }
+        if (this.equipped === items.map){
+            this.showPieceMap = !this.showPieceMap;
+        } else if (this.equipped === items.completedMap){
+            this.showTreasureMap = !this.showTreasureMap;
         }
         return working;
     }

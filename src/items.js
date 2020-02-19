@@ -10,9 +10,12 @@ const items = {
     "stone": new Item('Stone', './assets/img/rocks.png'),
     "boat": new Item('Boat', './assets/img/raft.png'),
     "map": new Item('Map', './assets/img/world_map.png'),
+    "mapPiece1": new Item('Map Piece', './assets/img/map_piece1.png'),
+    "mapPiece2": new Item('Map Piece', './assets/img/map_piece2.png'),
+    "mapPiece3": new Item('Map Piece', './assets/img/map_piece3.png'),
+    "completedMap": new Item('Map', './assets/img/completed_map.png'),
     "treasure": new Treasure('Treasure')
 }
-
 Object.freeze(items);
 
 export default items;
