@@ -75,10 +75,12 @@ export default class Map {
     
         return this.canvas.canvas.toDataURL();
     }
-    renderMap(){
+    renderMap(canvasWidth, canvasHeight){
         if (this.player.showMap){
             console.log("rendering map...");
-            this.canvas.drawImage(this.map, (this.canvasWidth / 2 ) - 250, (this.canvasHeight / 2) - 250, 512, 512);
+            console.log(this.map);
+            
+            this.canvas.drawImage(this.map, (canvasWidth / 2 ) - 250, (canvasHeight / 2) - 250, 512, 512);
         }
     }
 }

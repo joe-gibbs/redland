@@ -36,6 +36,7 @@ let mapRenderer;
 /** @type {UiRenderer} */
 let uiRenderer;
 
+/** @type {Map} */
 let pieceMap;
 
 /** @type {Number} */
@@ -267,7 +268,7 @@ function load() {
     function draw() {
         mapRenderer.render(centerTile, player);        
         uiRenderer.render(mouseX, mouseY, player);
-        pieceMap.renderMap();
+        pieceMap.renderMap(canvasWidth, canvasHeight);
     }
 
     function gameLoop() {
