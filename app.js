@@ -76,6 +76,9 @@ function load() {
         if (kMap['TouchVector']) {
             centerTile = player.move(-kMap['TouchVector'].x / 20, kMap['TouchVector'].y / 20, map);
         }
+        if (kMap['TouchDistance'] && kMap['TouchDistance'] === 100) {
+            player.chop(map);
+        }
     }
 
     /**
@@ -171,13 +174,15 @@ function load() {
             if (!touched) { 
                 dynamic = nipplejs.create({
                     zone: document.getElementById('dynamic'),
+                    size: 200,
                     color: 'gray'
                 });
-                touched = true;
+                touched = true;                
             }
             
-            dynamic.on('move', function(evt, data) {     
+            dynamic.on('move', function(evt, data) {                
                 kMap['TouchVector'] = data.vector;
+                kMap['TouchDistance'] = data.distance;
             });
         
             dynamic.on('end', function(evt, data) {   
