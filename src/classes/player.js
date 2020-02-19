@@ -198,8 +198,7 @@ export default class Player {
                     }
                 } 
             }
-        }); 
-        console.log(this.resources, result);   
+        });    
         return result; 
     }
 
