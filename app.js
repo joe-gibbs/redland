@@ -200,7 +200,10 @@ function load() {
             if (player.showCraftingMenu && uiRenderer.selectedCraftable) {
                 uiRenderer.selectedCraftable.craft(player, map.droppedItems);
             }
-            uiRenderer.dropItem(e.clientX, e.clientY, map.droppedItems);        
+            uiRenderer.dropItem(e.clientX, e.clientY, map.droppedItems);
+            if (e.clientX > ((canvasWidth / 2) - 128) && e.clientX < ((canvasWidth / 2) + 128) && e.clientY > ((canvasHeight / 2) - 128) && e.clientY < ((canvasHeight / 2) + 128)) {
+                player.pickup(map.droppedItems);
+            }
         }
 
         document.onmousemove = findDocumentCoords;
