@@ -28,6 +28,8 @@ export default class UiRenderer {
         this.treasureMap = new Image();
         this.background = new Image(512, 512);
         this.background.src = './assets/img/map-border.png';
+        this.uiX = 0;
+        this.uiY = 0;
     }
 
     /**
@@ -72,7 +74,25 @@ export default class UiRenderer {
         this.canvas.fillText(this.player.resources.wood, uiX + 64 + 16, uiY + 48);
     }
 
+    dropItem(mouseX, mouseY, droppedItems) 
+    {
+        let uiX = this.uiX;
+        let uiY = this.uiY;
+
+        if ((mouseX > uiX && mouseX < uiX + 64) && (mouseY > uiY && mouseY < uiY + 64) && this.player.items[0]) {
+            this.player.drop(droppedItems, this.player.items[0]);
+        }
+
+        uiX += 64;
+
+        if ((mouseX > uiX && mouseX < uiX + 64) && (mouseY > uiY && mouseY < uiY + 64) && this.player.items[1]) {
+            this.player.drop(droppedItems, this.player.items[1]);
+        }
+    }
+
     renderItems(uiX, uiY) {
+        this.uiX = uiX;
+        this.uiY = uiY;
         this.canvas.lineWidth = 5;
         this.canvas.fillStyle = 'rgba(255,255,255,0.3)';
         this.canvas.fillRect(uiX, uiY, 64, 64);

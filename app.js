@@ -179,10 +179,11 @@ function load() {
             handleActionMappings(kMap);
         }
         
-        document.onclick = function () {
+        document.onclick = function (e) {
             if (player.showCraftingMenu && uiRenderer.selectedCraftable) {
                 uiRenderer.selectedCraftable.craft(player, map.droppedItems);
             }
+            uiRenderer.dropItem(e.clientX, e.clientY, map.droppedItems);        
         }
 
         document.onmousemove = findDocumentCoords;
