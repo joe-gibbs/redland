@@ -50,20 +50,24 @@ export default class UiRenderer {
     }
 
     renderResources() {
-        let uiX = (this.canvasWidth / 1.2) - 256;
-        let uiY = 64;
+        let tileSize = 64;
+        if (this.canvasWidth < (64 * 6)) {
+            tileSize = this.canvasWidth / 6;
+        }
+        let uiX = (this.canvasWidth) - (tileSize * 6);
+        let uiY = tileSize;
 
-        this.canvas.font = "48px Pixelated";
+        this.canvas.font = (tileSize * 0.75) + "px Pixelated";
         this.canvas.fillStyle = 'rgba(255,255,255,0.3)';
-        this.canvas.fillRect(uiX, uiY, 192, 64);
-        this.canvas.fillRect(uiX + 192, uiY, 192, 64);
-        this.canvas.strokeRect(uiX, uiY, 64, 64);
-        this.canvas.drawImage(items.wood.image, uiX, uiY);
-        this.canvas.strokeRect(uiX + 192, uiY, 64, 64);
-        this.canvas.drawImage(items.stone.image, uiX + 192, uiY);
+        this.canvas.fillRect(uiX, uiY, (tileSize * 3), tileSize);
+        this.canvas.fillRect(uiX + (tileSize * 3), uiY, (tileSize * 3), tileSize);
+        this.canvas.strokeRect(uiX, uiY, tileSize, tileSize);
+        this.canvas.drawImage(items.wood.image, uiX, uiY, tileSize, tileSize);
+        this.canvas.strokeRect(uiX + (tileSize * 3), uiY, tileSize, tileSize);
+        this.canvas.drawImage(items.stone.image, uiX + (tileSize * 3), uiY, tileSize, tileSize);
         this.canvas.fillStyle = 'rgba(0,0,0,1)';
-        this.canvas.fillText(this.player.resources.stone, uiX + 192 + 64 + 16, uiY + 48);
-        this.canvas.fillText(this.player.resources.wood, uiX + 64 + 16, uiY + 48);
+        this.canvas.fillText(this.player.resources.stone, uiX + (tileSize * 3) + tileSize + (tileSize * 0.25), uiY + (tileSize * 0.75));
+        this.canvas.fillText(this.player.resources.wood, uiX + tileSize + (tileSize * 0.25), uiY + (tileSize * 0.75));
     }
 
     dropItem(mouseX, mouseY, droppedItems) 
