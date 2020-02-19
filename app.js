@@ -254,7 +254,7 @@ function load() {
         if (gameTime >= 2400) {
             gameTime = 0;
         }
-        let brightness = Math.max(10, Math.min(((1 - (Math.sin(gameTime / 240))) * 100), 100));
+        let brightness = Math.max(20, Math.min(((1 - (Math.sin(gameTime / 240))) * 100), 100));
         
         gameCanvas.style.filter = "brightness(" + brightness + "%)";
     }
