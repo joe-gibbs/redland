@@ -283,7 +283,7 @@ function load() {
         window.fps.innerHTML = fpsValue;
         update();
         draw();
-        // updateTime();
+        updateTime();
     }
 
     gameCanvas = document.getElementById('game');

@@ -162,7 +162,7 @@ export default class Player {
 
     pickup(droppedItems) {
         let result = false;
-        let equipped2 = false;
+        let noPickup = false;
         droppedItems.forEach(item => {    
             if (item.x === this.closestX && item.y === this.closestY) {
                 let actualItem = item.item;
@@ -192,16 +192,21 @@ export default class Player {
                             result = true;
                             this.resources.mapPiece3 += 1;
                             break;
+                        case items.treasure:
+                            result = true;
+                            noPickup = true;
+                            console.log('THANK YOU FOR PLAYING!');
+                            break;
                         default:
                             if (this.items.length < 2){
                                 result = true;
                                 this.equipped = actualItem;
                             } else {
-                                equipped2 = true;
+                                noPickup = true;
                             }
                             break;
                         }  
-                    if(!equipped2){
+                    if(!noPickup){
                         droppedItems.remove(item);
                     }
                 } 
