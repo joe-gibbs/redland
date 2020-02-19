@@ -6,6 +6,8 @@ import Player from './player.js';
 const TREE_OFFSET = 15;
 const ROCK_OFFSET = 16;
 const PLAYER_OFFSET = 38;
+const TREASURE_OFFSET = {x: 72, y: 112};
+
 
 export default class MapRenderer {
     /**
@@ -128,7 +130,7 @@ export default class MapRenderer {
             if (tile === map.tiles[element.x][element.y]) { 
                 //render treasure item with sprites.
                 if (element.item.name === 'Treasure'){
-                    element.item.spritesheet.render(element.item.animationState().current, x, y, this.canvas); 
+                    element.item.spritesheet.render(element.item.animationState().current, x - TREASURE_OFFSET.x, y - TREASURE_OFFSET.y, this.canvas); 
                 } else {
                     this.canvas.drawImage(element.item.image, x, y);
                 }                     
