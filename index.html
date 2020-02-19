@@ -9,7 +9,7 @@
     <script src="src/nipplejs.js"></script>
     <script src="src/utils.js"></script>
     <script type="module" src="app.js"></script>
-    <title>Play Redlands</title>
+    <title>Play Redland</title>
     <style>
         @font-face {
             font-family: Pixelated;
@@ -19,6 +19,10 @@
             margin:0;
             display:grid;
             touch-action: none;
+            -webkit-user-select: none;  /* Chrome all / Safari all */
+            -moz-user-select: none;     /* Firefox all */
+            -ms-user-select: none;      /* IE 10+ */
+            user-select: none;          /* Likely future */      
         }
         #gameButton {
             visibility: hidden;

@@ -60,7 +60,7 @@ export default class Player {
         if (this.onSea) {
             return;
         }
-        
+
         if(this.items[0] === items.map){
             this.showPieceMap = false;
         } else if (this.items[0] === items.completedMap){
@@ -69,10 +69,11 @@ export default class Player {
         this.items.reverse();
     }
 
-    animationState() {     
+    animationState() {        
         if (this.onSea) {
             return this.spritesheet.animationSets['sail'];
-        }   
+        }
+        
         else {      
             if (this.movement[0] !== 0 || this.movement[1] !== 0) {
                 if (this.direction[0] == 0 && this.direction[1] <= 0) {
@@ -84,7 +85,7 @@ export default class Player {
                 else if (this.direction[0] <= 0 && this.direction[1] == 0) {
                     return this.spritesheet.animationSets['walkRight'];
                 } 
-                else if (this.direction[0] > 0 && this.direction[1] == 0) {
+                else if (this.direction[0] >= 0 && this.direction[1] == 0) {
                     return this.spritesheet.animationSets['walkLeft'];
                 }
             }
@@ -259,8 +260,13 @@ export default class Player {
         return working;
     }
 
-    move(x,y, map) { 
-        this.direction = [x, y];
+    move(x,y, map) {
+        if (Math.abs(x) > Math.abs(y)) {
+            this.direction = [x, 0];
+        }
+        else {
+            this.direction = [0, y];
+        }
 
         this.movement[0] += x;
         this.movement[1] += y;
