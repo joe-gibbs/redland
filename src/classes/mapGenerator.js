@@ -2,6 +2,8 @@ import Tile from './tile.js';
 import terrain from '../terrain.js';
 import buildings from '../buildings.js';
 
+function normalise(val, max, min) { return (val - min) / (max - min); }    
+
 export default class MapGenerator {
     constructor() {
     }
@@ -66,6 +68,19 @@ export default class MapGenerator {
                         tile.type = terrain.ROCK;
                         tile.drops = terrain.ROCK.drops;
                         tile.currentHealth = terrain.ROCK.health;
+                    }
+                }
+
+                /**
+                 * Places tall grass
+                 */
+                let tallGrassVal = normalise(simplex.noise2D(i / 10, j / 10), 0, 1);
+                
+                if (tallGrassVal > 1.4) {
+                    if (tile.type === terrain.LAND) {
+                        tile.type = terrain.TALL_GRASS;
+                        tile.drops = terrain.TALL_GRASS.drops;
+                        tile.currentHealth = terrain.TALL_GRASS.health;
                     }
                 }
             }
