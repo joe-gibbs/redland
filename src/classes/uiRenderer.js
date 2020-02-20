@@ -106,11 +106,15 @@ export default class UiRenderer {
     }
 
     renderCraftingMenu(mouseX, mouseY) {
+        let size = 64;
+        if (this.canvasWidth < (9 * 64)) {
+            size = this.canvasWidth / 9;
+        }
         let recipeKeys = Object.keys(recipes);
-        let x = (this.canvasWidth / 2) - 288;
-        let y = (this.canvasHeight / 2) - ((recipeKeys.length * 64) / 2);
+        let x = (this.canvasWidth / 2) - (size * 4.5);
+        let y = (this.canvasHeight / 2) - ((recipeKeys.length * (size)) / 2);
         let canvasFill = this.canvas.fillStyle;
-        this.canvas.font = "32px Pixelated";
+        this.canvas.font = (size / 2) + "px Pixelated";
 
         this.selectedCraftable = null;
 
@@ -120,27 +124,27 @@ export default class UiRenderer {
             } else {
                 this.canvas.fillStyle = "rgba(128,128,128,128.5)";
             }
-            if (mouseX > x && mouseX < x + 576 && mouseY > y && mouseY < y + 64 && recipes[key].canCraft(this.player)) {
+            if (mouseX > x && mouseX < x + (9 * size) && mouseY > y && mouseY < y + (size) && recipes[key].canCraft(this.player)) {
                 this.canvas.fillStyle = "rgba(255,255,255,0.9)";
                 this.selectedCraftable = recipes[key];                
             }
             this.canvas.lineWidth = 5;
-            this.canvas.strokeRect(x, y, 576, 64);
-            this.canvas.fillRect(x,y, 576, 64);
-            this.canvas.strokeRect(x, y, 64, 64);
-            this.canvas.drawImage(recipes[key].item.image, x, y);
+            this.canvas.strokeRect(x, y, (9 * size), (size));
+            this.canvas.fillRect(x,y, (9 * size), (size));
+            this.canvas.strokeRect(x, y, (size), (size));
+            this.canvas.drawImage(recipes[key].item.image, x, y, size, size);
             this.canvas.fillStyle = canvasFill;
-            this.canvas.fillText(recipes[key].item.name.toUpperCase(),x + 76, y + 40)
-            this.canvas.strokeRect(x + 64, y, 128, 64);
+            this.canvas.fillText(recipes[key].item.name.toUpperCase(),x + (size * 1.2), y + (size * 0.7))
+            this.canvas.strokeRect(x + (size), y, (2 * size), (size));
             
-            let requirementsX = x + 192;
+            let requirementsX = x + (size * 3);
             recipes[key].requirements.forEach(requirement => {
-                this.canvas.strokeRect(requirementsX, y, 128, 64);                        
-                this.canvas.drawImage(items[requirement].image, requirementsX, y);
-                this.canvas.fillText(recipes[key].requirements[requirement], requirementsX + 64, y + 40);
-                requirementsX += 128;
+                this.canvas.strokeRect(requirementsX, y, (2 * size), (size));                        
+                this.canvas.drawImage(items[requirement].image, requirementsX, y, size, size);
+                this.canvas.fillText(recipes[key].requirements[requirement], requirementsX + (size), y + (size * 0.7));
+                requirementsX += (2 * size);
             });          
-            y += 64;
+            y += (size);
         });
         this.canvas.fillStyle = canvasFill;
     }
