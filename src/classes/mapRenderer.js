@@ -4,7 +4,7 @@ import GameMap from './gameMap.js';
 import Player from './player.js';
 
 const TREE_OFFSET = 15;
-const ROCK_OFFSET = 16;
+const ROCK_OFFSET = 15;
 const PLAYER_OFFSET = 38;
 const TREASURE_OFFSET = {x: 72, y: 112};
 
@@ -65,13 +65,13 @@ export default class MapRenderer {
                     let currentTile = this.renderableTiles[x][y];
                     switch(currentTile.type){
                         case Terrain.FOREST:
-                            this.canvas.drawImage(currentTile.type.tile, calculateX(x, this.tileSize), calculateY(y, this.tileSize) - TREE_OFFSET);
+                            currentTile.type.tile.render(0, calculateX(x, this.tileSize), calculateY(y, this.tileSize) - TREE_OFFSET, this.canvas);
                             break;
                         case Terrain.ROCK:
-                            this.canvas.drawImage(currentTile.type.tile, calculateX(x, this.tileSize), calculateY(y, this.tileSize) - ROCK_OFFSET);
+                            currentTile.type.tile.render(0, calculateX(x, this.tileSize), calculateY(y, this.tileSize) - ROCK_OFFSET, this.canvas);
                             break;
                         default:
-                            this.canvas.drawImage(currentTile.type.tile, calculateX(x, this.tileSize), calculateY(y, this.tileSize));
+                            currentTile.type.tile.render(0, calculateX(x, this.tileSize), calculateY(y, this.tileSize), this.canvas);
                             break;
                     }                    
                     
