@@ -212,13 +212,17 @@ function load() {
             if (!player.showCraftingMenu && e.clientX > ((canvasWidth / 2) - 128) && e.clientX < ((canvasWidth / 2) + 128) && e.clientY > ((canvasHeight / 2) - 128) && e.clientY < ((canvasHeight / 2) + 128)) {
                 player.pickup(map.droppedItems);
             }
+            if (!uiRenderer.selectedCraftable) {
+                player.showCraftingMenu = false;
+            }
+            player.showPieceMap = false;
+            player.showTreasureMap = false;
         }
 
         document.onmousemove = findDocumentCoords;
         document.oncontextmenu = e => e.preventDefault();
         
         onresize = resize;
-
     }
 
     function findDocumentCoords(mouseEvent)
@@ -278,7 +282,6 @@ function load() {
         } else if (player.showTreasureMap){
             treasureMap.renderMap(canvasWidth, canvasHeight);
         }
-
     }
 
     function gameLoop() {
