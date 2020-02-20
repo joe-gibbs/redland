@@ -65,31 +65,36 @@ export default class MapRenderer {
                     let currentTile = this.renderableTiles[x][y];
                     switch(currentTile.type){
                         case Terrain.FOREST:
-                            currentTile.type.tile.render(0, calculateX(x, this.tileSize), calculateY(y, this.tileSize) - TREE_OFFSET, this.canvas);
+                            if (currentTile.currentHealth < currentTile.type.health/2){
+                                currentTile.type.tile.render(2, calculateX(x, this.tileSize), calculateY(y, this.tileSize) - TREE_OFFSET, this.canvas);
+                            } else if (currentTile.currentHealth < currentTile.type.health){
+                                currentTile.type.tile.render(1, calculateX(x, this.tileSize), calculateY(y, this.tileSize) - TREE_OFFSET, this.canvas);
+                            } else {
+                                currentTile.type.tile.render(0, calculateX(x, this.tileSize), calculateY(y, this.tileSize) - TREE_OFFSET, this.canvas);
+                            }
                             break;
                         case Terrain.ROCK:
-                            currentTile.type.tile.render(0, calculateX(x, this.tileSize), calculateY(y, this.tileSize) - ROCK_OFFSET, this.canvas);
+                            if (currentTile.currentHealth < currentTile.type.health/2){
+                                currentTile.type.tile.render(2, calculateX(x, this.tileSize), calculateY(y, this.tileSize) - ROCK_OFFSET, this.canvas);
+                            } else if(currentTile.currentHealth < currentTile.type.health){
+                                currentTile.type.tile.render(1, calculateX(x, this.tileSize), calculateY(y, this.tileSize) - ROCK_OFFSET, this.canvas);
+                            } else {
+                                currentTile.type.tile.render(0, calculateX(x, this.tileSize), calculateY(y, this.tileSize) - ROCK_OFFSET, this.canvas);
+                            }
+                            break;
+                        case Terrain.TREASURE:
+                            if (currentTile.currentHealth < currentTile.type.health/2){
+                                currentTile.type.tile.render(2, calculateX(x, this.tileSize), calculateY(y, this.tileSize), this.canvas);
+                            } else if(currentTile.currentHealth < currentTile.type.health){
+                                currentTile.type.tile.render(1, calculateX(x, this.tileSize), calculateY(y, this.tileSize), this.canvas);
+                            } else {
+                                currentTile.type.tile.render(0, calculateX(x, this.tileSize), calculateY(y, this.tileSize), this.canvas);
+                            }
                             break;
                         default:
                             currentTile.type.tile.render(0, calculateX(x, this.tileSize), calculateY(y, this.tileSize), this.canvas);
                             break;
                     }                    
-                    
-
-                    //change this so it increments the current sprite of the tile depending on the damage.
-                    if (currentTile.currentHealth < currentTile.type.health) {                                                
-                        this.canvas.fillStyle = "rgba(255, 255, 255," + (1 - (currentTile.currentHealth / currentTile.type.health)) + ")";                        
-                        this.canvas.fillRect(calculateX(x, this.tileSize), calculateY(y, this.tileSize), y*this.tileSize, this.tileSize, this.tileSize);
-                        this.canvas.fillStyle = "#000";
-
-                    }
-                    // if(this.renderableTiles[x][y].type == Terrain.FOREST){
-                    //     this.canvas.drawImage(this.renderableTiles[x][y].type.tile, x*this.tileSize, y*this.tileSize - 15);
-                    // } else if( ) {
-
-                    // } else {
-                    //     this.canvas.drawImage(this.renderableTiles[x][y].type.tile, x*this.tileSize, y*this.tileSize);
-                    // }
                     
                     this.drawItems(this.renderableTiles[x][y], this.map, calculateX(x, this.tileSize), calculateY(y, this.tileSize));
                 }
