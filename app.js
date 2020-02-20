@@ -194,6 +194,7 @@ function load() {
                     x: 0,
                     y: 0,
                 };
+                kMap['TouchDistance'] = 0;
             });
         });
   
