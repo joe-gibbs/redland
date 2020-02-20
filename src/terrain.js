@@ -73,8 +73,8 @@ const terrain = {
         drops: [items.stone],
         spritesheet: {
             uri: './assets/img/rock.png',
-            width: 64,
-            height: 79,
+            width: 192,
+            height: 80,
         },
     }),
     "FOREST": new Terrain({
@@ -85,8 +85,8 @@ const terrain = {
         drops: [items.wood],
         spritesheet: {
             uri: './assets/img/forest.png',
-            width: 64,
-            height: 79,
+            width: 192,
+            height: 80,
         },
     }),
     "BARRIER": new Terrain({
