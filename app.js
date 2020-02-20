@@ -1,5 +1,3 @@
-"use strict";
-
 import terrain from './src/terrain.js';
 import DroppedItem from './src/classes/droppedItem.js';
 import GameMap from './src/classes/gameMap.js';
@@ -13,6 +11,8 @@ import Map from './src/classes/Map.js';
 const MapSize = 192;
 
 let gameTime = 0.0;
+
+let progressBar = document.getElementById('progress');
 
 /** @type {GameMap} */
 let map;
@@ -49,11 +49,14 @@ let mouseX = 0, mouseY = 0;
 /** @type {String[]} */
 let kMap = []; // You could also use an array
 
+progressBar.value += 10;
+
 //Main function, put stuff here
 window.onload = load;
 
 function load() {
-    map = new GameMap(new MapGenerator().generate(MapSize, new SimplexNoise())); //218  - 256 are good Sizes for visibility and reduced blur.
+    map = new GameMap(new MapGenerator().generate(MapSize, new SimplexNoise(), progressBar)); //218  - 256 are good Sizes for visibility and reduced blur.
+    
     /**
      * Handles inputs that you want done as a continuous series
      * @param {String[]} kMap 

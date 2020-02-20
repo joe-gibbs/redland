@@ -163,7 +163,7 @@ export default class Player {
     pickup(droppedItems) {
         let result = false;
         let noPickup = false;
-        droppedItems.reverse().forEach(item => {    
+        droppedItems.forEach(item => {    
             if (item.x === this.closestX && item.y === this.closestY) {
                 let actualItem = item.item;
                 if (!this.items.includes(actualItem)) {

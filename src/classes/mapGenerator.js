@@ -19,7 +19,8 @@ export default class MapGenerator {
       }
     
       
-      generate(size, simplex) {
+      generate(size, simplex, progressBar) {
+        progressBar.value += 15;
         let data = this.create2DArray(size);
 
         function setTile(tile, x, y) {
@@ -46,7 +47,8 @@ export default class MapGenerator {
                 let tile = data[x][y];
                 data[x][y] = setTile(tile, x, y);
             }
-        }   
+        }
+        progressBar.value += 25;
 
         for (let i = 0; i < size; i++) {
             for (let j = 0; j < size; j++) {
@@ -85,6 +87,7 @@ export default class MapGenerator {
                 }
             }
         }
+        progressBar.value += 50;
 
         for (let i = 0; i < size; i++) {
             data[i][0].type = terrain.BARRIER;
@@ -99,7 +102,7 @@ export default class MapGenerator {
             data[size - 1][i].type = terrain.BARRIER;
             data[size - 1][i].currentHealth = Infinity;
         }
-        
+        progressBar.value += 10;
         return data;
     }
 
