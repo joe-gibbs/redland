@@ -47,6 +47,8 @@ export default class UiRenderer {
         }
 
         this.renderResources();
+        this.renderMapIcon(mouseX, mouseY);
+        this.renderCraftingIcon(mouseX, mouseY);
     }
 
     renderResources() {
@@ -103,6 +105,26 @@ export default class UiRenderer {
             this.canvas.drawImage(this.player.items[1].image, uiX + 64, uiY);
         }
         this.canvas.fillStyle = 'rgba(0,0,0,1)';
+    }
+
+    renderMapIcon(mouseX, mouseY) {
+        let size = 64;
+        let x = 0;
+        let y = this.canvasHeight / 5;
+
+        if (mouseX > x && mouseX < x + size && mouseY > y && mouseY < y + (size)) {
+            
+            this.canvas.fillStyle = "rgba(128,128,128,128.5)";
+        }
+
+        this.canvas.fillRect(0, this.canvasHeight/5, size, size);
+    }
+
+    renderCraftingIcon(mouseX, mouseY) {
+        let size = 64;
+        this.canvas.fillStyle = "rgba(128,128,128,128.5)";
+
+        this.canvas.fillRect(0, (this.canvasHeight/5) + (size * 1.2), size, size);
     }
 
     renderCraftingMenu(mouseX, mouseY) {

@@ -125,7 +125,7 @@ export default class MapRenderer {
         // }
     }
 
-    drawItems(tile, map, x, y) {        
+    drawItems(tile, map, x, y) {    
         map.droppedItems.forEach(element => {
             if (tile === map.tiles[element.x][element.y]) { 
                 //render treasure item with sprites.
