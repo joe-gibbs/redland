@@ -50,8 +50,8 @@ export default class UiRenderer {
     }
 
     renderResources() {
-        let tileSize = 64;
-        if (this.canvasWidth < (64 * 6)) {
+        let tileSize = 32;
+        if (this.canvasWidth < (32 * 6)) {
             tileSize = this.canvasWidth / 6;
         }
         let uiX = (this.canvasWidth) - (tileSize * 6);
