@@ -4,7 +4,7 @@ import GameMap from './gameMap.js';
 import Player from './player.js';
 
 const TREE_OFFSET = 15;
-const ROCK_OFFSET = 15;
+const ROCK_OFFSET = 16;
 const PLAYER_OFFSET = 38;
 const TREASURE_OFFSET = {x: 72, y: 112};
 
