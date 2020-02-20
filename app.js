@@ -124,14 +124,15 @@ function load() {
         let treasure;
         let mapPieces = [];
         try {
-            centerTile = map.chooseRandomTile(terrain.LAND);
-            treasure = map.chooseRandomTile(terrain.LAND);
+            centerTile   = map.chooseRandomTile(terrain.LAND);
+            treasure     = map.chooseRandomTile(terrain.LAND);
             mapPieces[0] = map.chooseRandomTile(terrain.LAND);
             mapPieces[1] = map.chooseRandomTile(terrain.LAND);
             mapPieces[2] = map.chooseRandomTile(terrain.LAND);
-        } catch (error) {            
+        } catch (error) {                      
             load();
         }
+
         let treasureLocation = ChangeTileType(treasure, terrain.TREASURE);
         let mapPiece1 = ChangeTileType(mapPieces[0], terrain.TREASUREPIECE);
         let mapPiece2 = ChangeTileType(mapPieces[1], terrain.TREASUREPIECE);
@@ -147,8 +148,8 @@ function load() {
         //Axe spawns near player.
         for (let i = 0; i < borders.length; i++) {
             if (borders[i].type.walkable) {
-                map.droppedItems.push(new DroppedItem(borders[i].x + 1, borders[i].y + 1, items.axe));
-                map.droppedItems.push(new DroppedItem(borders[i].x + 2, borders[i].y + 1, items.map));  
+                map.droppedItems.push(new DroppedItem(borders[i].x, borders[i].y, items.map));  
+                map.droppedItems.push(new DroppedItem(borders[i].x, borders[i].y, items.axe));
                 break;
             }
         }
