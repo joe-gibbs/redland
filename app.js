@@ -207,6 +207,7 @@ function load() {
         }
         
         document.onclick = function (e) {
+            findDocumentCoords(e);
             if (player.showCraftingMenu && uiRenderer.selectedCraftable) {
                 uiRenderer.selectedCraftable.craft(player, map.droppedItems);
             }
