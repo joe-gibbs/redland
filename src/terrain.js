@@ -8,6 +8,10 @@ class Terrain {
      */
     constructor( options ) {
         this.tile = new Spritesheet(options.spritesheet.uri, options.spritesheet.width, options.spritesheet.height);
+        this.tile.addAnimationSet('1', 0, 0);
+        this.tile.addAnimationSet('2', 0, 0);
+        this.tile.addAnimationSet('3', 0, 0);
+
         this.name = options.name;
         this.walkable = options.walkable;
         this.drops = options.drops;
@@ -73,7 +77,7 @@ const terrain = {
         drops: [items.stone],
         spritesheet: {
             uri: './assets/img/rock.png',
-            width: 192,
+            width: 64,
             height: 80,
         },
     }),
@@ -85,7 +89,7 @@ const terrain = {
         drops: [items.wood],
         spritesheet: {
             uri: './assets/img/forest.png',
-            width: 192,
+            width: 64,
             height: 80,
         },
     }),

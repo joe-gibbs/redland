@@ -75,10 +75,13 @@ export default class MapRenderer {
                             break;
                     }                    
                     
+
+                    //change this so it increments the current sprite of the tile depending on the damage.
                     if (currentTile.currentHealth < currentTile.type.health) {                                                
                         this.canvas.fillStyle = "rgba(255, 255, 255," + (1 - (currentTile.currentHealth / currentTile.type.health)) + ")";                        
                         this.canvas.fillRect(calculateX(x, this.tileSize), calculateY(y, this.tileSize), y*this.tileSize, this.tileSize, this.tileSize);
                         this.canvas.fillStyle = "#000";
+
                     }
                     // if(this.renderableTiles[x][y].type == Terrain.FOREST){
                     //     this.canvas.drawImage(this.renderableTiles[x][y].type.tile, x*this.tileSize, y*this.tileSize - 15);
