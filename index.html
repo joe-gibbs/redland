@@ -65,6 +65,15 @@
             image-rendering: pixelated !important;
             image-rendering: crisp-edges;
             display: none;
+            position: absolute;
+        }
+        #ui {
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -webkit-crisp-edges;
+            image-rendering: pixelated !important;
+            image-rendering: crisp-edges;
+            display: none;
+            position: absolute;
         }
         #dynamic {
             position: absolute;
@@ -86,6 +95,7 @@
     <progress id="progress" max="100" value="0"></progress>
     <div id="dynamic">
         <canvas width="500px" height="500px" id="game"></canvas>
+        <canvas width="500px" height="500px" id="ui"></canvas>
     </div>
 </body>
 </html>

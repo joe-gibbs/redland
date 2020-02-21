@@ -14,6 +14,8 @@ let gameTime = 0.0;
 
 let progressBar = document.getElementById('progress');
 
+let uiCanvas;
+
 /** @type {GameMap} */
 let map;
 
@@ -169,7 +171,7 @@ function load() {
 
         player      = new Player(centerTile.x, centerTile.y, treasureLocation);
         mapRenderer = new MapRenderer(tileSize, canvas, map, player);
-        uiRenderer  = new UiRenderer(player, canvas);
+        uiRenderer  = new UiRenderer(player, uiCanvas);
 
         //Create Maps
         pieceMap = new Map(canvas, map.tiles, player, "Treasure Piece");
@@ -289,6 +291,8 @@ function load() {
         canvasHeight = window.innerHeight; //Adjust tile size as well. 
         gameCanvas.width = canvasWidth;
         gameCanvas.height = canvasHeight;
+        uiCanvas.canvas.width = canvasWidth;
+        uiCanvas.canvas.height = canvasHeight;
         tileSize = 64;// NEED TO ADJUST TILE SIZE WITH CANVAS SIZE
         canvas.font = (canvasWidth + canvasHeight) / 92 + "px Pixelated";
         canvas.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -299,7 +303,7 @@ function load() {
     }
 
     function updateTime() {
-        gameTime += 0.015;
+        gameTime += 1.015;
         if (gameTime >= 2400) {
             gameTime = 0;
         }
@@ -316,6 +320,7 @@ function load() {
         } else if (player.showTreasureMap){
             treasureMap.renderMap(canvasWidth, canvasHeight);
         }
+        uiCanvas.fillStyle = 'rgba(0,0,0,0)';
     }
 
     function gameLoop() {
@@ -323,8 +328,9 @@ function load() {
         draw();
         updateTime();
     }
-
+    uiCanvas = document.getElementById('ui').getContext("2d");
     gameCanvas = document.getElementById('game');
+    uiCanvas.canvas.style.display = "block";
     gameCanvas.style.display = "block";
     canvas = gameCanvas.getContext("2d");    
 
