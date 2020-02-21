@@ -31,7 +31,7 @@ export default class UiRenderer {
         this.craftingIcon.src = './assets/img/crafting_menu.png';
         this.background.src = './assets/img/map-border.png';
         this.mapIcon = new Image();
-        this.mapIcon.src = './assets/img/map_menu.png';
+        this.mapIcon.src = './assets/img/action_button.png';
         this.uiX = 0;
         this.uiY = 0;
     }
