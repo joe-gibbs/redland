@@ -57,7 +57,7 @@ setInterval(function() {
 }, 10);
 
 //Main function, put stuff here
-window.onload = load;
+window.addEventListener('load', load);
 
 function load() {
     map = new GameMap(new MapGenerator().generate(MapSize, new SimplexNoise(), progressBar)); //218  - 256 are good Sizes for visibility and reduced blur.
@@ -209,6 +209,15 @@ function load() {
             });
         });
   
+        if ('serviceWorker' in navigator) {            
+            navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                // Registration was successful
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+              }, function(err) {
+                // registration failed :(
+                console.log('ServiceWorker registration failed: ', err);
+              });          
+        }
 
         onkeydown = onkeyup = function(e){
             e.preventDefault();
