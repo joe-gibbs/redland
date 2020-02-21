@@ -51,7 +51,9 @@ let kMap = []; // You could also use an array
 
 progressBar.value += 10;
 setInterval(function() {
-    progressBar.value += 1;
+    if (progressBar) {
+        progressBar.value += 1;
+    }
 }, 10);
 
 //Main function, put stuff here
@@ -59,7 +61,7 @@ window.onload = load;
 
 function load() {
     map = new GameMap(new MapGenerator().generate(MapSize, new SimplexNoise(), progressBar)); //218  - 256 are good Sizes for visibility and reduced blur.
-    
+    progressBar = null;
     /**
      * Handles inputs that you want done as a continuous series
      * @param {String[]} kMap 
