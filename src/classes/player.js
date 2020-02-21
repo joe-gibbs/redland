@@ -257,11 +257,6 @@ export default class Player {
                 }                                                                                                                                                                                                                                                               
             }
         }
-        if (this.equipped === items.map){
-            this.showPieceMap = !this.showPieceMap;
-        } else if (this.equipped === items.completedMap){
-            this.showTreasureMap = !this.showTreasureMap;
-        }
         return working;
     }
 

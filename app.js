@@ -113,6 +113,13 @@ function load() {
         }
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
             player.showCraftingMenu = false;
+            if (!kMap['TouchVector']) {  
+                if (player.equipped === items.map){
+                    player.showPieceMap = !player.showPieceMap;
+                } else if (player.equipped === items.completedMap){
+                    player.showTreasureMap = !player.showTreasureMap;
+                }
+            }
             let pickedUp = player.pickup(map.droppedItems);
             if (!pickedUp){
                 player.chop(map); 
@@ -128,26 +135,21 @@ function load() {
     //Setup
     function setup() { 
         let treasure;
-        let mapPieces = [];
+        let treasureLocation, mapPiece1, mapPiece2, mapPiece3;
         try {
             centerTile   = map.chooseRandomTile(terrain.LAND);
             treasure     = map.chooseRandomTile(terrain.LAND);
-            mapPieces[0] = map.chooseRandomTile(terrain.LAND);
-            mapPieces[1] = map.chooseRandomTile(terrain.LAND);
-            mapPieces[2] = map.chooseRandomTile(terrain.LAND);
+            treasureLocation = ChangeTileType(treasure, terrain.TREASURE);
+            mapPiece1 = ChangeTileType(map.chooseRandomTile(terrain.LAND), terrain.TREASUREPIECE);
+            mapPiece2 = ChangeTileType(map.chooseRandomTile(terrain.LAND), terrain.TREASUREPIECE);
+            mapPiece3 = ChangeTileType(map.chooseRandomTile(terrain.LAND), terrain.TREASUREPIECE);
         } catch (error) {                      
             load();
         }
 
-        let treasureLocation = ChangeTileType(treasure, terrain.TREASURE);
-        let mapPiece1 = ChangeTileType(mapPieces[0], terrain.TREASUREPIECE);
-        let mapPiece2 = ChangeTileType(mapPieces[1], terrain.TREASUREPIECE);
-        let mapPiece3 = ChangeTileType(mapPieces[2], terrain.TREASUREPIECE);
-
         map.droppedItems.push(new DroppedItem(mapPiece1.x, mapPiece1.y, items.mapPiece1));
         map.droppedItems.push(new DroppedItem(mapPiece2.x, mapPiece2.y, items.mapPiece2));
         map.droppedItems.push(new DroppedItem(mapPiece3.x, mapPiece3.y, items.mapPiece3));
-
 
         let borders = centerTile.bordering(centerTile.x, centerTile.y, map.tiles, 2);
 
@@ -160,11 +162,9 @@ function load() {
             }
         }
 
-        player = new Player(centerTile.x, centerTile.y, treasureLocation);
-
+        player      = new Player(centerTile.x, centerTile.y, treasureLocation);
         mapRenderer = new MapRenderer(tileSize, canvas, map, player);
-
-        uiRenderer = new UiRenderer(player, canvas);
+        uiRenderer  = new UiRenderer(player, canvas);
 
         //Create Maps
         pieceMap = new Map(canvas, map.tiles, player, "Treasure Piece");
