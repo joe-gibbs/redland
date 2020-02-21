@@ -46,6 +46,8 @@ export default class UiRenderer {
         let uiX = (this.canvasWidth / 1.2) - 128;
         let uiY = this.canvasHeight / 1.2;
 
+        this.renderMapIcon(mouseX, mouseY);
+        this.renderCraftingIcon(mouseX, mouseY);
         this.renderItems(uiX, uiY);
 
         if (player.showCraftingMenu) {
@@ -53,8 +55,6 @@ export default class UiRenderer {
         }
 
         this.renderResources();
-        this.renderMapIcon(mouseX, mouseY);
-        this.renderCraftingIcon(mouseX, mouseY);
     }
 
     renderResources() {
