@@ -303,7 +303,7 @@ function load() {
     }
 
     function updateTime() {
-        gameTime += 1.015;
+        gameTime += -0.03;
         if (gameTime >= 2400) {
             gameTime = 0;
         }
