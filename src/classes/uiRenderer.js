@@ -122,14 +122,14 @@ export default class UiRenderer {
         let x = size / 4;
         let y = this.canvasHeight / 5;
         let fillStyle = this.canvas.fillStyle;
-        this.canvas.fillStyle = "rgba(128,128,128,.2)";
+        this.canvas.fillStyle = "rgba(128,128,128,0)";
 
         if (mouseX > x && mouseX < x + size && mouseY > y && mouseY < y + (size)) {
-            this.canvas.fillStyle = "rgba(128,128,128,.5)";
+            this.canvas.fillStyle = "rgba(255,255,255,.2)";
         }
 
-        this.canvas.fillRect(x, y, size, size);
         this.canvas.drawImage(this.mapIcon, x, y, size, size);
+        this.canvas.fillRect(x, y, size, size);
         this.canvas.fillStyle = fillStyle;
 
         this.canClickMap = function(clickX, clickY) {
@@ -146,14 +146,14 @@ export default class UiRenderer {
         let x = 64 / 4;
         let y = (this.canvasHeight / 5) + (size * 1.2);
         let fillStyle = this.canvas.fillStyle;
-        this.canvas.fillStyle = "rgba(128,128,128,.2)";
+        this.canvas.fillStyle = "rgba(128,128,128,0)";
 
         if (mouseX > x && mouseX < x + size && mouseY > y && mouseY < y + (size)) {
-            this.canvas.fillStyle = "rgba(128,128,128,.5)";
+            this.canvas.fillStyle = "rgba(255,255,255,.2)";
         }
 
-        this.canvas.fillRect(x, y, size, size);
         this.canvas.drawImage(this.craftingIcon, x, y, size, size);
+        this.canvas.fillRect(x, y, size, size);
         this.canvas.fillStyle = fillStyle;
 
         this.canClickCrafting = function(clickX, clickY) {
