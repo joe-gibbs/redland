@@ -6,24 +6,28 @@ const recipes = {
         {
             wood: 50,
             stone: 0,
+            // placeholder: null
         }
     ),
     pick: new CraftableItem(items.pick,
         {
             wood: 70,
             stone: 0,
+            // placeholder: null
         }
     ),
     shovel: new CraftableItem(items.shovel,
         {
             wood: 50,
             stone: 20,
+            // placeholder: null
         }
     ),
     boat: new CraftableItem(items.boat,
         {
             wood: 100,
             stone: 0,
+            // placeholder: null
         }
     ),
     map: new CraftableItem(items.completedMap,

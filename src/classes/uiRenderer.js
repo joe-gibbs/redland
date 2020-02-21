@@ -46,15 +46,15 @@ export default class UiRenderer {
         let uiX = (this.canvasWidth / 1.2) - 128;
         let uiY = this.canvasHeight / 1.2;
 
+        this.renderItems(uiX, uiY);
+
+        if (player.showCraftingMenu) {
+            this.renderCraftingMenu(mouseX, mouseY);
+        }
+
+        this.renderResources();
         this.renderMapIcon(mouseX, mouseY);
         this.renderCraftingIcon(mouseX, mouseY);
-
-        this.renderItems(uiX, uiY);
-        
-        this.renderResources();
-            if (player.showCraftingMenu) {
-                this.renderCraftingMenu(mouseX, mouseY);
-            }
     }
 
     renderResources() {
@@ -178,34 +178,43 @@ export default class UiRenderer {
 
         this.selectedCraftable = null;
 
+        this.canvas.fillStyle = "#E9D7A9";
+        this.canvas.fillRect(x - size, y - size, (11 * size), (7 * size));
+
+        let craftingMenuSize = 0;
         recipeKeys.forEach(key => {
             if (recipes[key].canCraft(this.player)) {
-                this.canvas.fillStyle = "rgba(0,0,0,0.5)";
+                this.canvas.fillStyle = "#7E8DC3";
+                this.canvas.strokeStyle = '#687BAB'
             } else {
-                this.canvas.fillStyle = "rgba(128,128,128,128.5)";
+                this.canvas.fillStyle = "#687BAB";
+                this.canvas.strokeStyle = '#7E8DC3'
             }
             if (mouseX > x && mouseX < x + (9 * size) && mouseY > y && mouseY < y + (size) && recipes[key].canCraft(this.player)) {
                 this.canvas.fillStyle = "rgba(255,255,255,0.9)";
-                this.selectedCraftable = recipes[key];                
+                this.selectedCraftable = recipes[key];           
+                this.canvas.strokeStyle = '#7E8DC3'     
             }
-            this.canvas.lineWidth = 5;
-            this.canvas.strokeRect(x, y, (9 * size), (size));
             this.canvas.fillRect(x,y, (9 * size), (size));
-            this.canvas.strokeRect(x, y, (size), (size));
+            this.canvas.strokeRect(x - 2, y - 2, (9 * size + 4), (size + 4));
+            this.canvas.strokeRect(x - 2, y - 2, (size + 4), (size + 4));
             this.canvas.drawImage(recipes[key].item.image, x, y, size, size);
             this.canvas.fillStyle = canvasFill;
             this.canvas.fillText(recipes[key].item.name.toUpperCase(),x + (size * 1.2), y + (size * 0.7))
-            this.canvas.strokeRect(x + (size), y, (2 * size), (size));
             
-            let requirementsX = x + (size * 3);
+            let requirementsX = x + (size * 3) - 2;
             recipes[key].requirements.forEach(requirement => {
-                this.canvas.strokeRect(requirementsX, y, (2 * size), (size));                        
-                this.canvas.drawImage(items[requirement].image, requirementsX, y, size, size);
-                this.canvas.fillText(recipes[key].requirements[requirement], requirementsX + (size), y + (size * 0.7));
+                this.canvas.strokeRect(requirementsX , y - 2, (2 * size + 1), (size + 4));                        
+                this.canvas.drawImage(items[requirement].image, requirementsX + 4, y, size, size);
+                this.canvas.fillText(recipes[key].requirements[requirement], requirementsX + (size) + 8, y + (size * 0.7));
                 requirementsX += (2 * size);
-            });          
+            });         
+            craftingMenuSize += size; 
             y += (size);
         });
+        this.canvas.strokeStyle = '#000000';
+        this.canvas.strokeRect(x - 2,  y - craftingMenuSize - 2, (9 * size) + 4,  craftingMenuSize + 4);
+
         this.canvas.fillStyle = canvasFill;
     }
 }

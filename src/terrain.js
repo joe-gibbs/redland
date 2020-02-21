@@ -73,7 +73,7 @@ const terrain = {
         name: 'Rock',
         walkable: false,
         sailable: false,
-        health: 500,
+        health: 200,
         drops: [items.stone],
         spritesheet: {
             uri: './assets/img/rock.png',
