@@ -169,16 +169,22 @@ export default class Player {
                 if (!this.items.includes(actualItem)) {
                     switch (actualItem) {
                         case items.wood:
-                            result = true;
-                            this.resources.wood += 10;
+                            if (this.resources.wood < 9990) {
+                                result = true;
+                                this.resources.wood += 10;
+                            }
                             break;
                         case items.gold:
-                            result = true;
-                            this.resources.gold += 10;
+                            if (this.resources.gold < 9990) {
+                                result = true;
+                                this.resources.gold += 10;
+                            }                            
                             break;
                         case items.stone:
-                            result = true;
-                            this.resources.stone += 10;
+                            if (this.resources.stone < 9990) {
+                                result = true;
+                                this.resources.stone += 10;
+                            }
                             break;
                         case items.mapPiece1:
                             result = true;
