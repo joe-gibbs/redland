@@ -32,6 +32,8 @@ export default class UiRenderer {
         this.background.src = './assets/img/map-border.png';
         this.mapIcon = new Image();
         this.mapIcon.src = './assets/img/action_button.png';
+        this.toggleButton = new Image();
+        this.toggleButton.src = './assets/img/toggle_button.png';
         this.uiX = 0;
         this.uiY = 0;
     }
@@ -56,20 +58,21 @@ export default class UiRenderer {
     }
 
     renderResources() {
-        let tileSize = 32;
+        let tileSize = 64;
         if (this.canvasWidth < (32 * 6)) {
             tileSize = this.canvasWidth / 6;
         }
-        let uiX = (this.canvasWidth) - (tileSize * 6);
+        let uiX = (this.canvasWidth) - (tileSize * 7);
         let uiY = tileSize;
 
         this.canvas.font = (tileSize * 0.75) + "px Pixelated";
-        this.canvas.fillStyle = 'rgba(255,255,255,0.3)';
-        this.canvas.fillRect(uiX, uiY, (tileSize * 3), tileSize);
-        this.canvas.fillRect(uiX + (tileSize * 3), uiY, (tileSize * 3), tileSize);
-        this.canvas.strokeRect(uiX, uiY, tileSize, tileSize);
+        this.canvas.fillStyle = '#E9D7A9';
+        this.canvas.fillRect(uiX, uiY, (tileSize * 6), tileSize);
+        this.canvas.strokeStyle = "#BFB092"
+        this.canvas.strokeRect(uiX, uiY, (tileSize * 6), tileSize);
         this.canvas.drawImage(items.wood.image, uiX, uiY, tileSize, tileSize);
-        this.canvas.strokeRect(uiX + (tileSize * 3), uiY, tileSize, tileSize);
+        this.canvas.strokeRect(uiX + (tileSize), uiY, (tileSize * 2), tileSize);
+        this.canvas.strokeRect(uiX + (tileSize * 4), uiY, (tileSize * 2), tileSize);
         this.canvas.drawImage(items.stone.image, uiX + (tileSize * 3), uiY, tileSize, tileSize);
         this.canvas.fillStyle = 'rgba(0,0,0,1)';
         this.canvas.fillText(this.player.resources.stone, uiX + (tileSize * 3) + tileSize + (tileSize * 0.25), uiY + (tileSize * 0.75));
@@ -95,12 +98,15 @@ export default class UiRenderer {
     renderItems(uiX, uiY) {
         this.uiX = uiX;
         this.uiY = uiY;
-        this.canvas.lineWidth = 5;
-        this.canvas.fillStyle = 'rgba(255,255,255,0.3)';
+        this.canvas.lineWidth = 4;
+        this.canvas.fillStyle = '#E9D7A9';
         this.canvas.fillRect(uiX, uiY, 64, 64);
         this.canvas.fillRect(uiX + 64, uiY, 64, 64);
+        this.canvas.strokeStyle = "#BFB092";
         this.canvas.strokeRect(uiX, uiY, 64, 64);
         this.canvas.strokeRect(uiX + 64, uiY, 64, 64);
+        
+        this.canvas.drawImage(this.toggleButton, uiX - 64, uiY);
         
         if (this.player.items[0]) {
             this.canvas.drawImage(this.player.items[0].image, uiX, uiY);
