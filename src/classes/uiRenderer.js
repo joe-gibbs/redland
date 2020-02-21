@@ -59,11 +59,12 @@ export default class UiRenderer {
 
     renderResources() {
         let tileSize = 64;
-        if (this.canvasWidth < (32 * 6)) {
-            tileSize = this.canvasWidth / 6;
-        }
         let uiX = (this.canvasWidth) - (tileSize * 7);
-        let uiY = tileSize;
+        if (this.canvasWidth < (64 * 7)) {
+            tileSize = this.canvasWidth / 6;
+            uiX = (this.canvasWidth) - (tileSize * 6);
+        }
+        let uiY = tileSize / 2;
 
         this.canvas.font = (tileSize * 0.75) + "px Pixelated";
         this.canvas.fillStyle = '#E9D7A9';
