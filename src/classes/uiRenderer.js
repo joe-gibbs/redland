@@ -27,7 +27,11 @@ export default class UiRenderer {
          */
         this.treasureMap = new Image();
         this.background = new Image(512, 512);
+        this.craftingIcon = new Image();
+        this.craftingIcon.src = './assets/img/crafting_menu.png';
         this.background.src = './assets/img/map-border.png';
+        this.mapIcon = new Image();
+        this.mapIcon.src = './assets/img/map_menu.png';
         this.uiX = 0;
         this.uiY = 0;
     }
@@ -109,22 +113,50 @@ export default class UiRenderer {
 
     renderMapIcon(mouseX, mouseY) {
         let size = 64;
-        let x = 0;
+        let x = size / 4;
         let y = this.canvasHeight / 5;
+        let fillStyle = this.canvas.fillStyle;
+        this.canvas.fillStyle = "rgba(128,128,128,.2)";
 
         if (mouseX > x && mouseX < x + size && mouseY > y && mouseY < y + (size)) {
-            
-            this.canvas.fillStyle = "rgba(128,128,128,128.5)";
+            this.canvas.fillStyle = "rgba(128,128,128,.5)";
         }
 
-        this.canvas.fillRect(0, this.canvasHeight/5, size, size);
+        this.canvas.fillRect(x, y, size, size);
+        this.canvas.drawImage(this.mapIcon, x, y, size, size);
+        this.canvas.fillStyle = fillStyle;
+
+        this.canClickMap = function(clickX, clickY) {
+            if (clickX > x && clickX < x + size && clickY > y && clickY < y + (size))
+            {
+                return true;
+            }
+            return false;
+        };
     }
 
     renderCraftingIcon(mouseX, mouseY) {
         let size = 64;
-        this.canvas.fillStyle = "rgba(128,128,128,128.5)";
+        let x = 64 / 4;
+        let y = (this.canvasHeight / 5) + (size * 1.2);
+        let fillStyle = this.canvas.fillStyle;
+        this.canvas.fillStyle = "rgba(128,128,128,.2)";
 
-        this.canvas.fillRect(0, (this.canvasHeight/5) + (size * 1.2), size, size);
+        if (mouseX > x && mouseX < x + size && mouseY > y && mouseY < y + (size)) {
+            this.canvas.fillStyle = "rgba(128,128,128,.5)";
+        }
+
+        this.canvas.fillRect(x, y, size, size);
+        this.canvas.drawImage(this.craftingIcon, x, y, size, size);
+        this.canvas.fillStyle = fillStyle;
+
+        this.canClickCrafting = function(clickX, clickY) {
+            if (clickX > x && clickX < x + size && clickY > y && clickY < y + (size))
+            {
+                return true;
+            }
+            return false;
+        };
     }
 
     renderCraftingMenu(mouseX, mouseY) {

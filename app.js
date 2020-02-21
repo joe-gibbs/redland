@@ -226,11 +226,24 @@ function load() {
             if (!player.showCraftingMenu && e.clientX > ((canvasWidth / 2) - 128) && e.clientX < ((canvasWidth / 2) + 128) && e.clientY > ((canvasHeight / 2) - 128) && e.clientY < ((canvasHeight / 2) + 128)) {
                 player.pickup(map.droppedItems);
             }
-            if (!uiRenderer.selectedCraftable) {
+            if (uiRenderer.canClickCrafting(mouseX, mouseY)) {
+                player.showCraftingMenu = !player.showCraftingMenu;
+            }
+            else if (!uiRenderer.selectedCraftable) {
                 player.showCraftingMenu = false;
             }
-            player.showPieceMap = false;
-            player.showTreasureMap = false;
+
+            if (uiRenderer.canClickMap(mouseX, mouseY)) {
+                if (player.equipped === items.map){
+                    player.showPieceMap = !player.showPieceMap;
+                } else if (player.equipped === items.completedMap){
+                    player.showTreasureMap = !player.showTreasureMap;
+                }
+            }
+            else {
+                player.showPieceMap = false;
+                player.showTreasureMap = false;
+            }
         }
 
         document.onmousemove = findDocumentCoords;
