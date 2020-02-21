@@ -50,6 +50,9 @@ let mouseX = 0, mouseY = 0;
 let kMap = []; // You could also use an array
 
 progressBar.value += 10;
+setInterval(function() {
+    progressBar.value += 1;
+}, 10);
 
 //Main function, put stuff here
 window.onload = load;
