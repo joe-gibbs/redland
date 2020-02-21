@@ -2,6 +2,12 @@ import CraftableItem from './classes/craftableItem.js';
 import items from './items.js';
 
 const recipes = {
+    axe: new CraftableItem(items.axe,
+        {
+            wood: 50,
+            stone: 0,
+        }
+    ),
     pick: new CraftableItem(items.pick,
         {
             wood: 70,
