@@ -242,7 +242,7 @@ function load() {
             else if (!uiRenderer.selectedCraftable) {
                 player.showCraftingMenu = false;
             }
-            if  (mouseX >= tileSize * 13 && mouseX <= tileSize * 14 + 20 && mouseY >= tileSize * 11.6 && mouseY < tileSize * 12.6 + 20 ){
+            if  (uiRenderer.canClickToggleButton(mouseX, mouseY)){
                 player.switchItems();
             }
 

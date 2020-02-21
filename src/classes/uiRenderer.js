@@ -109,6 +109,14 @@ export default class UiRenderer {
         
         this.canvas.drawImage(this.toggleButton, uiX - 64, uiY);
         
+        this.canClickToggleButton = function(clickX, clickY) {
+            if (clickX > uiX - 64 && clickX < uiX && clickY > uiY && clickY < uiY + (64))
+            {
+                return true;
+            }
+            return false;
+        };
+
         if (this.player.items[0]) {
             this.canvas.drawImage(this.player.items[0].image, uiX, uiY);
         }
@@ -116,6 +124,7 @@ export default class UiRenderer {
             this.canvas.drawImage(this.player.items[1].image, uiX + 64, uiY);
         }
         this.canvas.fillStyle = 'rgba(0,0,0,1)';
+
     }
 
     renderMapIcon(mouseX, mouseY) {
