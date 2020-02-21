@@ -238,7 +238,7 @@ function load() {
             }
 
             if (uiRenderer.canClickMap(mouseX, mouseY)) {
-                handleAction(true);
+                handleAction(false);
             }
             else {
                 player.showPieceMap = false;
