@@ -4,19 +4,19 @@ import items from './items.js';
 const recipes = {
     pick: new CraftableItem(items.pick,
         {
-            wood: 20,
+            wood: 70,
             stone: 0,
         }
     ),
     shovel: new CraftableItem(items.shovel,
         {
-            wood: 10,
+            wood: 50,
             stone: 20,
         }
     ),
     boat: new CraftableItem(items.boat,
         {
-            wood: 20,
+            wood: 100,
             stone: 0,
         }
     ),
