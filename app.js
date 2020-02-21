@@ -112,24 +112,28 @@ function load() {
             player.dropEquipped(map.droppedItems);
         }
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
-            player.showCraftingMenu = false;
-            if (!kMap['TouchVector']) {  
-                if (player.equipped === items.map){
-                    player.showPieceMap = !player.showPieceMap;
-                } else if (player.equipped === items.completedMap){
-                    player.showTreasureMap = !player.showTreasureMap;
-                }
-            }
-            let pickedUp = player.pickup(map.droppedItems);
-            if (!pickedUp){
-                player.chop(map); 
-            }
+            handleAction(kMap['TouchVector']);
         }
     }
 
     function ChangeTileType(tile, terrainType){
         tile.type = terrainType;
         return {x: tile.x, y: tile.y};
+    }
+
+    function handleAction(touchVector) {
+        player.showCraftingMenu = false;
+        if (!touchVector) {  
+            if (player.equipped === items.map){
+                player.showPieceMap = !player.showPieceMap;
+            } else if (player.equipped === items.completedMap){
+                player.showTreasureMap = !player.showTreasureMap;
+            }
+        }
+        let pickedUp = player.pickup(map.droppedItems);
+        if (!pickedUp){
+            player.chop(map); 
+        }
     }
 
     //Setup
@@ -209,7 +213,7 @@ function load() {
             e.preventDefault();
             e = e || event; // to deal with IE
             kMap[e.code] = e.type == 'keydown';
-            handleActionMappings(kMap);
+            handleActionMappings(kMap);            
         }
         
         document.onclick = function (e) {
@@ -234,11 +238,7 @@ function load() {
             }
 
             if (uiRenderer.canClickMap(mouseX, mouseY)) {
-                if (player.equipped === items.map){
-                    player.showPieceMap = !player.showPieceMap;
-                } else if (player.equipped === items.completedMap){
-                    player.showTreasureMap = !player.showTreasureMap;
-                }
+                handleAction(false);
             }
             else {
                 player.showPieceMap = false;
