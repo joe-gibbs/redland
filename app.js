@@ -61,7 +61,6 @@ window.onload = load;
 
 function load() {
     map = new GameMap(new MapGenerator().generate(MapSize, new SimplexNoise(), progressBar)); //218  - 256 are good Sizes for visibility and reduced blur.
-    progressBar = null;
     /**
      * Handles inputs that you want done as a continuous series
      * @param {String[]} kMap 
