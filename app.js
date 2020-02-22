@@ -191,7 +191,7 @@ function load() {
             if (!touched) { 
                 dynamic = nipplejs.create({
                     zone: document.getElementById('dynamic'),
-                    size: 200,
+                    size: 60,
                     color: 'gray'
                 });
                 touched = true;                
