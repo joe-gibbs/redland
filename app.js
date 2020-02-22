@@ -211,9 +211,9 @@ function load() {
             });
         });
   
-        if ('serviceWorker' in navigator) {            
+        /*if ('serviceWorker' in navigator) {            
             navigator.serviceWorker.register('/sw.js');
-        }
+        }*/
 
         onkeydown = onkeyup = function(e){
             e.preventDefault();
