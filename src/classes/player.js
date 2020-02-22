@@ -107,7 +107,7 @@ export default class Player {
         return this.spritesheet.animationSets['idleForward'];
     }
 
-    updateAimedTile(map){
+    updateAimedTile(map){        
         this.aimedTile = map.tiles[Math.round(this.x + this.direction[0])][Math.round(this.y + this.direction[1])];
     }
 

@@ -88,7 +88,7 @@ function load() {
                 centerTile = player.move(-x / 20, y / 20, map);
             }
         }
-        if (kMap['TouchDistance'] && kMap['TouchDistance'] === 100) {
+        if (kMap['TouchDistance'] && kMap['TouchDistance'] === 100) {            
             player.chop(map);
         }
     }
