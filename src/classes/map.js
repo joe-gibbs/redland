@@ -43,6 +43,7 @@ export default class Map {
                 case "Rock":
                     result = hexToRGBA('#515151');
                     break;
+                case "Tall Grass":
                 case "Land":
                     result = hexToRGBA('#097200');
                     break;

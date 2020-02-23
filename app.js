@@ -10,7 +10,7 @@ import Map from './src/classes/Map.js';
 
 const MapSize = 256;
 
-let gameTime = 0.0;
+let gameTime = 00;
 
 let progressBar = document.getElementById('progress');
 
@@ -141,8 +141,7 @@ function load() {
 
     //Setup
     function setup() { 
-        let treasure;
-        let treasureLocation, mapPiece1, mapPiece2, mapPiece3;
+        let treasure, treasureLocation, mapPiece1, mapPiece2, mapPiece3;
         try {
             centerTile   = map.chooseRandomTile(terrain.LAND);
             treasure     = map.chooseRandomTile(terrain.LAND);
