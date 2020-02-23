@@ -10,7 +10,7 @@ import Map from './src/classes/Map.js';
 
 const MapSize = 256;
 
-let gameTime = 00;
+let gameTime = 0.0;
 
 let progressBar = document.getElementById('progress');
 

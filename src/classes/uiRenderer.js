@@ -108,10 +108,10 @@ export default class UiRenderer {
         this.canvas.lineWidth = 4;
         this.canvas.fillStyle = '#E9D7A9';
         this.canvas.fillRect(uiX, uiY, 64, 64);
-        this.canvas.fillRect(uiX + 64, uiY, 64, 64);
+        this.canvas.fillRect(uiX + 64, uiY, 32, 32);
         this.canvas.strokeStyle = "#BFB092";
         this.canvas.strokeRect(uiX, uiY, 64, 64);
-        this.canvas.strokeRect(uiX + 64, uiY, 64, 64);
+        this.canvas.strokeRect(uiX + 64, uiY, 32, 32);
         
         this.canvas.drawImage(this.toggleButton, uiX - 64, uiY);
         
@@ -127,7 +127,7 @@ export default class UiRenderer {
             this.canvas.drawImage(this.player.items[0].image, uiX, uiY);
         }
         if (this.player.items[1]) {
-            this.canvas.drawImage(this.player.items[1].image, uiX + 64, uiY);
+            this.canvas.drawImage(this.player.items[1].image, uiX + 64, uiY, 32 ,32);
         }
         this.canvas.fillStyle = 'rgba(0,0,0,1)';
 
