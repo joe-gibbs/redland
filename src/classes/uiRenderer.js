@@ -42,7 +42,7 @@ export default class UiRenderer {
      * 
      * @param {Number} tileSize The size of each tile
      */
-    render(mouseX, mouseY, player) {
+    render(mouseX, mouseY, player, pieceMap, treasureMap) {
         let uiX = (this.canvasWidth / 1.2) - 128;
         let uiY = this.canvasHeight / 1.2;
 
@@ -52,6 +52,12 @@ export default class UiRenderer {
 
         if (player.showCraftingMenu) {
             this.renderCraftingMenu(mouseX, mouseY);
+        }
+
+        if(player.showPieceMap){
+            pieceMap.renderMap(this.canvasWidth, this.canvasHeight);
+        } else if (player.showTreasureMap){
+            treasureMap.renderMap(this.canvasWidth, this.canvasHeight);
         }
 
         this.renderResources();

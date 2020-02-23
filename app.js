@@ -314,12 +314,8 @@ function load() {
     
     function draw() {
         mapRenderer.render(centerTile, player);        
-        uiRenderer.render(mouseX, mouseY, player);
-        if(player.showPieceMap){
-            pieceMap.renderMap(canvasWidth, canvasHeight);
-        } else if (player.showTreasureMap){
-            treasureMap.renderMap(canvasWidth, canvasHeight);
-        }
+        uiRenderer.render(mouseX, mouseY, player, pieceMap, treasureMap);
+        
         uiCanvas.fillStyle = 'rgba(0,0,0,0)';
     }
 
