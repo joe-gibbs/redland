@@ -50,7 +50,7 @@ export default class Map {
                     result = hexToRGBA('#006DCA');
                     break;
                 case this.searchedItem:
-                    result = hexToRGBA('#D62828');
+                    result = hexToRGBA('#FF0000');
                     break;
                 default:
                     result = hexToRGBA('#E9D7A9');
