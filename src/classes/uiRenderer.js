@@ -46,7 +46,7 @@ export default class UiRenderer {
         let uiX = (this.canvasWidth / 1.2) - 128;
         let uiY = this.canvasHeight / 1.2;
 
-        this.renderMapIcon(mouseX, mouseY);
+        this.renderActionIcon(mouseX, mouseY);
         this.renderCraftingIcon(mouseX, mouseY);
         this.renderItems(uiX, uiY);
 
@@ -132,10 +132,10 @@ export default class UiRenderer {
 
     }
 
-    renderMapIcon(mouseX, mouseY) {
+    renderCraftingIcon(mouseX, mouseY) {
         let size = 64;
-        let x = 64 / 4;
-        let y = (this.canvasHeight / 2) + (size * 1.2);
+        let x = this.canvasWidth - size - 20;
+        let y = (this.canvasHeight / 2) + (-size * 0.2);
         let fillStyle = this.canvas.fillStyle;
         this.canvas.fillStyle = "rgba(128,128,128,0)";
 
@@ -156,7 +156,7 @@ export default class UiRenderer {
         };
     }
 
-    renderCraftingIcon(mouseX, mouseY) {
+    renderActionIcon(mouseX, mouseY) {
         let size = 64; 
         let x = this.canvasWidth - size - 20;
         let y = (this.canvasHeight / 2) + (size * 1.2);
