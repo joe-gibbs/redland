@@ -38,22 +38,22 @@ export default class Map {
             let result = [];
             switch (tile) {
                 case "Forest":
-                    result = hexToRGBA('#DB7644');
+                    result = hexToRGBA('#165200');
                     break;
                 case "Rock":
-                    result = hexToRGBA('#C85F3A');
+                    result = hexToRGBA('#515151');
                     break;
                 case "Land":
-                    result = hexToRGBA('#E5A773');
+                    result = hexToRGBA('#097200');
                     break;
                 case "Water":
-                    result = hexToRGBA('#E9D7A9');
+                    result = hexToRGBA('#006DCA');
                     break;
                 case this.searchedItem:
-                    result = hexToRGBA('#000000');
+                    result = hexToRGBA('#D62828');
                     break;
                 default:
-                    result = hexToRGBA('#E5A773');
+                    result = hexToRGBA('#E9D7A9');
                     break;
             }
             return result;
