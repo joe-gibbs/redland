@@ -85,10 +85,10 @@ function load() {
             let x = kMap['TouchVector'].x;
             let y = kMap['TouchVector'].y;
             if (x != 0 && y != 0) {
-                centerTile = player.move(-x / 20, y / 20, map);
+                centerTile = player.move(-x / 25, y / 25, map);
             }
         }
-        if (kMap['TouchDistance'] && kMap['TouchDistance'] === 100) {            
+        if (kMap['TouchDistance'] && kMap['TouchDistance'] === 50) {            
             player.chop(map);
         }
     }
@@ -190,9 +190,11 @@ function load() {
         window.addEventListener('touchstart', function() {            
             if (!touched) { 
                 dynamic = nipplejs.create({
+                    mode: 'static',
                     zone: document.getElementById('dynamic'),
-                    size: 60,
-                    color: 'gray'
+                    size: 100,
+                    position: {bottom: '150px', left: '100px'},
+                    color: 'white'
                 });
                 touched = true;                
             }
@@ -315,7 +317,7 @@ function load() {
     function draw() {
         mapRenderer.render(centerTile, player);        
         uiRenderer.render(mouseX, mouseY, player, pieceMap, treasureMap);
-        
+
         uiCanvas.fillStyle = 'rgba(0,0,0,0)';
     }
 
