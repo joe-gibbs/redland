@@ -8,7 +8,7 @@ import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
 import Map from './src/classes/Map.js';
 
-const MapSize = 192;
+const MapSize = 256;
 
 let gameTime = 0.0;
 
