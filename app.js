@@ -212,8 +212,9 @@ function load() {
                 };
                 kMap['TouchDistance'] = 0;
             });
-            handleClick(e);            
         });
+
+        window.addEventListener('touchend', function(e) {handleClick(e)});
   
         /*if ('serviceWorker' in navigator) {            
             navigator.serviceWorker.register('/sw.js');
