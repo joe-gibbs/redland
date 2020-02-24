@@ -173,10 +173,10 @@ function load() {
         uiRenderer  = new UiRenderer(player, uiCanvas);
 
         //Create Maps
-        pieceMap = new Map(canvas, map.tiles, player, "Treasure Piece");
+        pieceMap = new Map(uiCanvas, map.tiles, player, "Treasure Piece");
         pieceMap.map.src = pieceMap.generateMap()
 
-        treasureMap = new Map(canvas, map.tiles, player, "Treasure");
+        treasureMap = new Map(uiCanvas, map.tiles, player, "Treasure");
         treasureMap.map.src = treasureMap.generateMap();
 
 
