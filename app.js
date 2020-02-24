@@ -7,6 +7,8 @@ import MapRenderer from './src/classes/mapRenderer.js';
 import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
 import Map from './src/classes/Map.js';
+import Building from './src/classes/building.js';
+import buildings from './src/buildings.js';
 
 const MapSize = 256;
 
@@ -45,6 +47,9 @@ let treasureMap;
 
 /** @type {Number} */
 let tileSize, canvasWidth, canvasHeight;
+
+/** @type {Building[]} */
+let buildingArray = [];
 
 let mouseX = 0, mouseY = 0;
 
@@ -168,8 +173,10 @@ function load() {
             }
         }
 
+        buildingArray.push(new Building(buildings.fortress, map, centerTile.x + 6, centerTile.y + 6));
+
         player      = new Player(centerTile.x, centerTile.y, treasureLocation);
-        mapRenderer = new MapRenderer(tileSize, canvas, map, player);
+        mapRenderer = new MapRenderer(tileSize, canvas, map, player, buildingArray);
         uiRenderer  = new UiRenderer(player, uiCanvas);
 
         //Create Maps

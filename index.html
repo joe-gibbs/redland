@@ -21,6 +21,8 @@
     <link rel="preload" as="script" crossorigin href="/src/classes/gameMap.js">
     <link rel="preload" as="script" crossorigin href="/src/classes/Map.js">
     <link rel="preload" as="script" crossorigin href="/src/classes/uiRenderer.js">
+    <link rel="preload" as="script" crossorigin href="/src/classes/building.js">
+    <link rel="preload" as="script" crossorigin href="/src/buildings.js">
 
     <meta property="og:title" content="Redland">
     <meta property="og:url" content="https://redland.io">
@@ -46,6 +48,7 @@
         @font-face {
             font-family: Pixelated;
             src: url('assets/Pixelated.woff') format('woff');
+            font-display: swap;
         }
         body {
             margin:0;
@@ -110,6 +113,7 @@
     </style>
 </head>
 <body>
+    <noscript>This content requires JavaScript to be enabled.</noscript>
     <div id="joystick-zone">
         <div id="dynamic"></div>
     </div>

@@ -1,32 +1,22 @@
 import terrain from './terrain.js';
+import Spritesheet from './classes/spritesheet.js';
+import items from './items.js';
 
 const buildings = {
     fortress: {
-        keys : [terrain.LAND, terrain.ROCK],
-        map : [
-            [1,1,1,1,1],
-            [1,0,0,0,1],
-            [1,0,0,0,1],
-            [1,1,0,1,1],
+        name: "Fortress",
+        width: 4,
+        height: 4,
+        spritesheet: new Spritesheet('./assets/img/fortress.png', 256, 256), 
+        requires: [
+            [items.wood, 200],
+            [items.stone, 200],
         ],
-    },
-    house: {  
-        keys : [terrain.LAND, terrain.ROCK],
-        map : [
-            [1,1,1,1],
-            [1,0,0,1],
-            [1,0,0,1],
-            [1,1,1,1],
+        drops: [
+            [items.wood, 100],
+            [items.stone, 100],
         ],
-    },
-    farm: {
-        keys : [terrain.LAND],
-        map : [
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-        ],
+        maxHealth: 1000,
     },
 }
 

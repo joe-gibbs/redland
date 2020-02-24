@@ -2,6 +2,7 @@ import Terrain from '../terrain.js';
 import Tile from './tile.js';
 import GameMap from './gameMap.js';
 import Player from './player.js';
+import Building from './building.js';
 
 const TREE_OFFSET = 15;
 const ROCK_OFFSET = 16;
@@ -17,12 +18,14 @@ export default class MapRenderer {
      * @param {HTMLElement} gameCanvas 
      * @param {GameMap} map 
      * @param {Player} player 
+     * @param {Building[]} buildings
      */
-    constructor(tileSize, canvas, map, player) {
+    constructor(tileSize, canvas, map, player, buildings) {
         this.tileSize = tileSize;
         this.canvas = canvas;
         this.player = player;
         this.map = map;
+        this.buildings = buildings;
         this.renderFrame = 0;
         this.updateRenderableLength(canvas.canvas);
     }
@@ -94,13 +97,13 @@ export default class MapRenderer {
                         default:
                             currentTile.type.tile.render(0, calculateX(x, this.tileSize), calculateY(y, this.tileSize), this.canvas);
                             break;
-                    }                    
-                    
+                    }       
+                    this.drawBuildings(this.renderableTiles[x][y], calculateX(x, this.tileSize), calculateY(y, this.tileSize));
                     this.drawItems(this.renderableTiles[x][y], this.map, calculateX(x, this.tileSize), calculateY(y, this.tileSize));
                 }
                 else {
                     this.canvas.fillRect(x*this.tileSize, y*this.tileSize, this.tileSize, this.tileSize);
-                }        
+                }      
                 getBorders(x, y, this.renderableTiles).forEach(tile => {                    
                     this.drawEdges(this.renderableTiles, tile, x, y, this.canvas);
                 });
@@ -118,6 +121,14 @@ export default class MapRenderer {
         }
     }
 
+    drawBuildings(tile, x, y) {
+        this.buildings.forEach(element => {   
+            if (tile.x === element.x && tile.y === element.y) {
+                element.spritesheet.render(0, x - ((element.width * this.tileSize) - this.tileSize), y  - ((element.width * this.tileSize) - this.tileSize), this.canvas);
+            }
+        });
+    }
+
     drawEdges(renderableTiles, tile, x, y, canvas) {
         // if (tile.type !== renderableTiles[x][y].type && tile.type.transitionIndex > renderableTiles[x][y].type.transitionIndex) {           
         //     let cx          = x*this.tileSize + 0.5 * this.tileSize;   // x of shape center
@@ -133,7 +144,7 @@ export default class MapRenderer {
         // }
     }
 
-    drawItems(tile, map, x, y) {    
+    drawItems(tile, map, x, y) {            
         map.droppedItems.forEach(element => {
             if (tile === map.tiles[element.x][element.y]) { 
                 //render treasure item with sprites.

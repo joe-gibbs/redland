@@ -1,12 +1,15 @@
 import Tile from './tile.js';
+import DroppedItem from './droppedItem.js';
 
 export default class GameMap {
     /**
      * 
-     * @param {Tile[]} tiles
+     * @param {Tile[][]} tiles
      */
     constructor(tiles) {
+        /** @type {Tile[][]} */
         this.tiles = tiles;
+        /** @type {DroppedItem[]} */
         this.droppedItems = [];
     }
 

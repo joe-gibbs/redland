@@ -93,6 +93,18 @@ const terrain = {
             height: 80,
         },
     }),
+    "BUILDING": new Terrain({
+        name: 'Building',
+        walkable: false,
+        sailable: false,
+        health: Infinity,
+        drops: [],
+        spritesheet: {
+            uri: './assets/img/barrier.png',
+            width: 64,
+            height: 64
+        }
+    }),
     "BARRIER": new Terrain({
         name: 'Barrier',
         walkable: false,

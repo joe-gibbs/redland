@@ -13,6 +13,7 @@ export default class Tile {
         this.x = x;
         this.y = y;
         this.currentHealth = type.health;
+        this.building = null;
     }
     /**
      * 
