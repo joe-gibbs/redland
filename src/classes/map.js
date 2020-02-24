@@ -8,6 +8,7 @@ export default class Map {
         this.tiles = tiles;
         this.searchedItem = searchedItem;
         this.map = new Image();
+        this.element = document.getElementById('map');
     }
     rotate180(a) {
         const w = a[0].length;
@@ -81,6 +82,11 @@ export default class Map {
     }
     renderMap(canvasWidth, canvasHeight){
         let width = Math.min(512, canvasWidth);
-        this.canvas.drawImage(this.map, (canvasWidth / 2 ) - (width/2), (canvasHeight / 2) - (width/2), width, width);
+        //this.canvas.drawImage(this.map, (canvasWidth / 2 ) - (width/2), (canvasHeight / 2) - (width/2), width, width);
+        this.element.style.display = "block";
+        this.element.style.width = width + 'px';
+        this.element.style.height = width + 'px';
+        this.element.style.top = (canvasHeight /6) + 'px';
+        this.element.src = this.map.src;
     }
 }

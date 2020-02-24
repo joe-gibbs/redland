@@ -314,6 +314,7 @@ function load() {
     }
     
     function draw() {
+        document.getElementById('map').style.display = 'none';
         mapRenderer.render(centerTile, player);        
         uiRenderer.render(mouseX, mouseY, player, pieceMap, treasureMap);
 

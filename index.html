@@ -83,6 +83,21 @@
             margin-left: auto;
             margin-right: auto;
         }
+        #map {
+            image-rendering: pixelated;    
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 25%;
+            margin-left: auto;
+            margin-right: auto;
+            display: none;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-drag: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
     </style>
 </head>
 <body>
@@ -90,6 +105,7 @@
     <div id="dynamic">
         <canvas width="500px" height="500px" id="game"></canvas>
         <canvas width="500px" height="500px" id="ui"></canvas>
+        <img src="" alt="Game Map" id="map">
     </div>
 </body>
 </html>
