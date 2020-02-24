@@ -114,7 +114,7 @@ function load() {
         if (kMap['KeyD']) {
             player.dropEquipped(map.droppedItems);
         }
-        if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
+        if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE'] || kMap['TouchStart']) {
             handleAction(kMap['TouchVector']);
         }
     }
