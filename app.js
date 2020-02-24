@@ -114,7 +114,7 @@ function load() {
         if (kMap['KeyD']) {
             player.dropEquipped(map.droppedItems);
         }
-        if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE'] || kMap['TouchStart']) {
+        if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
             handleAction(kMap['TouchVector']);
         }
     }
@@ -186,7 +186,8 @@ function load() {
         let dynamic;
         let touched = false;
 
-        window.addEventListener('touchstart', function() {            
+        window.addEventListener('touchstart', function(e) {   
+            e.preventDefault();         
             if (!touched) { 
                 dynamic = nipplejs.create({
                     zone: document.getElementById('joystick-zone'),
@@ -211,6 +212,7 @@ function load() {
                 };
                 kMap['TouchDistance'] = 0;
             });
+            handleClick(e);            
         });
   
         /*if ('serviceWorker' in navigator) {            
@@ -224,7 +226,9 @@ function load() {
             handleActionMappings(kMap);            
         }
         
-        document.onclick = function (e) {
+        document.onclick = handleClick;
+
+        function handleClick(e) {
             mouseX = e.clientX;
             mouseY = e.clientY;
       
