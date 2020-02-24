@@ -98,14 +98,24 @@
             -webkit-user-select: none;
             -ms-user-select: none;
         }
+        #joystick-zone {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin-right: auto;
+            width: 200px;
+            height: 200px;
+        }
     </style>
 </head>
 <body>
-    <progress id="progress" max="100" value="0"></progress>
-    <div id="dynamic">
-        <canvas width="500px" height="500px" id="game"></canvas>
-        <canvas width="500px" height="500px" id="ui"></canvas>
-        <img src="" alt="Game Map" id="map">
+    <div id="joystick-zone">
+        <div id="dynamic"></div>
     </div>
+    <progress id="progress" max="100" value="0"></progress>
+    <canvas width="500px" height="500px" id="game"></canvas>
+    <canvas width="500px" height="500px" id="ui"></canvas>
+    <img src="" alt="Game Map" id="map">
 </body>
 </html>

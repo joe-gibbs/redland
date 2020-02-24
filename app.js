@@ -189,6 +189,7 @@ function load() {
         window.addEventListener('touchstart', function() {            
             if (!touched) { 
                 dynamic = nipplejs.create({
+                    zone: document.getElementById('joystick-zone'),
                     mode: 'static',
                     zone: document.getElementById('dynamic'),
                     size: 100,
