@@ -9,6 +9,7 @@ export default class Player {
     constructor(x, y, treasureLocation) {
         this.x = x;
         this.y = y;
+        this.selectedBuilding = null;
         this.speed = 10;
         this.spritesheet = new Spritesheet('./assets/img/player.png', 64, 80);
         this.spritesheet.addAnimationSet('idleForward', 0, 0);
@@ -109,7 +110,7 @@ export default class Player {
     }
 
     updateAimedTile(map){        
-        this.aimedTile = map.tiles[Math.round(this.x + this.direction[0])][Math.round(this.y + this.direction[1])];
+        this.aimedTile = map.tiles[Math.ceil(this.x + this.direction[0])][Math.ceil(this.y + this.direction[1])];
     }
 
     /**
