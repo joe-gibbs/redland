@@ -7,7 +7,7 @@ import MapRenderer from './src/classes/mapRenderer.js';
 import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
 import Map from './src/classes/Map.js';
-import Building from './src/classes/building.js';
+import Building from "./src/classes/building.js";
 import buildings from './src/buildings.js';
 
 const MapSize = 256;
@@ -308,6 +308,11 @@ function load() {
         tileSize = 64;// NEED TO ADJUST TILE SIZE WITH CANVAS SIZE
         canvas.font = (canvasWidth + canvasHeight) / 92 + "px Pixelated";
         canvas.fillRect(0, 0, canvasWidth, canvasHeight);
+
+        buildingArray.forEach(building => {
+            building.checkHealth(buildingArray, map.droppedItems)
+        });
+
         if (player && !player.showPieceMap && !player.showTreasureMap) {
             player.updateMovement(map);
             handleAxisMappings(kMap);

@@ -105,6 +105,18 @@ const terrain = {
             height: 64
         }
     }),
+    "RUBBLE": new Terrain({
+        name: 'Rubble',
+        walkable: true,
+        sailable: true,
+        health: 200,
+        drops: [],
+        spritesheet: {
+            uri: './assets/img/rubble.png',
+            width: 64,
+            height: 64
+        }
+    }),
     "BARRIER": new Terrain({
         name: 'Barrier',
         walkable: false,

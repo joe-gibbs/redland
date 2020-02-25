@@ -1,3 +1,6 @@
+/**
+ * Removes a value from the array.
+ */
 Array.prototype.remove = function() {
     var what, a = arguments, L = a.length, ax;
     while (L && this.length) {

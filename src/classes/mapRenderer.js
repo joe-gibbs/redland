@@ -2,7 +2,7 @@ import Terrain from '../terrain.js';
 import Tile from './tile.js';
 import GameMap from './gameMap.js';
 import Player from './player.js';
-import Building from './building.js';
+import Building from "./building.js";
 
 const TREE_OFFSET = 15;
 const ROCK_OFFSET = 16;
