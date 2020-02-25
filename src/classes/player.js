@@ -28,6 +28,7 @@ export default class Player {
             mapPiece3: 0,
         };
         this.onSea = false;
+        this.showBuildingMenu = false;
         this.showCraftingMenu = false;
         this.showPieceMap = false;
         this.showTreasureMap = false;

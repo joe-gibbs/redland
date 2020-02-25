@@ -119,6 +119,9 @@ function load() {
         if (kMap['KeyD']) {
             player.dropEquipped(map.droppedItems);
         }
+        if (kMap['KeyB']) {
+            player.showBuildingMenu = !player.showBuildingMenu;
+        }
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
             handleAction(kMap['TouchVector']);
         }

@@ -1,6 +1,7 @@
 import Player from './player.js';
 import recipes from '../recipes.js';
 import items from '../items.js';
+import buildings from '../buildings.js';
 import CraftableItem from './craftableItem.js';
 
 export default class UiRenderer {
@@ -54,6 +55,10 @@ export default class UiRenderer {
             this.renderCraftingMenu(mouseX, mouseY);
         }
 
+        if (player.showBuildingMenu) {
+            this.renderBuildingMenu(mouseX, mouseY);
+        }
+
         if(player.showPieceMap){
             pieceMap.renderMap(this.canvasWidth, this.canvasHeight);
         } else if (player.showTreasureMap){
@@ -61,6 +66,59 @@ export default class UiRenderer {
         }
 
         this.renderResources();
+    }
+
+    renderBuildingMenu(mouseX, mouseY) {
+        let size = 64;
+        if (this.canvasWidth < (9 * 64)) {
+            size = this.canvasWidth / 9;
+        }
+        let buildingkeys = Object.keys(buildings);
+        let x = (this.canvasWidth / 2) - (size * 4.5);
+        let y = (this.canvasHeight / 2) - ((buildingkeys.length * (size) / 2));
+        let canvasFill = this.canvas.fillStyle;
+        this.canvas.font = (size / 2) + "px Pixelated";
+
+        this.selectedBuilding = null;
+
+        this.canvas.fillStyle = "#E9D7A9";
+        this.canvas.fillRect(x - size, y - size, (11 * size), (7 * size));
+
+        let craftingMenuSize = 0;
+        buildingkeys.forEach(key => {
+            if (buildings[key]) {
+                this.canvas.fillStyle = "#7E8DC3";
+                this.canvas.strokeStyle = '#687BAB'
+            } else {
+                this.canvas.fillStyle = "#687BAB";
+                this.canvas.strokeStyle = '#7E8DC3'
+            }
+            if (mouseX > x && mouseX < x + (9 * size) && mouseY > y && mouseY < y + (size) && buildings[key]) {
+                this.canvas.fillStyle = "rgba(255,255,255,0.9)";
+                this.selectedBuilding = buildings[key];           
+                this.canvas.strokeStyle = '#7E8DC3'     
+            }
+            this.canvas.fillRect(x,y, (9 * size), (size));
+            this.canvas.strokeRect(x - 2, y - 2, (9 * size + 4), (size + 4));
+            this.canvas.strokeRect(x - 2, y - 2, (size + 4), (size + 4));
+            this.canvas.drawImage(buildings[key].icon, x, y, size, size);
+            this.canvas.fillStyle = canvasFill;
+            this.canvas.fillText(buildings[key].name.toUpperCase(),x + (size * 1.2), y + (size * 0.7))
+            
+            let requirementsX = x + (size * 3) - 2;
+            buildings[key].requires.forEach(requirement => {
+                this.canvas.strokeRect(requirementsX , y - 2, (2 * size + 1), (size + 4));                        
+                this.canvas.drawImage(requirement[0].image, requirementsX + 4, y, size, size);
+                this.canvas.fillText(requirement[1], requirementsX + (size) + 8, y + (size * 0.7));
+                requirementsX += (2 * size);
+            });         
+            craftingMenuSize += size; 
+            y += (size);
+        });
+        this.canvas.strokeStyle = '#000000';
+        this.canvas.strokeRect(x - 2,  y - craftingMenuSize - 2, (9 * size) + 4,  craftingMenuSize + 4);
+
+        this.canvas.fillStyle = canvasFill;
     }
 
     renderResources() {

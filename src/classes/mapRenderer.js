@@ -9,7 +9,6 @@ const ROCK_OFFSET = 16;
 const PLAYER_OFFSET = 38;
 const TREASURE_OFFSET = {x: 72, y: 112};
 
-
 export default class MapRenderer {
     /**
      * 
