@@ -1,4 +1,4 @@
-import Player from './player.js';
+import Player from './actors/player.js';
 import recipes from '../recipes.js';
 import items from '../items.js';
 import CraftableItem from './craftableItem.js';

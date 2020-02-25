@@ -17,7 +17,7 @@
       '/src/classes/map.js',
       '/src/classes/mapGenerator.js',
       '/src/classes/mapRenderer.js',
-      '/src/classes/player.js',
+      '/src/classes/actors/player.js',
       '/src/classes/spritesheet.js',
       '/src/classes/tile.js',
       '/src/classes/treasure.js',

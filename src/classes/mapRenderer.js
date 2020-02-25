@@ -1,7 +1,7 @@
 import Terrain from '../terrain.js';
 import Tile from './tile.js';
 import GameMap from './gameMap.js';
-import Player from './player.js';
+import Player from './actors/player.js';
 
 const TREE_OFFSET = 16;
 const ROCK_OFFSET = 16;

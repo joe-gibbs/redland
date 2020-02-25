@@ -1,5 +1,5 @@
 import Item from './item.js';
-import Player from './player.js';
+import Player from './actors/player.js';
 import DroppedItem from './droppedItem.js';
 
 export default class CraftableItem {

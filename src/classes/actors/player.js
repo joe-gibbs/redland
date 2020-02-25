@@ -1,16 +1,14 @@
-import DroppedItem from './droppedItem.js';
-import terrain from '../terrain.js';
-import items from '../items.js';
-import Item from './item.js';
-import Spritesheet from './spritesheet.js';
-import GameMap from './gameMap.js';
+import DroppedItem from '../droppedItem.js';
+import terrain from '../../terrain.js';
+import items from '../../items.js';
+import Item from '../item.js';
+import Spritesheet from '../spritesheet.js';
+import GameMap from '../gameMap.js';
+import Actor from './actor.js';
 
-export default class Player {
+export default class Player extends Actor {
     constructor(x, y, treasureLocation) {
-        this.x = x;
-        this.y = y;
-        this.speed = 10;
-        this.spritesheet = new Spritesheet('./assets/img/player.png', 64, 80);
+        super(x, y, new Spritesheet('./assets/img/player.png', 64, 80), 100, 10);
         this.spritesheet.addAnimationSet('idleForward', 0, 0);
         this.spritesheet.addAnimationSet('idleBack', 1, 1);
         this.spritesheet.addAnimationSet('idleLeft', 2, 2);
@@ -32,14 +30,7 @@ export default class Player {
         this.showPieceMap = false;
         this.showTreasureMap = false;
         this.items = [];
-        this.health = 100;
-        this.direction = [0,1]; // DIRECTIONS -> [Right <= 0 < Left, back <= 0 < front]
-        this.movement = [0,0];
-        this.closestX = x;
-        this.closestY = y;
-        this.aimedTile; //Tile that the player is looking at based on direction.
         this.treasureLocation = treasureLocation;
-
     }
 
     /**
@@ -54,6 +45,21 @@ export default class Player {
         if (this.items.length > 2) {
             this.drop(this.items.last());
         }
+    }
+
+    updateMovement(map) {
+        super.updateMovement(map);
+
+        if (this.equipped === items.boat && (tileXYmovement.sailable || tileXmovement.sailable || tileYmovement.sailable)) {
+            this.onSea = true;
+        }
+        else {
+            this.onSea = false;
+        }
+    }
+
+    checkIfWalkable(tile) {
+        return tile.walkable || (this.equipped === items.boat && tile.sailable);
     }
 
     switchItems() {
@@ -105,59 +111,6 @@ export default class Player {
             }   
         }
         return this.spritesheet.animationSets['idleForward'];
-    }
-
-    updateAimedTile(map){        
-        this.aimedTile = map.tiles[Math.round(this.x + this.direction[0])][Math.round(this.y + this.direction[1])];
-    }
-
-    /**
-     * 
-     * @param {GameMap} map 
-     */
-    updateMovement(map) { 
-        let x = this.movement[0];
-        let y = this.movement[1];
-
-        let tileXYmovement = map.tiles[Math.round(this.x + x)][Math.round(this.y + y)].type;
-        let tileXmovement = map.tiles[Math.round(this.x + x)][Math.round(this.y)].type;
-        let tileYmovement = map.tiles[Math.round(this.x)][Math.round(this.y + y)].type;
-
-        if (this.equipped === items.boat && (tileXYmovement.sailable || tileXmovement.sailable || tileYmovement.sailable)) {
-            this.onSea = true;
-        }
-        else {
-            this.onSea = false;
-        }
-
-        if (tileXYmovement.walkable || (this.equipped === items.boat && tileXYmovement.sailable)) {
-            this.x += x;
-            this.y += y;
-        }
-        else if (tileXmovement.walkable || (this.equipped === items.boat && tileXmovement.sailable)) {
-            this.x += x;
-        }
-        else if (tileYmovement.walkable || (this.equipped === items.boat && tileYmovement.sailable)) {
-            this.y += y;
-        }
-
-        x = x * 0.8;
-        y = y * 0.8;
-
-        if (x < 0.03 && x > -0.03) {
-            x = 0;
-        }
-
-        if (y < 0.03 && y > -0.03) {
-            y = 0;
-        }
-
-        this.closestX = Math.round(this.x);
-        this.closestY = Math.round(this.y);    
-
-        this.updateAimedTile(map)
-
-        this.movement = [x, y];
     }
 
     pickup(droppedItems) {
@@ -240,7 +193,6 @@ export default class Player {
             this.showPieceMap = false;
             this.showTreasureMap = false;
         }
-
     }
 
     chop(map) {
@@ -264,22 +216,5 @@ export default class Player {
             }
         }
         return working;
-    }
-
-    move(x,y, map) {
-        if (Math.abs(x) > Math.abs(y)) {
-            this.direction = [x, 0];
-        }
-        else {
-            this.direction = [0, y];
-        }
-
-        this.movement[0] += x;
-        this.movement[1] += y;
-
-        this.movement[0] = this.movement[0].clamp(-0.12, 0.12);
-        this.movement[1] = this.movement[1].clamp(-0.12, 0.12);
-
-        return map.tiles[this.closestX][this.closestY];
     }
 }
