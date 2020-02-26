@@ -8,7 +8,8 @@ export default class Tile {
      * @param {Number} x X-coord to create at
      * @param {Number} y Y-coord to create at
      */
-    constructor(type, x, y) {
+    constructor(type, x, y, map) {
+        this.map = map;
         this.type = type;
         this.x = x;
         this.y = y;
@@ -16,18 +17,15 @@ export default class Tile {
     }
     /**
      * 
-     * @param {Number} xcoord 
-     * @param {Number} ycoord 
-     * @param {Tile[]} map 
      * @param {Number} radius 
      */
-    bordering(xcoord, ycoord, map, radius) {
+    bordering(radius) {
         let borderingTiles = [];
 
         for (let x = -radius; x <= radius; x++) {
             for (let y = -radius; y <= radius; y++) {
-                if ((map[xcoord+x]||[])[ycoord+y] !== undefined) {
-                    borderingTiles.push(map[xcoord+x][ycoord+y]);
+                if ((this.map[this.x+x]||[])[this.y+y] !== undefined) {
+                    borderingTiles.push(this.map[this.x+x][this.y +y]);
                 }
             }
         }

@@ -162,7 +162,7 @@ function load() {
         map.droppedItems.push(new DroppedItem(mapPiece2.x, mapPiece2.y, items.mapPiece2));
         map.droppedItems.push(new DroppedItem(mapPiece3.x, mapPiece3.y, items.mapPiece3));
 
-        let borders = centerTile.bordering(centerTile.x, centerTile.y, map.tiles, 2);
+        let borders = centerTile.bordering(2);
 
         //Axe spawns near player.
         for (let i = 0; i < borders.length; i++) {
