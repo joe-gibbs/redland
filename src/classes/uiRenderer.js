@@ -65,24 +65,24 @@ export default class UiRenderer {
 
     renderResources() {
         let tileSize = 64;
-        let uiX = (this.canvasWidth) - (tileSize * 5);
+        let uiX = (this.canvasWidth) - (tileSize * 6);
         if (this.canvasWidth < (64 * 7)) {
             tileSize = this.canvasWidth / 6;
-            uiX = (this.canvasWidth) - (tileSize * 4);
+            uiX = (this.canvasWidth) - (tileSize * 5);
         }
         let uiY = tileSize / 2;
 
         this.canvas.font = (tileSize * 0.75) + "px Pixelated";
         this.canvas.fillStyle = '#E9D7A9';
-        this.canvas.fillRect(uiX, uiY, (tileSize * 4), tileSize);
+        this.canvas.fillRect(uiX, uiY, (tileSize * 5), tileSize);
         this.canvas.strokeStyle = "#BFB092"
-        this.canvas.strokeRect(uiX, uiY, (tileSize * 2), tileSize);
+        this.canvas.strokeRect(uiX, uiY, (tileSize * 2.5), tileSize);
         this.canvas.drawImage(items.wood.image, uiX, uiY, tileSize, tileSize);
-        this.canvas.strokeRect(uiX + (tileSize * 2), uiY, (tileSize * 2), tileSize);
-        this.canvas.drawImage(items.stone.image, uiX + (tileSize * 2), uiY, tileSize, tileSize);
+        this.canvas.strokeRect(uiX + (tileSize * 2.5), uiY, (tileSize * 2.5), tileSize);
+        this.canvas.drawImage(items.stone.image, uiX + (tileSize * 2.5), uiY, tileSize, tileSize);
         this.canvas.fillStyle = 'rgba(0,0,0,1)';
-        this.canvas.fillText(this.player.resources.stone, uiX + (tileSize * 2) + tileSize + (tileSize * 0.25), uiY + (tileSize * 0.75));
         this.canvas.fillText(this.player.resources.wood, uiX + tileSize + (tileSize * 0.25), uiY + (tileSize * 0.75));
+        this.canvas.fillText(this.player.resources.stone, uiX + (tileSize * 2.5) + tileSize + (tileSize * 0.25), uiY + (tileSize * 0.75));
     }
 
     dropItem(mouseX, mouseY, droppedItems) 
