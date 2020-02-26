@@ -126,13 +126,6 @@ function load() {
 
     function handleAction(touchVector) {
         player.showCraftingMenu = false;
-        if (!touchVector) {  
-            if (player.equipped === items.map){
-                player.showPieceMap = !player.showPieceMap;
-            } else if (player.equipped === items.completedMap){
-                player.showTreasureMap = !player.showTreasureMap;
-            }
-        }
         let pickedUp = player.pickup(map.droppedItems);
         if (!pickedUp){
             player.chop(map); 
@@ -187,14 +180,18 @@ function load() {
         let touched = false;
 
         window.addEventListener('touchstart', function(e) {   
-            e.preventDefault();         
+            e.preventDefault();  
+            let xpos = '150px';
+            if (canvas.canvas.width < (64 * 7)) {
+                xpos = '120px';
+            }
             if (!touched) { 
                 dynamic = nipplejs.create({
                     zone: document.getElementById('joystick-zone'),
                     mode: 'static',
                     zone: document.getElementById('dynamic'),
                     size: 100,
-                    position: {bottom: '150px', left: '100px'},
+                    position: {bottom: '150px', left: xpos},
                     color: 'white'
                 });
                 touched = true;                
