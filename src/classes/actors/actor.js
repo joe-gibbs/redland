@@ -1,8 +1,19 @@
+import Spritesheet from "../spritesheet.js";
+import GameMap from "../gameMap.js";
+
 /**
  * Actors are the base class for players and AI
 */
 
 export default class Actor {
+    /**
+     * @param {GameMap} map
+     * @param {Number} x 
+     * @param {Number} y 
+     * @param {Spritesheet} spritesheet 
+     * @param {Number} maxHealth 
+     * @param {Number} speed 
+     */
     constructor(map, x, y, spritesheet, maxHealth, speed) {
         this.x = x;
         this.y = y;
@@ -73,7 +84,7 @@ export default class Actor {
         }
 
         this.tile = this.map.tiles[Math.round(this.x)][Math.round(this.y)];
-        
+
         this.updateAimedTile()
 
         this.movement = [x, y];

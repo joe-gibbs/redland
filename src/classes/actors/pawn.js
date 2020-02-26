@@ -25,7 +25,7 @@ export default class Pawn extends Actor {
      * 
      * @param {Tile} tile 
      */
-    moveTo(tile) {
+    moveTo(tile) {        
         if (!tile.type.walkable) {
             return;
         }
@@ -47,7 +47,7 @@ export default class Pawn extends Actor {
 
         if (this.tile == this.destination) {
             this.destination = null;
-        }
+        }        
     }
 
     reconstructPath() {

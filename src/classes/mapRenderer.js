@@ -2,6 +2,7 @@ import Terrain from '../terrain.js';
 import Tile from './tile.js';
 import GameMap from './gameMap.js';
 import Player from './actors/player.js';
+import Pawn from './actors/pawn.js';
 
 const TREE_OFFSET = 16;
 const ROCK_OFFSET = 16;
@@ -17,12 +18,14 @@ export default class MapRenderer {
      * @param {HTMLElement} gameCanvas 
      * @param {GameMap} map 
      * @param {Player} player 
+     * @param {Pawn[]} npcs
      */
-    constructor(tileSize, canvas, map, player) {
+    constructor(tileSize, canvas, map, player, npcs) {
         this.tileSize = tileSize;
         this.canvas = canvas;
         this.player = player;
         this.map = map;
+        this.npcs = npcs;
         this.renderFrame = 0;
         this.updateRenderableLength(canvas.canvas);
     }
@@ -97,6 +100,7 @@ export default class MapRenderer {
                     }                    
                     
                     this.drawItems(this.renderableTiles[x][y], this.map, calculateX(x, this.tileSize), calculateY(y, this.tileSize));
+                    this.drawNpcs(this.renderableTiles[x][y], calculateX(x, this.tileSize), calculateY(y, this.tileSize));
                 }
                 else {
                     this.canvas.fillRect(x*this.tileSize, y*this.tileSize, this.tileSize, this.tileSize);
@@ -145,6 +149,15 @@ export default class MapRenderer {
             }
         });   
     }
+
+    drawNpcs(tile, x, y) {
+        this.npcs.forEach(element => {
+            if (tile === element.tile) {                
+                element.spritesheet.render(0, x, y, this.canvas);
+            }
+        });
+    }
+    
 
     fillRenderables(width, height, center, map) {
         let tileOffset = 4; 

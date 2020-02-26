@@ -7,6 +7,8 @@ import MapRenderer from './src/classes/mapRenderer.js';
 import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
 import Map from './src/classes/Map.js';
+import Pawn from './src/classes/actors/pawn.js';
+import Wolf from './src/classes/actors/wolf.js';
 
 const MapSize = 256;
 
@@ -42,6 +44,9 @@ let pieceMap;
 
 /** @type {Map} */
 let treasureMap;
+
+/** @type {Pawn[]} */
+let npcs = [];
 
 /** @type {Number} */
 let tileSize, canvasWidth, canvasHeight;
@@ -169,7 +174,7 @@ function load() {
         }
 
         player      = new Player(map, centerTile.x, centerTile.y, treasureLocation);
-        mapRenderer = new MapRenderer(tileSize, canvas, map, player);
+        mapRenderer = new MapRenderer(tileSize, canvas, map, player, npcs);
         uiRenderer  = new UiRenderer(player, uiCanvas);
 
         //Create Maps
@@ -179,6 +184,8 @@ function load() {
         treasureMap = new Map(uiCanvas, map.tiles, player, "Treasure");
         treasureMap.map.src = treasureMap.generateMap();
 
+        npcs.push(new Wolf(map, centerTile.x + 6, centerTile.y + 6));
+        npcs[0].moveTo(centerTile);
 
         /**
          * Enable touch controls for touchscreen
@@ -301,6 +308,11 @@ function load() {
         tileSize = 64;// NEED TO ADJUST TILE SIZE WITH CANVAS SIZE
         canvas.font = (canvasWidth + canvasHeight) / 92 + "px Pixelated";
         canvas.fillRect(0, 0, canvasWidth, canvasHeight);
+
+        npcs.forEach(npc => {
+            npc.updateMovement();
+        });
+
         if (player && !player.showPieceMap && !player.showTreasureMap) {
             player.updateMovement(map);
             handleAxisMappings(kMap);

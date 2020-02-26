@@ -1,5 +1,5 @@
-import Pawn from "./pawn";
-import Spritesheet from "../spritesheet";
+import Pawn from "./pawn.js";
+import Spritesheet from "../spritesheet.js";
 
 export default class Wolf extends Pawn {
     constructor(map, x, y) {
