@@ -7,8 +7,8 @@ import GameMap from '../gameMap.js';
 import Actor from './actor.js';
 
 export default class Player extends Actor {
-    constructor(x, y, treasureLocation) {
-        super(x, y, new Spritesheet('./assets/img/player.png', 64, 80), 100, 10);
+    constructor(map, x, y, treasureLocation) {
+        super(map, x, y, new Spritesheet('./assets/img/player.png', 64, 80), 100, 10);
         this.spritesheet.addAnimationSet('idleForward', 0, 0);
         this.spritesheet.addAnimationSet('idleBack', 1, 1);
         this.spritesheet.addAnimationSet('idleLeft', 2, 2);
@@ -117,7 +117,7 @@ export default class Player extends Actor {
         let result = false;
         let noPickup = false;
         droppedItems.forEach(item => {    
-            if (item.x === this.closestX && item.y === this.closestY) {
+            if (item.x === this.tile.x && item.y === this.tile.y) {
                 let actualItem = item.item;
                 if (!this.items.includes(actualItem)) {
                     switch (actualItem) {
@@ -185,7 +185,7 @@ export default class Player extends Actor {
             return;
         }      
 
-        droppedItems.push(new DroppedItem(this.closestX, this.closestY, item));
+        droppedItems.push(new DroppedItem(this.tile.x, this.tile.y, item));
         this.items.remove(item);
 
         //close map if you drop it.

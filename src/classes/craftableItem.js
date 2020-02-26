@@ -36,14 +36,14 @@ export default class CraftableItem {
         if (value === 1) {
             player.showCraftingMenu = false;
 
-            droppedItems.push(new DroppedItem(player.closestX, player.closestY, this.item));
+            droppedItems.push(new DroppedItem(player.tile.x, player.tile.y, this.item));
 
             player.resources.stone -= this.requirements.stone;
             player.resources.wood -= this.requirements.wood;
         } else if(value === 2){
             player.showCraftingMenu = false;
 
-            droppedItems.push(new DroppedItem(player.closestX, player.closestY, this.item));
+            droppedItems.push(new DroppedItem(player.tile.x, player.tile.y, this.item));
 
             player.resources.mapPiece1 -= this.requirements.mapPiece1;
             player.resources.mapPiece2 -= this.requirements.mapPiece2;

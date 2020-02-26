@@ -1,9 +1,9 @@
 /**
  * Actors are the base class for players and AI
- */
+*/
 
 export default class Actor {
-    constructor(x, y, spritesheet, maxHealth, speed) {
+    constructor(map, x, y, spritesheet, maxHealth, speed) {
         this.x = x;
         this.y = y;
         this.spritesheet = spritesheet;
@@ -12,16 +12,16 @@ export default class Actor {
         this.speed = speed;
         this.direction = [0,1]; // DIRECTIONS -> [Right <= 0 < Left, back <= 0 < front]
         this.movement = [0,0];
-        this.closestX = x;
-        this.closestY = y;
-        this.aimedTile; //Tile that the player is looking at based on direction.
+        this.tile = map.tiles[x, y]
+        this.aimedTile; //Tile that the actor is looking at based on direction.
+        this.map = map;
     }
 
-    updateAimedTile(map){        
-        this.aimedTile = map.tiles[Math.round(this.x + this.direction[0])][Math.round(this.y + this.direction[1])];
+    updateAimedTile(){        
+        this.aimedTile = this.map.tiles[Math.round(this.x + this.direction[0])][Math.round(this.y + this.direction[1])];
     }
 
-    move(x,y, map) {
+    move(x,y) {
         if (Math.abs(x) > Math.abs(y)) {
             this.direction = [x, 0];
         }
@@ -35,24 +35,20 @@ export default class Actor {
         this.movement[0] = this.movement[0].clamp(-0.12, 0.12);
         this.movement[1] = this.movement[1].clamp(-0.12, 0.12);
 
-        return map.tiles[this.closestX][this.closestY];
+        return this.tile;
     }
 
     checkIfWalkable(tile) {
         return tile.walkable;
     }
 
-    /**
-     * 
-     * @param {GameMap} map 
-     */
-    updateMovement(map) { 
+    updateMovement() { 
         let x = this.movement[0];
         let y = this.movement[1];
 
-        let tileXYmovement = map.tiles[Math.round(this.x + x)][Math.round(this.y + y)].type;
-        let tileXmovement = map.tiles[Math.round(this.x + x)][Math.round(this.y)].type;
-        let tileYmovement = map.tiles[Math.round(this.x)][Math.round(this.y + y)].type;
+        let tileXYmovement = this.map.tiles[Math.round(this.x + x)][Math.round(this.y + y)].type;
+        let tileXmovement = this.map.tiles[Math.round(this.x + x)][Math.round(this.y)].type;
+        let tileYmovement = this.map.tiles[Math.round(this.x)][Math.round(this.y + y)].type;
 
         if (this.checkIfWalkable(tileXYmovement)) {
             this.x += x;
@@ -76,10 +72,9 @@ export default class Actor {
             y = 0;
         }
 
-        this.closestX = Math.round(this.x);
-        this.closestY = Math.round(this.y);    
-
-        this.updateAimedTile(map)
+        this.tile = this.map.tiles[Math.round(this.x)][Math.round(this.y)];
+        
+        this.updateAimedTile()
 
         this.movement = [x, y];
     }

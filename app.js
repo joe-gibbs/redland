@@ -168,7 +168,7 @@ function load() {
             }
         }
 
-        player      = new Player(centerTile.x, centerTile.y, treasureLocation);
+        player      = new Player(map, centerTile.x, centerTile.y, treasureLocation);
         mapRenderer = new MapRenderer(tileSize, canvas, map, player);
         uiRenderer  = new UiRenderer(player, uiCanvas);
 
