@@ -147,12 +147,14 @@ export default class MapRenderer {
                     this.canvas.drawImage(element.item.image, x, y);
                 }                     
             }
-        });   
+        });
     }
 
     drawNpcs(tile, x, y) {
         this.npcs.forEach(element => {
-            if (tile === element.tile) {                
+            if (tile === element.tile) {     
+                console.log(element.x, element.y);
+                           
                 element.spritesheet.render(0, x, y, this.canvas);
             }
         });

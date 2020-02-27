@@ -184,8 +184,9 @@ function load() {
         treasureMap = new Map(uiCanvas, map.tiles, player, "Treasure");
         treasureMap.map.src = treasureMap.generateMap();
 
-        npcs.push(new Wolf(map, centerTile.x + 6, centerTile.y + 6));
-        npcs[0].moveTo(centerTile);
+        npcs.push(new Wolf(map, centerTile.x, centerTile.y + 3));
+        npcs[0].search(centerTile);
+        console.log(npcs[0].goalPath, npcs[0].destination);
 
         /**
          * Enable touch controls for touchscreen
@@ -311,7 +312,9 @@ function load() {
 
         npcs.forEach(npc => {
             npc.updateMovement();
+            npc.search(player.tile);
         });
+
 
         if (player && !player.showPieceMap && !player.showTreasureMap) {
             player.updateMovement(map);

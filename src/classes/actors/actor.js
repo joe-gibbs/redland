@@ -23,7 +23,7 @@ export default class Actor {
         this.speed = speed;
         this.direction = [0,1]; // DIRECTIONS -> [Right <= 0 < Left, back <= 0 < front]
         this.movement = [0,0];
-        this.tile = map.tiles[x, y]
+        this.tile = map.tiles[x][y]
         this.aimedTile; //Tile that the actor is looking at based on direction.
         this.map = map;
     }

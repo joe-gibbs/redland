@@ -18,6 +18,7 @@ export default class Tile {
     /**
      * 
      * @param {Number} radius 
+     * @returns {Tile[]}
      */
     bordering(radius) {
         let borderingTiles = [];
