@@ -67,7 +67,7 @@ setInterval(function() {
 window.addEventListener('load', load);
 
 function load() {
-    map = new GameMap(new MapGenerator().generate(MapSize, new SimplexNoise(), progressBar)); //218  - 256 are good Sizes for visibility and reduced blur.
+    map = new GameMap(new MapGenerator().generate(MapSize, new SimplexNoise(100), progressBar)); //218  - 256 are good Sizes for visibility and reduced blur.
     /**
      * Handles inputs that you want done as a continuous series
      * @param {String[]} kMap 

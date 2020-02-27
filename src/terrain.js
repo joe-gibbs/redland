@@ -17,6 +17,7 @@ class Terrain {
         this.drops = options.drops;
         this.sailable = options.sailable;
         this.health = options.health;
+        this.offset = options.offset ? options.offset : 0;
     }
 }
 
@@ -80,6 +81,7 @@ const terrain = {
             width: 64,
             height: 80,
         },
+        offset: 16,
     }),
     "FOREST": new Terrain({
         name: 'Forest',
@@ -92,6 +94,7 @@ const terrain = {
             width: 64,
             height: 80,
         },
+        offset: 16,
     }),
     "BARRIER": new Terrain({
         name: 'Barrier',
