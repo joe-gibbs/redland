@@ -207,6 +207,7 @@ export default class Player {
                             if (this.items.length < 2){
                                 result = true;
                                 this.equipped = actualItem;
+                                this.switchItems();
                             } else {
                                 noPickup = true;
                             }
