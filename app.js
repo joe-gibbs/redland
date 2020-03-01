@@ -116,7 +116,6 @@ function load() {
         }
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
             handleAction(kMap['TouchVector']);
-            if
         }
     }
 

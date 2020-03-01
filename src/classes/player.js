@@ -264,6 +264,9 @@ export default class Player {
                 }                                                                                                                                                                                                                                                               
             }
         }
+        if(this.equipped === items.map){
+            this.showPieceMap = !this.showPieceMap;
+        }
         return working;
     }
 
