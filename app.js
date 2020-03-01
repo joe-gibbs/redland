@@ -85,23 +85,21 @@ function load() {
             let x = kMap['TouchVector'].x;
             let y = kMap['TouchVector'].y;
             if (x != 0) {
-                if(x > 0.9){
+                if(x > 0.5){
                     centerTile = player.move(-0.1, 0, map);
                 }
-                if(x < -0.9){
+                if(x < -0.5){
                     centerTile = player.move(0.1, 0, map);
                 }
             }
             if (y != 0){
-                if(y > 0.9){
+                if(y > 0.5){
                     centerTile = player.move(0, 0.1, map);
                 }
-                if(y < -0.9){
+                if(y < -0.5){
                     centerTile = player.move(0, -0.1, map);
                 }
-                // centerTile = player.move(-x / 25, y / 25, map);
             }
-            console.log(x, y)
         }
         if (kMap['TouchDistance'] && kMap['TouchDistance'] === 50) {            
             player.chop(map);
