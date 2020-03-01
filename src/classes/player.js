@@ -169,19 +169,19 @@ export default class Player {
                 if (!this.items.includes(actualItem)) {
                     switch (actualItem) {
                         case items.wood:
-                            if (this.resources.wood < 9990) {
+                            if (this.resources.wood < 1000) {
                                 result = true;
                                 this.resources.wood += 10;
                             }
                             break;
                         case items.gold:
-                            if (this.resources.gold < 9990) {
+                            if (this.resources.gold < 1000) {
                                 result = true;
                                 this.resources.gold += 10;
                             }                            
                             break;
                         case items.stone:
-                            if (this.resources.stone < 9990) {
+                            if (this.resources.stone < 1000) {
                                 result = true;
                                 this.resources.stone += 10;
                             }
@@ -266,6 +266,8 @@ export default class Player {
         }
         if(this.equipped === items.map){
             this.showPieceMap = !this.showPieceMap;
+        } else if (this.equipped === items.completedMap){
+            this.showTreasureMap = !this.showTreasureMap;
         }
         return working;
     }
