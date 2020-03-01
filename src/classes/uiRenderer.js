@@ -25,6 +25,9 @@ export default class UiRenderer {
         /**
          * @type {Image}
          */
+        this.manual = new Image();
+        this.manual.src = './assets/img/Manual.png'
+        this.showManual = true;
         this.treasureMap = new Image();
         this.background = new Image(512, 512);
         this.craftingIcon = new Image();
@@ -61,6 +64,13 @@ export default class UiRenderer {
         }
 
         this.renderResources();
+        if(this.showManual){
+            this.renderManual();
+        }
+    }
+
+    renderManual(){
+        this.canvas.drawImage(this.manual, (this.canvasWidth - this.manual.width) /2, this.canvasHeight/7, this.manual.width, this.manual.height);
     }
 
     renderResources() {

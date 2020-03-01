@@ -99,11 +99,13 @@ function load() {
      */
     function handleActionMappings(kMap) {
         if (kMap['KeyG']) {
+            uiRenderer.showManual = false;
             player.showPieceMap = false;
             player.showTreasureMap = false;
             player.showCraftingMenu = !player.showCraftingMenu;
         }
         if (kMap['Escape']) {
+            uiRenderer.showManual = false;
             player.showCraftingMenu = false;
             player.showPieceMap = false;
             player.showTreasureMap = false;
@@ -112,6 +114,7 @@ function load() {
             player.switchItems();
         }
         if (kMap['KeyD']) {
+            uiRenderer.showManual = false;
             player.dropEquipped(map.droppedItems);
         }
         if (kMap['Enter'] || kMap['KeyS'] || kMap['KeyE']) {
@@ -125,6 +128,7 @@ function load() {
     }
 
     function handleAction(touchVector) {
+        uiRenderer.showManual = false;
         player.showCraftingMenu = false;
         let pickedUp = player.pickup(map.droppedItems);
         if (!pickedUp){
@@ -252,6 +256,7 @@ function load() {
                 handleAction(false);
             }
             else {
+                uiRenderer.showManual = false;
                 player.showPieceMap = false;
                 player.showTreasureMap = false;
             }
@@ -298,7 +303,7 @@ function load() {
         tileSize = 64;// NEED TO ADJUST TILE SIZE WITH CANVAS SIZE
         canvas.font = (canvasWidth + canvasHeight) / 92 + "px Pixelated";
         canvas.fillRect(0, 0, canvasWidth, canvasHeight);
-        if (player && !player.showPieceMap && !player.showTreasureMap) {
+        if (player && !player.showPieceMap && !player.showTreasureMap && !uiRenderer.showManual) {
             player.updateMovement(map);
             handleAxisMappings(kMap);
         }   
