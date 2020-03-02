@@ -66,7 +66,7 @@ export default class UiRenderer {
         }
 
         this.renderResources();
-        this.renderHearts();
+        // this.renderHearts();
 
         if(this.showManual){
             this.renderManual();
