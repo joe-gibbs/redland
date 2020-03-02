@@ -28,7 +28,7 @@ export default class UiRenderer {
          */
         this.manual = new Image();
         this.manual.src = './assets/img/Manual.png';
-        this.hearts = new Spritesheet('./assets/img/hearts.png', 32, 32);
+        this.hearts = new Spritesheet('./assets/img/hearts.png', 160, 32);
         this.showManual = true;
         this.treasureMap = new Image();
         this.background = new Image(512, 512);
@@ -81,11 +81,22 @@ export default class UiRenderer {
         let x = 64;
         let y =  32;
         if (this.canvasWidth < (64 * 7)) {
-            x = this.canvasWidth - 32 * 4;
+            x = this.canvasWidth - 32 * 5;
             y = 0;
         }
-        // this.hearts.animationSets['empty'];
-        this.hearts.render(1, x, y, this.canvas);
+        if (this.player.health <= 0){
+            this.hearts.render(5, x, y, this.canvas);
+        } else if(this.player.health <= 20){
+            this.hearts.render(4, x, y, this.canvas);
+        } else if(this.player.health <= 40){
+            this.hearts.render(3, x, y, this.canvas);
+        } else if(this.player.health <= 60){
+            this.hearts.render(2, x, y, this.canvas);
+        } else if(this.player.health <= 80){
+            this.hearts.render(1, x, y, this.canvas);
+        }  else if(this.player.health <= 100){
+            this.hearts.render(0, x, y, this.canvas);
+        }
     }
 
     renderResources() {
