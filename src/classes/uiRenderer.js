@@ -2,6 +2,7 @@ import Player from './player.js';
 import recipes from '../recipes.js';
 import items from '../items.js';
 import CraftableItem from './craftableItem.js';
+import Spritesheet from './spritesheet.js';
 
 export default class UiRenderer {
 
@@ -26,7 +27,8 @@ export default class UiRenderer {
          * @type {Image}
          */
         this.manual = new Image();
-        this.manual.src = './assets/img/Manual.png'
+        this.manual.src = './assets/img/Manual.png';
+        this.hearts = new Spritesheet('./assets/img/hearts.png', 32, 32);
         this.showManual = true;
         this.treasureMap = new Image();
         this.background = new Image(512, 512);
@@ -64,6 +66,8 @@ export default class UiRenderer {
         }
 
         this.renderResources();
+        this.renderHearts();
+
         if(this.showManual){
             this.renderManual();
         }
@@ -71,6 +75,17 @@ export default class UiRenderer {
 
     renderManual(){
         this.canvas.drawImage(this.manual, (this.canvasWidth - this.manual.width) /2, this.canvasHeight/7, this.manual.width, this.manual.height);
+    }
+
+    renderHearts() {
+        let x = 64;
+        let y =  32;
+        if (this.canvasWidth < (64 * 7)) {
+            x = this.canvasWidth - 32 * 4;
+            y = 0;
+        }
+        // this.hearts.animationSets['empty'];
+        this.hearts.render(1, x, y, this.canvas);
     }
 
     renderResources() {
