@@ -135,11 +135,6 @@ function load() {
         }
     }
 
-    function ChangeTileType(tile, terrainType){
-        tile.type = terrainType;
-        return {x: tile.x, y: tile.y};
-    }
-
     function handleAction(touchVector) {
         uiRenderer.showManual = false;
         player.showCraftingMenu = false;
@@ -149,16 +144,28 @@ function load() {
         }
     }
 
+    function changeTileType(tile, terrainType){
+        tile.type = terrainType;
+        //these mark each location as an X on the map
+        map.tiles[tile.x + 1][tile.y + 1].type = terrainType;
+        map.tiles[tile.x + 1][tile.y - 1].type = terrainType;
+        map.tiles[tile.x - 1][tile.y + 1].type = terrainType;
+        map.tiles[tile.x - 1][tile.y - 1].type = terrainType;
+        console.log(map.tiles[tile.x - 1][tile.y - 1])
+        return {x: tile.x, y: tile.y};
+    }
+
+
     //Setup
     function setup() { 
         let treasure, treasureLocation, mapPiece1, mapPiece2, mapPiece3;
         try {
             centerTile   = map.chooseRandomTile(terrain.LAND);
             treasure     = map.chooseRandomTile(terrain.LAND);
-            treasureLocation = ChangeTileType(treasure, terrain.TREASURE);
-            mapPiece1 = ChangeTileType(map.chooseRandomTile(terrain.LAND), terrain.TREASUREPIECE);
-            mapPiece2 = ChangeTileType(map.chooseRandomTile(terrain.LAND), terrain.TREASUREPIECE);
-            mapPiece3 = ChangeTileType(map.chooseRandomTile(terrain.LAND), terrain.TREASUREPIECE);
+            treasureLocation = changeTileType(treasure, terrain.TREASURE);
+            mapPiece1 = changeTileType(map.chooseRandomTile(terrain.LAND), terrain.TREASUREPIECE);
+            mapPiece2 = changeTileType(map.chooseRandomTile(terrain.LAND), terrain.TREASUREPIECE);
+            mapPiece3 = changeTileType(map.chooseRandomTile(terrain.LAND), terrain.TREASUREPIECE);
         } catch (error) {                      
             load();
         }

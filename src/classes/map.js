@@ -37,6 +37,8 @@ export default class Map {
         
         const tileColor = tile => {
             let result = [];
+            let notSearchedItem;
+            (this.searchedItem === "Treasure") ? notSearchedItem = "Treasure Piece" : notSearchedItem = "Treasure";
             switch (tile) {
                 case "Forest":
                     result = hexToRGBA('#165200');
@@ -44,6 +46,7 @@ export default class Map {
                 case "Rock":
                     result = hexToRGBA('#515151');
                     break;
+                case notSearchedItem:
                 case "Tall Grass":
                 case "Land":
                     result = hexToRGBA('#097200');
