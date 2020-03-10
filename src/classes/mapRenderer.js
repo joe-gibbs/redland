@@ -5,7 +5,7 @@ import Player from './player.js';
 
 const TREE_OFFSET = 16;
 const ROCK_OFFSET = 16;
-const PLAYER_OFFSET = 38;
+const PLAYER_OFFSET = 11;
 const TREASURE_OFFSET = {x: 72, y: 112};
 
 
