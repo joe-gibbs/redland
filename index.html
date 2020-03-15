@@ -12,15 +12,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
     <meta name="description" content="Hunt, gather, build and explore a new world to capture all three pieces of the map and find the treasure.">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="preload" as="script" crossorigin href="/src/terrain.js">
+    <!-- <link rel="preload" as="script" crossorigin href="/src/terrain.js">
     <link rel="preload" as="script" crossorigin href="/src/items.js">
     <link rel="preload" as="script" crossorigin href="/src/classes/droppedItem.js">
-    <link rel="preload" as="script" crossorigin href="/src/classes/player.js">
-    <link rel="preload" as="script" crossorigin href="/src/classes/mapGenerator.js">
-    <link rel="preload" as="script" crossorigin href="/src/classes/mapRenderer.js">
-    <link rel="preload" as="script" crossorigin href="/src/classes/gameMap.js">
-    <link rel="preload" as="script" crossorigin href="/src/classes/Map.js">
-    <link rel="preload" as="script" crossorigin href="/src/classes/uiRenderer.js">
+    <link rel="preload" as="script" crossorigin href="/src/classes/player.js"> -->
+    <!-- <link rel="preload" as="script" crossorigin href="/src/classes/mapGenerator.js"> -->
+    <!-- <link rel="preload" as="script" crossorigin href="/src/classes/mapRenderer.js"> -->
+    <!-- <link rel="preload" as="script" crossorigin href="/src/classes/gameMap.js"> -->
+    <!-- <link rel="preload" as="script" crossorigin href="/src/classes/Map.js"> -->
+    <!-- <link rel="preload" as="script" crossorigin href="/src/classes/uiRenderer.js"> -->
 
     <meta property="og:title" content="Redland">
     <meta property="og:url" content="https://redland.io">
@@ -33,14 +33,14 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <!-- <link rel="manifest" href="/site.webmanifest"> -->
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#ffc40d">
     <meta name="theme-color" content="#ffffff">
-    <script src="src/simplex.js"></script>
+    <!-- <script src="src/simplex.js"></script>
     <script src="src/nipplejs.js" defer></script>
-    <script src="src/utils.js"></script>
-    <script type="module" src="app.js"></script>
+    <script src="src/utils.js"></script> -->
+    <script type="module" src="app2.js"></script>
     <title>Play Redland</title>
     <style>
         @font-face {
@@ -61,7 +61,7 @@
         }
         #game {
             image-rendering: pixelated !important;
-            display: none;
+            /* display: none; */
             position: absolute;
         }
         #ui {
@@ -113,7 +113,7 @@
     <div id="joystick-zone">
         <div id="dynamic"></div>
     </div>
-    <progress id="progress" max="100" value="0"></progress>
+    <!-- <progress id="progress" max="100" value="0"></progress> -->
     <canvas width="500px" height="500px" id="game"></canvas>
     <canvas width="500px" height="500px" id="ui"></canvas>
     <img src="" alt="Game Map" id="map">

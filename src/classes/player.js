@@ -58,7 +58,7 @@ export default class Player {
 
     switchItems() {
         if (this.onSea) {
-            return;
+            return;2
         }
 
         if(this.items[0] === items.map){

@@ -59,7 +59,7 @@ setInterval(function() {
 }, 10);
 
 //Main function, put stuff here
-window.addEventListener('load', load);
+// window.addEventListener('load', load);
 
 function load() {
     map = new GameMap(new MapGenerator().generate(MapSize, new SimplexNoise(), progressBar)); //218  - 256 are good Sizes for visibility and reduced blur.
@@ -157,7 +157,7 @@ function load() {
 
 
     //Setup
-    function setup() { 
+    function setup() {  
         let treasure, treasureLocation, mapPiece1, mapPiece2, mapPiece3;
         try {
             centerTile   = map.chooseRandomTile(terrain.LAND);
