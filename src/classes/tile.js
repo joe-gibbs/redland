@@ -40,6 +40,7 @@ export default class Tile {
         this.currentHealth -= amount;
         if (this.currentHealth <= 0) {
             if(this.type.drops[0]){
+                //need to replace Dropped items.
                 let item = new DroppedItem(this.x, this.y, this.type.drops[0]);            
                 map.droppedItems.push(item);
             }

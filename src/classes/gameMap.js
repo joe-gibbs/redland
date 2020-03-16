@@ -7,7 +7,6 @@ export default class GameMap {
      */
     constructor(tiles) {
         this.tiles = tiles;
-        this.droppedItems = [];
     }
 
     setTile(x, y, terrainType) {
