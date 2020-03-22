@@ -39,7 +39,6 @@ export default class Player {
         this.closestY = y;
         this.aimedTile; //Tile that the player is looking at based on direction.
         this.treasureLocation = treasureLocation;
-
     }
 
     /**

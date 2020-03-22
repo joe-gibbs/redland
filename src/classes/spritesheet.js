@@ -23,8 +23,8 @@ export default class Spritesheet {
      * @param {Number} y 
      * @param {CanvasRenderingContext2D} canvas 
      */
-    render(index, x, y, canvas) {        
-        canvas.drawImage(this.image, this.calculateS(index)[0], this.calculateS(index)[1], this.width, this.height, x, y, this.width, this.height);
+    render(index, x, y, canvas) {      
+        canvas.drawImage(this.image, this.calculateS(index)[0], this.calculateS(index)[1], this.width, this.height, x, y - this.height - 64, this.width, this.height);
     }
     
     addAnimationSet(name, start, end) {

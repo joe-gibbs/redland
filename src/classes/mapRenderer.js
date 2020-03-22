@@ -102,7 +102,7 @@ export default class MapRenderer {
                     this.canvas.fillRect(x*this.tileSize, y*this.tileSize, this.tileSize, this.tileSize);
                 }        
                 getBorders(x, y, this.renderableTiles).forEach(tile => {                    
-                    this.drawEdges(this.renderableTiles, tile, x, y, this.canvas);
+                    // this.drawEdges(this.renderableTiles, tile, x, y, this.canvas);
                 });
             }
         }
@@ -120,7 +120,8 @@ export default class MapRenderer {
 
     drawEdges(renderableTiles, tile, x, y, canvas) {
         // if (tile.type !== renderableTiles[x][y].type && tile.type.transitionIndex > renderableTiles[x][y].type.transitionIndex) {           
-        //     let cx          = x*this.tileSize + 0.5 * this.tileSize;   // x of shape center
+        //     let cx          = x*this.tileSize + 0.5 * this.tileSize;   // x of shape 
+        
         //     let cy          = y*this.tileSize + 0.5 * this.tileSize;  // y of shape center
         //     let rotation  = calculateRotation(renderableTiles[x][y], tile);
 

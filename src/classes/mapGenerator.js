@@ -20,7 +20,8 @@ export default class MapGenerator {
     
       
       //re integrate the progress bar into the parameters and uncomment them when ready. **************************************************
-      generate(size, simplex) {
+      generate(size) {
+        let simplex = new SimplexNoise();
         // progressBar.value += 15;
         let data = this.create2DArray(size);
 

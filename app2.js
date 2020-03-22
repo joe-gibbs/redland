@@ -1,14 +1,18 @@
 import GameMap from "./src/classes/gameMap.js";
 import MapGenerator from "./src/classes/mapGenerator.js";
+import terrain from './src/terrain.js';
+
+//This file has all classes and funcitonality associated to the game except for the files imported above. 
 
 
 class Game {
     constructor(){
-        this.Renderer = new Renderer();
-        // this.Controller = new Controller();
+        this.Renderer = new Renderer(64);
+        this.Controller = new Controller();
         this.InputHandler = new InputHandler();
 
-        this.gameMap;
+        this.GameMap;
+        this.centerTile;
         this.MapSize = 256;
 
         this.gameObjects = [];
@@ -18,13 +22,22 @@ class Game {
     }
     
     setup(){
-        this.gameMap = new GameMap(new MapGenerator().generate(this.MapSize, new SimplexNoise()));
-        console.log(this.gameMap)
+        this.GameMap = new GameMap(new MapGenerator().generate(this.MapSize));
+        this.Renderer.updateCanvasDimensions();
 
-        this.gameObjects.push(new Player("player", 0, 0, "./assets/img/blueberry.png", 10, 100));
-        this.items.push(new Item("axe", 64, 64, "./assets/img/axe.png"));
+        try {
+            this.centerTile = this.GameMap.chooseRandomTile(terrain.LAND);
+        } catch{
+            this.setup();
+        }
+
+        console.log(this.centerTile.x, this.centerTile.y);
+        this.gameObjects.push(new Player("player", 0, 0, "./assets/img/player.png", 10, 100));
+        this.items.push(new Item("blueberry", 0, 0, "./assets/img/blueberry.png"));
+        this.items.push(new Item("pick", 0, 0 , "./assets/img/pick.png"));
         this.gameObjects.push(this.items);
         // console.log(this.gameObjects)
+        
 
         window.addEventListener('keydown', (event) => {
             this.InputHandler.keyPresses[event.key] = true;
@@ -37,26 +50,21 @@ class Game {
 
     loop(){
         // this.InputHandler.handleInput();
-        // this.update();
-        // this.Controller.update(this.InputHandler, this.gameObjects[0]);
-        this.Renderer.render(this.gameObjects);
+        this.Controller.update(this.Renderer);
+        this.Renderer.render(this.gameObjects, this.GameMap, this.centerTile);
     }
 }
 
 class Controller{
-    constructor(){
-    }
-    update(inputHandler, player){
-        let command = inputHandler.handleInput();
-        if(command) command.execute(player)
+    update(Renderer){
+        Renderer.updateCanvasDimensions();
+        // let command = command
+        // if(command) command.execute(player)
     }
 }
 
-
-
 class InputHandler{
     constructor(){
-        //this.moveLeft = new Command(player, player)
         // this.moveLeft = new MoveLeft(player)
         this.keyPresses = {};
     }
@@ -81,18 +89,18 @@ class Command{
     execute(){}
 }
 class MoveLeft extends Command{
-    execute(actor){
-        actor.move()//specify how the actor takes the input and actually moves. 
+    execute(){
+        this.actor.move()//specify how the actor takes the input and actually moves. 
     }
 }
 class MoveRight extends Command{
-    execute(actor){
-        actor.move()
+    execute(){
+        this.actor.move()
     }
 }
 class MoveUp extends Command{
     execute(actor){
-        actor.move()
+        this.actor.move()
     }
 }
 class MoveDown extends Command{
@@ -102,17 +110,82 @@ class MoveDown extends Command{
 }
 
 
-
-
 class Renderer {
-    constructor(){
-        this.canvas = document.getElementById('game').getContext('2d');
+    constructor(tileSize){
+        this.canvasElement = document.getElementById('game');
+        this.canvasElement.style.display = "block"; 
+        this.canvas = this.canvasElement.getContext('2d');
+        this.numXTiles, this.numYTiles;
+        this.tileOffset = 4;
+        this.tileSize = tileSize;
+        this.renderableTiles = [];
     }
-    render(gameObjects){
+
+    updateCanvasDimensions(){
+        this.canvasElement.width = window.innerWidth;
+        this.canvasElement.height = window.innerHeight;
+        this.canvasElement.font = (this.canvasElement.width + this.canvasElement.health) / 92 + "px Pixelated";
+        this.canvas.fillRect(0, 0, this.canvasElement.width, this.canvasElement.height);
+
+        //updates the number of tiles that fit in the canvas for rendering.
+        this.numXTiles =  Math.ceil((this.canvasElement.width) / this.tileSize);
+        this.numYTiles =  Math.ceil((this.canvasElement.height) / this.tileSize);
+        if (this.numXTiles % 2 != 0) {
+            this.numXTiles++;
+        }
+        
+        if (this.numYTiles % 2 != 0) {
+            this.numYTiles++;
+        }
+
+    }
+
+    renderGameMap(GameMap, centerTile){
+        //this should be moved to controller. 
+        for (let i = 0; i < this.numXTiles + 4; i++) {  // Create 2 dimensional array
+            this.renderableTiles[i] = [];        //
+        }
+
+        function calculateX(x, tileSize) {
+            return Math.ceil(x * tileSize);
+        }
+        function calculateY(y, tileSize) {
+            return Math.ceil(y * tileSize);
+        }
+        for (let x = 0; x < this.numXTiles + this.tileOffset; x++) {
+            for (let y = 0; y < this.numYTiles + this.tileOffset; y++) {
+                let xcoord = centerTile.x - (x - this.numXTiles/2);
+                let ycoord = centerTile.y - (y - this.numYTiles/2);
+                if ((GameMap.tiles[x+1]||[])[y] && ((GameMap.tiles[xcoord + 1] || [])[ycoord + 1])) {
+                    this.renderableTiles[x][y] = GameMap.tiles[xcoord + 1][ycoord + 1];
+                }
+                else {
+                    this.renderableTiles[x][y] = null;
+                }
+            }
+        }
+        for (let x = 0; x < (this.numXTiles + 2); x++) {
+            for (let y = 0; y < (this.numYTiles + 2); y++) {
+                if ((this.renderableTiles[x]||[])[y]) {
+                    let currentTile = this.renderableTiles[x][y];
+                    currentTile.type.sprite.render(0, calculateX(x, this.tileSize), calculateY(y, this.tileSize), this.canvas);
+                }
+            }
+        }
+    }
+
+    render(gameObjects, GameMap, centerTile){
+        this.renderGameMap(GameMap, centerTile);
+
         gameObjects.forEach(object => {
+            console.log(object)
             if(Array.isArray(object)){
                 object.forEach(element => {element.render(this.canvas)});
             } else {
+                if(object.name === "player"){
+                    object.x = (this.numXTiles/2) * this.tileSize;
+                    object.y = (this.numYTiles/2) * this.tileSize;
+                }
                 object.render(this.canvas);
             }
         });
@@ -121,7 +194,7 @@ class Renderer {
 
 
 class GameObject {
-    constructor(name, x, y, img){
+    constructor(name, x, y, img){   
         this.name = name;
         this.x = x;
         this.y = y; 
@@ -159,11 +232,9 @@ class Player extends Actor{
 }
 
 
-
-
 onload = () => {
     let game = new Game();
-    setInterval(() => {
+    setTimeout(() => {
         game.loop();
     }, 16);
 }

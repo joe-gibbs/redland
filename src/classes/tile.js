@@ -1,4 +1,3 @@
-import DroppedItem from "./droppedItem.js";
 import terrain from '../terrain.js';
 
 export default class Tile {
@@ -41,8 +40,8 @@ export default class Tile {
         if (this.currentHealth <= 0) {
             if(this.type.drops[0]){
                 //need to replace Dropped items.
-                let item = new DroppedItem(this.x, this.y, this.type.drops[0]);            
-                map.droppedItems.push(item);
+                // let item = new DroppedItem(this.x, this.y, this.type.drops[0]);            
+                // map.droppedItems.push(item);
             }
             this.type = terrain.LAND;
             this.currentHealth = this.type.health;  
