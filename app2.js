@@ -1,6 +1,7 @@
 import GameMap from "./src/classes/gameMap.js";
 import MapGenerator from "./src/classes/mapGenerator.js";
 import terrain from './src/terrain.js';
+import Spritesheet from "./src/classes/spritesheet.js";
 
 //This file has all classes and funcitonality associated to the game except for the files imported above. 
 
@@ -31,8 +32,8 @@ class Game {
             this.setup();
         }
 
-        this.gameObjects.push(new Player("player", 0, 0, "./assets/img/player.png", 10, 100));
-        // this.items.push(new Item("blueberry", 128, 128, "./assets/img/blueberry.png"));
+        this.gameObjects.push(new Player("player", 0, 0, 64, 80, "./assets/img/player.png", 10, 100));
+        this.items.push(new Item("blueberry", 128, 128, 64, 64, "./assets/img/blueberry.png"));
         // this.items.push(new Item("pick", 0, 0 , "./assets/img/pick.png"));
         this.gameObjects.push(this.items);
         // console.log(this.gameObjects)
@@ -152,7 +153,7 @@ class Renderer {
             return Math.ceil(x * tileSize - tileSize); //these are centering adjustments to where the centertile and all other tiles will actually be rendered. +/- depending on which tile is considered more in the middle. They need to be adjusted with the actual rendring x and ys. 
         }
         function calculateY(y, tileSize) {
-            return Math.ceil(y * tileSize + tileSize * 2);
+            return Math.ceil(y * tileSize);
         }
         for (let x = 0; x < this.numXTiles + this.tileOffset; x++) {
             for (let y = 0; y < this.numYTiles + this.tileOffset; y++) {
@@ -196,25 +197,24 @@ class Renderer {
 
 
 class GameObject {
-    constructor(name, x, y, img){   
+    constructor(name, x, y, width, height, img){   
         this.name = name;
         this.x = x;
         this.y = y; 
-        this.img = new Image();
-        this.img.src = img; 
+        this.spritesheet = new Spritesheet(img, width, height);
     }
     render(canvas){
-        canvas.drawImage(this.img, this.x, this.y);
+        this.spritesheet.render(0, this.x, this.y, canvas);
     }
 }
 class Item extends GameObject {
-    constructor(name, x, y, img){
-        super(name, x, y, img);
+    constructor(name, x, y, width, height, img){
+        super(name, x, y, width, height, img);
     }
 }
 class Actor extends GameObject {
-    constructor(name, x, y, img, speed, health){
-        super(name, x, y, img);
+    constructor(name, x, y, width, height, img, speed, health){
+        super(name, x, y, width, height, img);
         this.speed = speed;
         this.direction = [0, 1];
         this.movement = [0, 0];
@@ -226,8 +226,8 @@ class Actor extends GameObject {
     }
 }
 class Player extends Actor{
-    constructor(name, x, y, img, speed, health){
-        super(name, x, y, img, speed, health);
+    constructor(name, x, y, width, height, img, speed, health){
+        super(name, x, y, width, height, img, speed, health);
     }
     pickup(){
     }
