@@ -32,9 +32,9 @@ class Game {
         }
 
         this.gameObjects.push(new Player("player", 0, 0, "./assets/img/player.png", 10, 100));
-        this.items.push(new Item("blueberry", 128, 128, "./assets/img/blueberry.png"));
+        // this.items.push(new Item("blueberry", 128, 128, "./assets/img/blueberry.png"));
         // this.items.push(new Item("pick", 0, 0 , "./assets/img/pick.png"));
-        // this.gameObjects.push(this.items);
+        this.gameObjects.push(this.items);
         // console.log(this.gameObjects)
         
 
