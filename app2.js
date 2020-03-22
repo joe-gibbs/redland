@@ -31,17 +31,16 @@ class Game {
             this.setup();
         }
 
-        console.log(this.centerTile.x, this.centerTile.y);
         this.gameObjects.push(new Player("player", 0, 0, "./assets/img/player.png", 10, 100));
-        this.items.push(new Item("blueberry", 0, 0, "./assets/img/blueberry.png"));
-        this.items.push(new Item("pick", 0, 0 , "./assets/img/pick.png"));
-        this.gameObjects.push(this.items);
+        this.items.push(new Item("blueberry", 128, 128, "./assets/img/blueberry.png"));
+        // this.items.push(new Item("pick", 0, 0 , "./assets/img/pick.png"));
+        // this.gameObjects.push(this.items);
         // console.log(this.gameObjects)
         
 
         window.addEventListener('keydown', (event) => {
             this.InputHandler.keyPresses[event.key] = true;
-            console.log(this.InputHandler.keyPresses)
+            // console.log(this.InputHandler.keyPresses)
         });
         window.addEventListener('keyup', (event) => {
             this.InputHandler.keyPresses[event.key] = false;
@@ -52,6 +51,9 @@ class Game {
         // this.InputHandler.handleInput();
         this.Controller.update(this.Renderer);
         this.Renderer.render(this.gameObjects, this.GameMap, this.centerTile);
+        requestAnimationFrame(() => {
+            this.loop();
+        });
     }
 }
 
@@ -84,7 +86,7 @@ class InputHandler{
 }
 class Command{  
     constructor(actor){
-        this.actor = actor
+        this.actor = actor;
     }
     execute(){}
 }
@@ -147,17 +149,17 @@ class Renderer {
         }
 
         function calculateX(x, tileSize) {
-            return Math.ceil(x * tileSize);
+            return Math.ceil(x * tileSize - tileSize); //these are centering adjustments to where the centertile and all other tiles will actually be rendered. +/- depending on which tile is considered more in the middle. They need to be adjusted with the actual rendring x and ys. 
         }
         function calculateY(y, tileSize) {
-            return Math.ceil(y * tileSize);
+            return Math.ceil(y * tileSize + tileSize * 2);
         }
         for (let x = 0; x < this.numXTiles + this.tileOffset; x++) {
             for (let y = 0; y < this.numYTiles + this.tileOffset; y++) {
                 let xcoord = centerTile.x - (x - this.numXTiles/2);
                 let ycoord = centerTile.y - (y - this.numYTiles/2);
                 if ((GameMap.tiles[x+1]||[])[y] && ((GameMap.tiles[xcoord + 1] || [])[ycoord + 1])) {
-                    this.renderableTiles[x][y] = GameMap.tiles[xcoord + 1][ycoord + 1];
+                    this.renderableTiles[x][y] = GameMap.tiles[xcoord][ycoord];
                 }
                 else {
                     this.renderableTiles[x][y] = null;
@@ -183,7 +185,7 @@ class Renderer {
                 object.forEach(element => {element.render(this.canvas)});
             } else {
                 if(object.name === "player"){
-                    object.x = (this.numXTiles/2) * this.tileSize;
+                    object.x = (this.numXTiles/2) * this.tileSize - this.tileSize;
                     object.y = (this.numYTiles/2) * this.tileSize;
                 }
                 object.render(this.canvas);
@@ -234,7 +236,7 @@ class Player extends Actor{
 
 onload = () => {
     let game = new Game();
-    setTimeout(() => {
+    requestAnimationFrame(() => {
         game.loop();
-    }, 16);
+    });
 }
