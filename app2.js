@@ -32,9 +32,9 @@ class Game {
             this.setup();
         }
 
-        this.gameObjects.push(new Player("player", 0, 0, 64, 80, "./assets/img/player.png", 10, 100));
+        this.gameObjects.push(new Player("player", 0, 0, 64, 72, "./assets/img/player.png", 10, 100));
         this.items.push(new Item("blueberry", 128, 128, 64, 64, "./assets/img/blueberry.png"));
-        // this.items.push(new Item("pick", 0, 0 , "./assets/img/pick.png"));
+        this.items.push(new Item("pick", 0, 0, 64, 64, "./assets/img/pick.png"));
         this.gameObjects.push(this.items);
         // console.log(this.gameObjects)
         
@@ -181,7 +181,6 @@ class Renderer {
         this.renderGameMap(GameMap, centerTile);
 
         gameObjects.forEach(object => {
-            console.log(object)
             if(Array.isArray(object)){
                 object.forEach(element => {element.render(this.canvas)});
             } else {
@@ -202,6 +201,7 @@ class GameObject {
         this.x = x;
         this.y = y; 
         this.spritesheet = new Spritesheet(img, width, height);
+        console.log(this.name, this.x, this.y);
     }
     render(canvas){
         this.spritesheet.render(0, this.x, this.y, canvas);
