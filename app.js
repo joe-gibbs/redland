@@ -6,7 +6,7 @@ import MapGenerator from './src/classes/mapGenerator.js';
 import MapRenderer from './src/classes/mapRenderer.js';
 import items from './src/items.js';
 import UiRenderer from './src/classes/uiRenderer.js';
-import Map from './src/classes/Map.js';
+import Map from './src/classes/map.js';
 
 const MapSize = 256;
 
