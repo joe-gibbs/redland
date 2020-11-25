@@ -1,0 +1,30 @@
+{
+  "name": "redland",
+  "version": "1.0.0",
+  "description": "Open-world exploration game where players must find three parts of a map to discover buried treasure",
+  "main": "main.js",
+  "build": {
+    "productName": "Redland",
+    "copyright": "Copyright © 2020 Joe Gibbs & Samuel Losada"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "dist": "electron-builder -mwl"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joe-gibbs/redland.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joe-gibbs/redland/issues"
+  },
+  "homepage": "https://github.com/joe-gibbs/redland#readme",
+  "devDependencies": {
+    "electron": "^11.0.3",
+    "electron-builder": "^22.9.1"
+  }
+}
